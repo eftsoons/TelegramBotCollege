@@ -56,49 +56,51 @@ module.exports = async (data, chatid, message_id) => {
     });
   });
 
-  bot.editMessageText(
-    `Расписание преподователя [${getteacher}]:\nОбновлено: ${update}\n${teacherinfo
-      .map((data) => {
-        if (data[1]) {
-          return `---------------------------\n| ${
-            data[0]
-          } 📅 |\n---------------------------${data
-            .sort((a, b) => Number(a[0]) - Number(b[0]))
-            .map((data) => {
-              if (Array.isArray(data)) {
-                return `\n| ${data[0]} | <b>${data[1].toUpperCase()}</b> | ${
-                  data[2]
-                } | <i>${data[4]}</i>`;
-              }
-            })
-            .join("")}`;
-        } else {
-          return `---------------------------\n| ${data[0]}  📅 |\n---------------------------`;
-        }
-      })
-      .join("\n")}`,
-    {
-      chat_id: chatid,
-      message_id: message_id,
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: "Обновить",
-              callback_data: `teacherday&*${update + 1}&*${
-                data.split("&*")[2]
-              }&*${data.split("&*")[3]}`,
-            },
+  bot
+    .editMessageText(
+      `Расписание преподователя [${getteacher}]:\nОбновлено: ${update}\n${teacherinfo
+        .map((data) => {
+          if (data[1]) {
+            return `---------------------------\n| ${
+              data[0]
+            } 📅 |\n---------------------------${data
+              .sort((a, b) => Number(a[0]) - Number(b[0]))
+              .map((data) => {
+                if (Array.isArray(data)) {
+                  return `\n| ${data[0]} | <b>${data[1].toUpperCase()}</b> | ${
+                    data[2]
+                  } | <i>${data[4]}</i>`;
+                }
+              })
+              .join("")}`;
+          } else {
+            return `---------------------------\n| ${data[0]}  📅 |\n---------------------------`;
+          }
+        })
+        .join("\n")}`,
+      {
+        chat_id: chatid,
+        message_id: message_id,
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: "Обновить",
+                callback_data: `teacherday&*${update + 1}&*${
+                  data.split("&*")[2]
+                }&*${data.split("&*")[3]}`,
+              },
+            ],
+            [
+              {
+                text: "Назад",
+                callback_data: `teacherweek&*${data.split("&*")[2]}`,
+              },
+            ],
           ],
-          [
-            {
-              text: "Назад",
-              callback_data: `teacherweek&*${data.split("&*")[2]}`,
-            },
-          ],
-        ],
-      },
-      parse_mode: "HTML",
-    }
-  );
+        },
+        parse_mode: "HTML",
+      }
+    )
+    .catch();
 };

@@ -84,6 +84,6 @@ module.exports = async (data, chatid, message_id) => {
         ],
       },
       parse_mode: "HTML",
-    }
+    }.catch()
   );
 };

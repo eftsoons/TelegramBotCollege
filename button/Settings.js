@@ -35,13 +35,15 @@ module.exports = (data, chatid, message_id) => {
         });
       });
 
-      bot.editMessageText("Выбор группы", {
-        chat_id: chatid,
-        message_id: message_id,
-        reply_markup: {
-          inline_keyboard: clickbutton,
-        },
-      });
+      bot
+        .editMessageText("Выбор группы", {
+          chat_id: chatid,
+          message_id: message_id,
+          reply_markup: {
+            inline_keyboard: clickbutton,
+          },
+        })
+        .catch();
     });
   }
 };
