@@ -1,28 +1,24 @@
-module.exports = async (msg, data, chatid, message_id) => {
-  const update = msg.message.text;
+module.exports = async (data, chatid, message_id) => {
   const schedule = [];
+  const update = Number(data.split("&*")[1]);
+  const groupid = Number(data.split("&*")[2]);
+  const groupname = data.split("&*")[3];
 
   jsonData.map((data3, index) => {
     if (index > 0) {
       Object.entries(data3).forEach(([key, data2]) => {
         if (key.includes("field")) {
-          if (key.split("d")[1] == String(Number(data.split("&*")[1]) + 2)) {
+          if (key.split("d")[1] == String(groupid + 2)) {
             schedule[schedule.length - 1].push(data2);
-          } else if (
-            key.split("d")[1] == String(Number(data.split("&*")[1]) + 4)
-          ) {
+          } else if (key.split("d")[1] == String(groupid + 4)) {
             schedule[schedule.length - 1].push(data2);
-          } else if (
-            key.split("d")[1] == String(Number(data.split("&*")[1]) + 5)
-          ) {
+          } else if (key.split("d")[1] == String(groupid + 5)) {
             schedule[schedule.length - 1].push(data2);
-          } else if (
-            key.split("d")[1] == String(Number(data.split("&*")[1]) + 6)
-          ) {
+          } else if (key.split("d")[1] == String(groupid + 6)) {
             schedule[schedule.length - 1].push(data2);
           }
         } else {
-          if (key == data.split("&*")[2]) {
+          if (key == groupname) {
             schedule.push([data2]);
           }
         }
@@ -31,7 +27,7 @@ module.exports = async (msg, data, chatid, message_id) => {
   });
 
   schedule.map((data2, i) => {
-    if (data2[0] == data.split("&*")[3]) {
+    if (data2[0] == data.split("&*")[4]) {
       if (schedule[i + 8]) {
         schedule.splice(i + 8, schedule.length);
       }
@@ -42,18 +38,8 @@ module.exports = async (msg, data, chatid, message_id) => {
     }
   });
 
-  await bot.editMessageText(
-    `Расписание [${data.split("&*")[2]}]:${
-      update.includes("Расписание")
-        ? `\nОбновлено: ${
-            update.split("\n")[1].split(":")[1]
-              ? `${
-                  Number(update.split("\n")[1].split(":")[1].split(" ")[1]) + 1
-                } раза`
-              : "1 раз"
-          }`
-        : ""
-    }\n${schedule
+  bot.editMessageText(
+    `Расписание [${data.split("&*")[3]}]:\nОбновлено: ${update}\n${schedule
       .map((data) => {
         if (data[0] != "") {
           if (data[2] != "") {
@@ -84,17 +70,15 @@ module.exports = async (msg, data, chatid, message_id) => {
           [
             {
               text: "Обновить",
-              callback_data: `GroupDay&*${data.split("&*")[1]}&*${
-                data.split("&*")[2]
-              }&*${data.split("&*")[3]}`,
+              callback_data: `GroupDay&*${
+                update + 1
+              }&*${groupid}&*${groupname}&*${data.split("&*")[4]}`,
             },
           ],
           [
             {
               text: "Назад",
-              callback_data: `GroupWeek&*${data.split("&*")[1]}&*${
-                data.split("&*")[2]
-              }`,
+              callback_data: `GroupWeek&*${groupid}&*${groupname}`,
             },
           ],
         ],

@@ -1,7 +1,7 @@
-module.exports = async (msg, data, chatid, message_id) => {
-  const update = msg.message.text;
+module.exports = async (data, chatid, message_id) => {
+  const update = Number(data.split("&*")[1]);
   const teacherinfo = [];
-  const getteacher = data.split("&*")[1];
+  const getteacher = data.split("&*")[2];
   jsonData.map((data2, index2) => {
     Object.entries(data2).forEach(([key, data], index) => {
       if (index2 > 0) {
@@ -31,7 +31,7 @@ module.exports = async (msg, data, chatid, message_id) => {
   });
 
   teacherinfo.map((data2, i) => {
-    if (data2[0] == data.split("&*")[2]) {
+    if (data2[0] == data.split("&*")[3]) {
       if (teacherinfo[i] + 1) {
         teacherinfo.splice(i + 1, teacherinfo.length);
       }
@@ -56,18 +56,8 @@ module.exports = async (msg, data, chatid, message_id) => {
     });
   });
 
-  await bot.editMessageText(
-    `Расписание преподователя [${getteacher}]:${
-      update.includes("Расписание")
-        ? `\nОбновлено: ${
-            update.split("\n")[1].split(":")[1]
-              ? `${
-                  Number(update.split("\n")[1].split(":")[1].split(" ")[1]) + 1
-                } раза`
-              : "1 раз"
-          }`
-        : ""
-    }\n${teacherinfo
+  bot.editMessageText(
+    `Расписание преподователя [${getteacher}]:\nОбновлено: ${update}\n${teacherinfo
       .map((data) => {
         if (data[1]) {
           return `---------------------------\n| ${
@@ -95,15 +85,15 @@ module.exports = async (msg, data, chatid, message_id) => {
           [
             {
               text: "Обновить",
-              callback_data: `teacherday&*${data.split("&*")[1]}&*${
+              callback_data: `teacherday&*${update + 1}&*${
                 data.split("&*")[2]
-              }`,
+              }&*${data.split("&*")[3]}`,
             },
           ],
           [
             {
               text: "Назад",
-              callback_data: `teacherweek&*${data.split("&*")[1]}`,
+              callback_data: `teacherweek&*${data.split("&*")[2]}`,
             },
           ],
         ],

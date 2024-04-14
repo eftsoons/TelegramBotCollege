@@ -9,7 +9,7 @@ module.exports = async (data, chatid, message_id) => {
             Week.push([
               {
                 text: data2,
-                callback_data: `GroupDay&*${data.split("&*")[1]}&*${
+                callback_data: `GroupDay&*0&*${data.split("&*")[1]}&*${
                   data.split("&*")[2]
                 }&*${data2}`,
               },
@@ -23,7 +23,9 @@ module.exports = async (data, chatid, message_id) => {
   Week.push([
     {
       text: "Вся неделя",
-      callback_data: `GroupDay&*${data.split("&*")[1]}&*${data.split("&*")[2]}`,
+      callback_data: `GroupDay&*0&*${data.split("&*")[1]}&*${
+        data.split("&*")[2]
+      }`,
     },
   ]);
 

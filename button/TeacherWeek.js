@@ -10,7 +10,7 @@ module.exports = async (data, chatid, message_id) => {
             Week.push([
               {
                 text: data2,
-                callback_data: `teacherday&*${nameteacher}&*${data2}`,
+                callback_data: `teacherday&*0&*${nameteacher}&*${data2}`,
               },
             ]);
           }
@@ -22,7 +22,7 @@ module.exports = async (data, chatid, message_id) => {
   Week.push([
     {
       text: "Вся неделя",
-      callback_data: `teacherday&*${nameteacher}`,
+      callback_data: `teacherday&*0&*${nameteacher}`,
     },
   ]);
 

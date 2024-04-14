@@ -72,13 +72,13 @@ bot.on("callback_query", async (msg) => {
   } else if (data.split("&*")[0] == "teacherweek") {
     TeacherWeek(data, chatid, message_id);
   } else if (data.split("&*")[0] == "teacherday") {
-    TeacherDay(msg, data, chatid, message_id);
+    TeacherDay(data, chatid, message_id);
   } else if (data == "Group") {
     Group(chatid, message_id);
   } else if (data.split("&*")[0] == "GroupWeek") {
     GroupWeek(data, chatid, message_id);
   } else if (data.split("&*")[0] == "GroupDay") {
-    GroupDay(msg, data, chatid, message_id);
+    GroupDay(data, chatid, message_id);
   } else if (data.split("&*")[0] == "settings") {
     Settings(data, chatid, message_id);
   } else if (
