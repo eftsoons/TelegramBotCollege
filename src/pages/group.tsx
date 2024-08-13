@@ -126,10 +126,7 @@ function Group({
             </InlineButtons>
           ))
         ) : (
-          <Placeholder
-            style={{ paddingTop: "0", width: "100%" }}
-            header={"Сервер недоступен"}
-          >
+          <Placeholder style={{ paddingTop: "0", width: "100%" }}>
             <Spinner size="l" />
           </Placeholder>
         )}

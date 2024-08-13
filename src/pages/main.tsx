@@ -89,13 +89,10 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
               </>
             }
           >
-            <img src="public/logo.png" />
+            <img src="logo.png" />
           </Placeholder>
         ) : (
-          <Placeholder
-            style={{ paddingTop: "0", width: "100%" }}
-            header={"Сервер недоступен"}
-          >
+          <Placeholder style={{ paddingTop: "0", width: "100%" }}>
             <Spinner size="l" />
           </Placeholder>
         )}
