@@ -17,11 +17,6 @@ import { GetGroup } from "../utils";
 import Icons from "../components/icon";
 
 import axios from "axios";
-import axiosRetry from "axios-retry";
-axiosRetry(axios, {
-  retries: Infinity,
-  retryDelay: axiosRetry.exponentialDelay,
-});
 
 function Group({
   currentTab,
