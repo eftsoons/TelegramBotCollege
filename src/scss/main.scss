@@ -1,0 +1,22 @@
+@import "./fonts/fonts.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none;
+  user-select: none;
+}
+
+body {
+  background-color: var(--tg-theme-secondary-bg-color);
+}
+
+.icon {
+  font-family: tgico;
+  font-size: 1.5rem;
+}
+
+img {
+  width: 10rem;
+  height: 10rem;
+}
