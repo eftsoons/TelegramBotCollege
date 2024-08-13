@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 
 import { initMiniApp, postEvent } from "@telegram-apps/sdk";
 
-import { useLaunchParams } from "@telegram-apps/sdk-react";
+import {
+  bindMiniAppCSSVars,
+  bindThemeParamsCSSVars,
+  bindViewportCSSVars,
+  useLaunchParams,
+  useThemeParams,
+  useViewport,
+} from "@telegram-apps/sdk-react";
 
 import { AppRoot, List, Tabbar } from "@telegram-apps/telegram-ui";
 
@@ -27,6 +34,8 @@ function App() {
   const [activeindex, setactiveindex] = useState("");
 
   const [miniApp] = initMiniApp();
+  const themeParams = useThemeParams();
+  const viewport = useViewport();
   const lp = useLaunchParams();
 
   useEffect(() => {
@@ -44,6 +53,19 @@ function App() {
 
     miniApp.setHeaderColor("secondary_bg_color");
   }, []);
+
+  useEffect(() => {
+    // тот, кто это придумал уебан
+    return bindMiniAppCSSVars(miniApp, themeParams);
+  }, [miniApp, themeParams]);
+
+  useEffect(() => {
+    return bindThemeParamsCSSVars(themeParams);
+  }, [themeParams]);
+
+  useEffect(() => {
+    return viewport && bindViewportCSSVars(viewport);
+  }, [viewport]);
 
   return (
     <AppRoot
