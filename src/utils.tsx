@@ -33,7 +33,7 @@ export function GetGroup(
     Object.entries(JsonData[0]).forEach(([key, data], index) => {
       if (data == "Дата") {
         if (info[info.length - 1]) {
-          if (info[info.length - 1].length % 4 == 0) {
+          if (info[info.length - 1].length % 3 == 0) {
             info.push([{ name: key, key: index }]);
           } else {
             info[info.length - 1].push({ name: key, key: index });
@@ -65,7 +65,7 @@ export function GetGroup(
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((data) => {
         if (info[info.length - 1]) {
-          if (info[info.length - 1].length % 4 == 0) {
+          if (info[info.length - 1].length % 3 == 0) {
             info.push([data]);
           } else {
             info[info.length - 1].push(data);
@@ -112,7 +112,7 @@ export function GetGroup(
       )
       .map((data: { name: string; key: number }) => {
         if (info[info.length - 1]) {
-          if (info[info.length - 1].length % 4 == 0) {
+          if (info[info.length - 1].length % 3 == 0) {
             info.push([data]);
           } else {
             info[info.length - 1].push(data);
