@@ -24,7 +24,7 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
     async function fetchData() {
       const group = await axios.post(`${import.meta.env.VITE_API_URL}/group`, {
         initData: launchParams.initDataRaw,
-      }); // мб сделать повторное подключение в случае неудачи?
+      });
 
       setselectgroup(group.data);
     }
@@ -89,7 +89,7 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
               </>
             }
           >
-            <img alt="test" src="/logo.png" />
+            <img src="/logo.png" />
           </Placeholder>
         ) : (
           <Placeholder

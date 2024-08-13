@@ -51,7 +51,7 @@ function App() {
 
     postEvent("web_app_expand");
 
-    miniApp.setHeaderColor("secondary_bg_color");
+    miniApp.setHeaderColor("bg_color");
   }, []);
 
   useEffect(() => {
