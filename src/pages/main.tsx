@@ -89,7 +89,7 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
               </>
             }
           >
-            <img src="/logo.png" />
+            <img src="public/logo.png" />
           </Placeholder>
         ) : (
           <Placeholder
