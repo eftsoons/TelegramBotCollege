@@ -18,6 +18,9 @@ axiosRetry(axios, {
   retryDelay: axiosRetry.exponentialDelay,
 });
 
+import "@telegram-apps/telegram-ui/dist/styles.css";
+import "./scss/main.scss";
+
 function App() {
   const [currentTab, setCurrentTab] = useState("main");
   const [currentTab2, setCurrentTab2] = useState("main");
