@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 
 import { initMiniApp, postEvent } from "@telegram-apps/sdk";
 
-import { List, Tabbar } from "@telegram-apps/telegram-ui";
+import { useLaunchParams } from "@telegram-apps/sdk-react";
+
+import { AppRoot, List, Tabbar } from "@telegram-apps/telegram-ui";
 
 import Call from "./pages/call";
 import Main from "./pages/main";
@@ -18,9 +20,6 @@ axiosRetry(axios, {
   retryDelay: axiosRetry.exponentialDelay,
 });
 
-import "@telegram-apps/telegram-ui/dist/styles.css";
-import "./scss/main.scss";
-
 function App() {
   const [currentTab, setCurrentTab] = useState("main");
   const [currentTab2, setCurrentTab2] = useState("main");
@@ -28,6 +27,7 @@ function App() {
   const [activeindex, setactiveindex] = useState("");
 
   const [miniApp] = initMiniApp();
+  const lp = useLaunchParams();
 
   useEffect(() => {
     miniApp.ready();
@@ -46,48 +46,53 @@ function App() {
   }, []);
 
   return (
-    <List>
-      {currentTab == "main" ? (
-        currentTab2 == "main" ? (
-          <Main setCurrentTab={setCurrentTab2} />
-        ) : !currentTab2.includes("next") ? (
-          <Group
-            setactivegroup={setactivegroup}
-            currentTab={currentTab2}
-            setCurrentTab={setCurrentTab2}
-            setactiveindex={setactiveindex}
-          />
+    <AppRoot
+      appearance={miniApp.isDark ? "dark" : "light"}
+      platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
+    >
+      <List>
+        {currentTab == "main" ? (
+          currentTab2 == "main" ? (
+            <Main setCurrentTab={setCurrentTab2} />
+          ) : !currentTab2.includes("next") ? (
+            <Group
+              setactivegroup={setactivegroup}
+              currentTab={currentTab2}
+              setCurrentTab={setCurrentTab2}
+              setactiveindex={setactiveindex}
+            />
+          ) : (
+            <Schedule
+              activegroup={activegroup}
+              currentTab={currentTab2}
+              setCurrentTab={setCurrentTab2}
+              activeindex={activeindex}
+            />
+          )
         ) : (
-          <Schedule
-            activegroup={activegroup}
-            currentTab={currentTab2}
-            setCurrentTab={setCurrentTab2}
-            activeindex={activeindex}
-          />
-        )
-      ) : (
-        <Call />
-      )}
+          <Call />
+        )}
 
-      <Tabbar style={{ zIndex: "1" }}>
-        <Tabbar.Item
-          id="main"
-          text={"Главное меню"}
-          selected={"main" === currentTab}
-          onClick={() => setCurrentTab("main")}
-        >
-          {Icons("mainmenu")}
-        </Tabbar.Item>
-        <Tabbar.Item
-          id="call"
-          text={"Звонки"}
-          selected={"call" === currentTab}
-          onClick={() => setCurrentTab("call")}
-        >
-          {Icons("call")}
-        </Tabbar.Item>
-      </Tabbar>
-    </List>
+        <Tabbar style={{ zIndex: "1" }}>
+          <Tabbar.Item
+            id="main"
+            text={"Главное меню"}
+            selected={"main" === currentTab}
+            onClick={() => setCurrentTab("main")}
+          >
+            {Icons("mainmenu")}
+          </Tabbar.Item>
+          <Tabbar.Item
+            id="call"
+            text={"Звонки"}
+            selected={"call" === currentTab}
+            onClick={() => setCurrentTab("call")}
+          >
+            {Icons("call")}
+          </Tabbar.Item>
+        </Tabbar>
+      </List>
+    </AppRoot>
   );
 }
 
