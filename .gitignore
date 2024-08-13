@@ -1,0 +1,4 @@
+bot/node_modules/
+mini-apps/node_modules/
+bot/bass
+bot/.env

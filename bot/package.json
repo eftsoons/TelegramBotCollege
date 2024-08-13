@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "shishkin",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "cheerio": "^1.0.0-rc.12",
+    "concat-stream": "^2.0.0",
+    "cors": "^2.8.5",
+    "csvtojson": "^2.0.10",
+    "date-fns": "^3.6.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "node-cron": "^3.0.3",
+    "node-telegram-bot-api": "^0.65.1",
+    "nodemon": "^3.1.0",
+    "pdf-data-parser": "^1.2.10",
+    "pdf-parse": "^1.1.1",
+    "pdf2json": "^3.1.2",
+    "pdfjs-dist": "^4.2.67"
+  }
+}
