@@ -1,13 +1,13 @@
 import { Badge } from "@telegram-apps/telegram-ui";
 
-export const getlessoncall = (timelesson: string) => {
+export const getlessoncall = (timelesson: string, date: Date) => {
   const m = Number(timelesson.split("-")[0].split(":")[1]);
   const h = Number(timelesson.split("-")[0].split(":")[0]);
   const minut = m + h * 60;
   const m2 = Number(timelesson.split("-")[1].split(":")[1]);
   const h2 = Number(timelesson.split("-")[1].split(":")[0]);
   const minut2 = m2 + h2 * 60;
-  const day = new Date();
+  const day = date;
   const minutes = day.getHours() * 60 + day.getMinutes();
   return minut - minutes + 60 < 0 ? (
     minut2 - minutes + 60 > 0 ? (

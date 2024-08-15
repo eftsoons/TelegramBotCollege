@@ -20,7 +20,7 @@ import axios from "axios";
 
 function Call() {
   const [expand, setexpand] = useState([false, false]);
-  const [time, settime] = useState<Date>();
+  const [timeserver, settimetimeserver] = useState<Date>();
 
   const launchParams = retrieveLaunchParams();
 
@@ -42,13 +42,13 @@ function Call() {
 
       const timeserver = response.data;
 
-      settime(new Date(timeserver));
+      settimetimeserver(new Date(timeserver));
     }
 
     fetchData();
   }, []);
 
-  const today = time?.getDay();
+  const today = timeserver?.getDay();
 
   const lessoncall = {
     [today == 1 ? "Понедельник 🌄" : "Понедельник 📅"]: {
@@ -87,7 +87,7 @@ function Call() {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
         style={
-          time
+          timeserver
             ? {}
             : {
                 display: "flex",
@@ -97,7 +97,7 @@ function Call() {
               }
         }
       >
-        {time ? (
+        {timeserver ? (
           Object.entries(lessoncall).map((data, index) => (
             <Accordion
               expanded={expand[index]}
@@ -122,7 +122,7 @@ function Call() {
               >
                 <Section>
                   {Object.entries(data[1]).map((data, index) => {
-                    const time = getlessoncall(data[1]);
+                    const time = getlessoncall(data[1], timeserver);
 
                     return (
                       <Cell key={index} after={time} description={data[1]}>
