@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 
 import { retrieveLaunchParams } from "@telegram-apps/sdk";
 
@@ -20,7 +20,7 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
 
   const launchParams = retrieveLaunchParams();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function fetchData() {
       const group = await axios.post(`${import.meta.env.VITE_API_URL}/group`, {
         initData: launchParams.initDataRaw,

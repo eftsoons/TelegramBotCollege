@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import {
   InlineButtons,
@@ -37,15 +37,7 @@ function Group({
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
 
-  useEffect(() => {
-    backButton.show();
-
-    backButton.on("click", () => {
-      backButton.hide();
-      setCurrentTab("main");
-      localStorage.setItem("Menu", "main");
-    });
-
+  useLayoutEffect(() => {
     async function fetchData() {
       const JsonData = await axios.post(import.meta.env.VITE_API_URL, {
         initData: launchParams.initDataRaw,
@@ -61,6 +53,16 @@ function Group({
     }
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    backButton.show();
+
+    backButton.on("click", () => {
+      backButton.hide();
+      setCurrentTab("main");
+      localStorage.setItem("Menu", "main");
+    });
   }, []);
 
   return (

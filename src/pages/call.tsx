@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 
 import {
   Cell,
@@ -27,7 +27,7 @@ function Call() {
   const [backButton] = initBackButton();
   backButton.hide();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const expand = localStorage.getItem("ExpandCall");
 
     setexpand(expand ? JSON.parse(expand) : [false, false]);

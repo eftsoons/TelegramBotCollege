@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -46,14 +46,7 @@ function Schedule({
 
   const today = new Date().getDay();
 
-  useEffect(() => {
-    backButton.show();
-    backButton.on("click", () => {
-      backButton.hide();
-      setCurrentTab(currentTab.split("next")[0]);
-      localStorage.setItem("Menu", currentTab.split("next")[0]);
-    });
-
+  useLayoutEffect(() => {
     async function fetchData() {
       const JsonData = await axios.post(import.meta.env.VITE_API_URL, {
         initData: launchParams.initDataRaw,
@@ -69,19 +62,23 @@ function Schedule({
         GetInfoGroup(currentTab, activegroup, activeindex, JsonData.data)
       );
 
-      setTimeout(() => {
-        // мб немного гавнокод
-        const expand = localStorage.getItem("Expand");
+      const expand = localStorage.getItem("Expand");
 
-        setexpand(
-          expand
-            ? JSON.parse(expand)
-            : [false, false, false, false, false, false]
-        );
-      }, 0);
+      setexpand(
+        expand ? JSON.parse(expand) : [false, false, false, false, false, false]
+      );
     }
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    backButton.show();
+    backButton.on("click", () => {
+      backButton.hide();
+      setCurrentTab(currentTab.split("next")[0]);
+      localStorage.setItem("Menu", currentTab.split("next")[0]);
+    });
   }, []);
 
   return (
