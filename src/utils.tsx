@@ -1,6 +1,7 @@
 import { Badge } from "@telegram-apps/telegram-ui";
 
 export const getlessoncall = (timelesson: string, date: Date) => {
+  //console.log(date);
   const m = Number(timelesson.split("-")[0].split(":")[1]);
   const h = Number(timelesson.split("-")[0].split(":")[0]);
   const minut = m + h * 60;
@@ -9,10 +10,10 @@ export const getlessoncall = (timelesson: string, date: Date) => {
   const minut2 = m2 + h2 * 60;
   const minutes = date.getHours() * 60 + date.getMinutes();
 
-  if (minut - minutes + 60 < 0) {
-    return minut2 - minutes + 60 > 0 ? (
+  if (minut - minutes < 0) {
+    return minut2 - minutes > 0 ? (
       <Badge type="number" mode="primary" large={true}>
-        {minut2 - minutes + 60}м
+        {minut2 - minutes}м
       </Badge>
     ) : (
       <Badge type="dot" mode="critical" />
@@ -20,7 +21,7 @@ export const getlessoncall = (timelesson: string, date: Date) => {
   } else {
     return (
       <Badge type="number" mode="white" large={true}>
-        {minut - minutes + 60}м
+        {minut - minutes}м
       </Badge>
     );
   }
@@ -298,4 +299,12 @@ export function GetDay(index: number) {
   return ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"][
     index
   ];
+}
+
+export function ConvertTimeZone(date: Date, timezone: string) {
+  return new Date(
+    new Date(date).toLocaleString("en-US", {
+      timeZone: timezone,
+    })
+  );
 }

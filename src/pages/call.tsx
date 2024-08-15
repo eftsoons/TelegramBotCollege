@@ -7,22 +7,18 @@ import {
   Placeholder,
   Spinner,
 } from "@telegram-apps/telegram-ui";
-import { getlessoncall } from "../utils";
+import { ConvertTimeZone, getlessoncall } from "../utils";
 
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
 import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionContent/AccordionContent";
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import { initBackButton, retrieveLaunchParams } from "@telegram-apps/sdk";
-
-import axios from "axios";
+import { initBackButton } from "@telegram-apps/sdk";
 
 function Call() {
   const [expand, setexpand] = useState([false, false]);
-  const [timeserver, settimeserver] = useState<Date>();
-
-  const launchParams = retrieveLaunchParams();
+  const timekaliningrad = ConvertTimeZone(new Date(), "Europe/Kaliningrad");
 
   const [backButton] = initBackButton();
   backButton.hide();
@@ -31,24 +27,9 @@ function Call() {
     const expand = localStorage.getItem("ExpandCall");
 
     setexpand(expand ? JSON.parse(expand) : [false, false]);
-
-    async function fetchData() {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/time`,
-        {
-          initData: launchParams.initDataRaw,
-        }
-      );
-
-      const timeserverresponse = response.data;
-
-      settimeserver(new Date(timeserverresponse));
-    }
-
-    fetchData();
   }, []);
 
-  const today = timeserver?.getDay();
+  const today = timekaliningrad.getDay();
 
   const lessoncall = {
     [today == 1 ? "Понедельник 🌄" : "Понедельник 📅"]: {
@@ -86,59 +67,43 @@ function Call() {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        style={
-          timeserver
-            ? {}
-            : {
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "85vh",
-              }
-        }
       >
-        {timeserver ? (
-          Object.entries(lessoncall).map((data, index) => (
-            <Accordion
-              expanded={expand[index]}
-              key={index}
-              onChange={() => {
-                const expandclone = [...expand];
-                expandclone[index] = !expandclone[index];
+        {Object.entries(lessoncall).map((data, index) => (
+          <Accordion
+            expanded={expand[index]}
+            key={index}
+            onChange={() => {
+              const expandclone = [...expand];
+              expandclone[index] = !expandclone[index];
 
-                localStorage.setItem("ExpandCall", JSON.stringify(expandclone));
-                setexpand(expandclone);
-              }}
+              localStorage.setItem("ExpandCall", JSON.stringify(expandclone));
+              setexpand(expandclone);
+            }}
+          >
+            <AccordionSummary
+              style={{ margin: "0" }}
+              interactiveAnimation="opacity"
+              hovered={expand[index]}
             >
-              <AccordionSummary
-                style={{ margin: "0" }}
-                interactiveAnimation="opacity"
-                hovered={expand[index]}
-              >
-                {data[0]}
-              </AccordionSummary>
-              <AccordionContent
-                style={{ marginBottom: index == 0 ? "0" : "15vh" }}
-              >
-                <Section>
-                  {Object.entries(data[1]).map((data, index) => {
-                    const time = getlessoncall(data[1], timeserver);
+              {data[0]}
+            </AccordionSummary>
+            <AccordionContent
+              style={{ marginBottom: index == 0 ? "0" : "15vh" }}
+            >
+              <Section>
+                {Object.entries(data[1]).map((data, index) => {
+                  const time = getlessoncall(data[1], timekaliningrad);
 
-                    return (
-                      <Cell key={index} after={time} description={data[1]}>
-                        {data[0]}
-                      </Cell>
-                    );
-                  })}
-                </Section>
-              </AccordionContent>
-            </Accordion>
-          ))
-        ) : (
-          <Placeholder style={{ paddingTop: "0", width: "100%" }}>
-            <Spinner size="l" />
-          </Placeholder>
-        )}
+                  return (
+                    <Cell key={index} after={time} description={data[1]}>
+                      {data[0]}
+                    </Cell>
+                  );
+                })}
+              </Section>
+            </AccordionContent>
+          </Accordion>
+        ))}
       </motion.div>
     </AnimatePresence>
   );
