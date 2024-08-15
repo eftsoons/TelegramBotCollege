@@ -20,7 +20,7 @@ import axios from "axios";
 
 function Call() {
   const [expand, setexpand] = useState([false, false]);
-  const [timeserver, settimetimeserver] = useState<Date>();
+  const [timeserver, settimeserver] = useState<Date>();
 
   const launchParams = retrieveLaunchParams();
 
@@ -40,9 +40,9 @@ function Call() {
         }
       );
 
-      const timeserver = response.data;
+      const timeserverresponse = response.data;
 
-      settimetimeserver(new Date(timeserver));
+      settimeserver(new Date(timeserverresponse));
     }
 
     fetchData();
