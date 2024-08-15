@@ -86,6 +86,16 @@ function Call() {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
+        style={
+          time
+            ? {}
+            : {
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "85vh",
+              }
+        }
       >
         {time ? (
           Object.entries(lessoncall).map((data, index) => (
