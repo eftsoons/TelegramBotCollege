@@ -47,7 +47,7 @@ function Group({
     });
 
     async function fetchData() {
-      const JsonData = await axios.post(`${import.meta.env.VITE_API_URL}`, {
+      const JsonData = await axios.post(import.meta.env.VITE_API_URL, {
         initData: launchParams.initDataRaw,
       });
 

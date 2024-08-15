@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 
-import { Cell, Section, Accordion } from "@telegram-apps/telegram-ui";
+import {
+  Cell,
+  Section,
+  Accordion,
+  Placeholder,
+  Spinner,
+} from "@telegram-apps/telegram-ui";
 import { getlessoncall } from "../utils";
 
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
@@ -8,11 +14,15 @@ import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blo
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import { initBackButton } from "@telegram-apps/sdk";
+import { initBackButton, retrieveLaunchParams } from "@telegram-apps/sdk";
+
+import axios from "axios";
 
 function Call() {
-  const today = new Date().getDay();
   const [expand, setexpand] = useState([false, false]);
+  const [time, settime] = useState<Date>();
+
+  const launchParams = retrieveLaunchParams();
 
   const [backButton] = initBackButton();
   backButton.hide();
@@ -21,7 +31,24 @@ function Call() {
     const expand = localStorage.getItem("ExpandCall");
 
     setexpand(expand ? JSON.parse(expand) : [false, false]);
+
+    async function fetchData() {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/time`,
+        {
+          initData: launchParams.initDataRaw,
+        }
+      );
+
+      const timeserver = response.data;
+
+      settime(new Date(timeserver));
+    }
+
+    fetchData();
   }, []);
+
+  const today = time?.getDay();
 
   const lessoncall = {
     [today == 1 ? "Понедельник 🌄" : "Понедельник 📅"]: {
@@ -60,42 +87,48 @@ function Call() {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {Object.entries(lessoncall).map((data, index) => (
-          <Accordion
-            expanded={expand[index]}
-            key={index}
-            onChange={() => {
-              const expandclone = [...expand];
-              expandclone[index] = !expandclone[index];
+        {time ? (
+          Object.entries(lessoncall).map((data, index) => (
+            <Accordion
+              expanded={expand[index]}
+              key={index}
+              onChange={() => {
+                const expandclone = [...expand];
+                expandclone[index] = !expandclone[index];
 
-              localStorage.setItem("ExpandCall", JSON.stringify(expandclone));
-              setexpand(expandclone);
-            }}
-          >
-            <AccordionSummary
-              style={{ margin: "0" }}
-              interactiveAnimation="opacity"
-              hovered={expand[index]}
+                localStorage.setItem("ExpandCall", JSON.stringify(expandclone));
+                setexpand(expandclone);
+              }}
             >
-              {data[0]}
-            </AccordionSummary>
-            <AccordionContent
-              style={{ marginBottom: index == 0 ? "0" : "15vh" }}
-            >
-              <Section>
-                {Object.entries(data[1]).map((data, index) => (
-                  <Cell
-                    key={index}
-                    after={getlessoncall(data[1])}
-                    description={data[1]}
-                  >
-                    {data[0]}
-                  </Cell>
-                ))}
-              </Section>
-            </AccordionContent>
-          </Accordion>
-        ))}
+              <AccordionSummary
+                style={{ margin: "0" }}
+                interactiveAnimation="opacity"
+                hovered={expand[index]}
+              >
+                {data[0]}
+              </AccordionSummary>
+              <AccordionContent
+                style={{ marginBottom: index == 0 ? "0" : "15vh" }}
+              >
+                <Section>
+                  {Object.entries(data[1]).map((data, index) => {
+                    const time = getlessoncall(data[1]);
+
+                    return (
+                      <Cell key={index} after={time} description={data[1]}>
+                        {data[0]}
+                      </Cell>
+                    );
+                  })}
+                </Section>
+              </AccordionContent>
+            </Accordion>
+          ))
+        ) : (
+          <Placeholder style={{ paddingTop: "0", width: "100%" }}>
+            <Spinner size="l" />
+          </Placeholder>
+        )}
       </motion.div>
     </AnimatePresence>
   );

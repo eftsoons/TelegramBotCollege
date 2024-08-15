@@ -12,14 +12,14 @@ export const getlessoncall = (timelesson: string) => {
   return minut - minutes + 60 < 0 ? (
     minut2 - minutes + 60 > 0 ? (
       <Badge type="number" mode="primary" large={true}>
-        {minut2 - minutes + 60}
+        {minut2 - minutes + 60}м
       </Badge>
     ) : (
       <Badge type="dot" mode="critical" />
     )
   ) : (
     <Badge type="number" mode="white" large={true}>
-      {minut - minutes + 60}
+      {minut - minutes + 60}м
     </Badge>
   );
 };
