@@ -13,10 +13,7 @@ import {
 
 import { AppRoot, List, Tabbar } from "@telegram-apps/telegram-ui";
 
-import Call from "./pages/call";
-import Main from "./pages/main";
-import Group from "./pages/group";
-import Schedule from "./pages/schedule";
+import { Main, Call, Group, Schedule } from "./pages";
 
 import Icons from "./components/icon";
 

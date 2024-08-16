@@ -15,9 +15,7 @@ export const getlessoncall = (timelesson: string, date: Date) => {
     return minut2 - minutes > 0 ? (
       <Badge type="number" mode="primary" large={true}>
         {resultminut - 60 > 0
-          ? `${Math.floor(resultminut / 60)}ч ${
-              resultminut - Math.floor(resultminut / 60) * 60
-            }`
+          ? `${Math.floor(resultminut / 60)}ч ${resultminut % 60}`
           : `${resultminut}`}
         м
       </Badge>
@@ -29,9 +27,7 @@ export const getlessoncall = (timelesson: string, date: Date) => {
     return (
       <Badge type="number" mode="white" large={true}>
         {resultminut - 60 > 0
-          ? `${Math.floor(resultminut / 60)}ч ${
-              resultminut - Math.floor(resultminut / 60) * 60
-            }`
+          ? `${Math.floor(resultminut / 60)}ч ${resultminut % 60}`
           : `${resultminut}`}
         м
       </Badge>
