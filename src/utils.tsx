@@ -11,17 +11,29 @@ export const getlessoncall = (timelesson: string, date: Date) => {
   const minutes = date.getHours() * 60 + date.getMinutes();
 
   if (minut - minutes < 0) {
+    const resultminut = minut2 - minutes;
     return minut2 - minutes > 0 ? (
       <Badge type="number" mode="primary" large={true}>
-        {minut2 - minutes}м
+        {resultminut - 60 > 0
+          ? `${Math.floor(resultminut / 60)}ч ${
+              resultminut - Math.floor(resultminut / 60) * 60
+            }`
+          : `${resultminut}`}
+        м
       </Badge>
     ) : (
       <Badge type="dot" mode="critical" />
     );
   } else {
+    const resultminut = minut - minutes;
     return (
       <Badge type="number" mode="white" large={true}>
-        {minut - minutes}м
+        {resultminut - 60 > 0
+          ? `${Math.floor(resultminut / 60)}ч ${
+              resultminut - Math.floor(resultminut / 60) * 60
+            }`
+          : `${resultminut}`}
+        м
       </Badge>
     );
   }
