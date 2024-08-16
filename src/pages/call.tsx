@@ -1,12 +1,6 @@
 import { useState, useLayoutEffect } from "react";
 
-import {
-  Cell,
-  Section,
-  Accordion,
-  Placeholder,
-  Spinner,
-} from "@telegram-apps/telegram-ui";
+import { Cell, Section, Accordion } from "@telegram-apps/telegram-ui";
 import { ConvertTimeZone, getlessoncall } from "../utils";
 
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
@@ -18,7 +12,9 @@ import { initBackButton } from "@telegram-apps/sdk";
 
 function Call() {
   const [expand, setexpand] = useState([false, false]);
-  const timekaliningrad = ConvertTimeZone(new Date(), "Europe/Kaliningrad");
+  const [timekaliningrad, settimekaliningrad] = useState<Date>(
+    ConvertTimeZone(new Date(), "Europe/Kaliningrad")
+  );
 
   const [backButton] = initBackButton();
   backButton.hide();
@@ -30,6 +26,10 @@ function Call() {
   }, []);
 
   const today = timekaliningrad.getDay();
+
+  setInterval(() => {
+    settimekaliningrad(ConvertTimeZone(new Date(), "Europe/Kaliningrad"));
+  }, 1000);
 
   const lessoncall = {
     [today == 1 ? "Понедельник 🌄" : "Понедельник 📅"]: {
