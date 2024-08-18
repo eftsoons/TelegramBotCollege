@@ -103,7 +103,7 @@ function Main({
               </>
             }
           >
-            <img src="TelegramBotCollege/logo.png" />
+            <img src="logo.png" />
           </Placeholder>
         ) : (
           <Placeholder style={{ paddingTop: "0", width: "100%" }}>
