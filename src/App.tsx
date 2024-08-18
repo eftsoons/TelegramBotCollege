@@ -29,6 +29,7 @@ function App() {
   const [currentTab2, setCurrentTab2] = useState("main");
   const [activegroup, setactivegroup] = useState("");
   const [activeindex, setactiveindex] = useState("");
+  const college = new URLSearchParams(window.location.search).get("college");
 
   const [miniApp] = initMiniApp();
   const themeParams = useThemeParams();
@@ -72,7 +73,7 @@ function App() {
       <List>
         {currentTab == "main" ? (
           currentTab2 == "main" ? (
-            <Main setCurrentTab={setCurrentTab2} />
+            <Main setCurrentTab={setCurrentTab2} college={college} />
           ) : !currentTab2.includes("next") ? (
             <Group
               setactivegroup={setactivegroup}

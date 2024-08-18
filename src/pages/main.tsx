@@ -15,7 +15,13 @@ import Icons from "../components/icon";
 
 import axios from "axios";
 
-function Main({ setCurrentTab }: { setCurrentTab: Function }) {
+function Main({
+  setCurrentTab,
+  college,
+}: {
+  setCurrentTab: Function;
+  college: string | null;
+}) {
   const [selectgroup, setselectgroup] = useState<string>();
 
   const launchParams = retrieveLaunchParams();
@@ -48,9 +54,17 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
       >
         {selectgroup || selectgroup == "" ? (
           <Placeholder
-            header="Расписание"
+            header={`Расписание ${
+              college == "ranxigs"
+                ? "РАНХиГС"
+                : college == "kitis"
+                ? "КИТИС"
+                : "КП"
+            }`}
             description={
-              selectgroup != "" ? `Подписка на замены: ${selectgroup}` : ""
+              selectgroup != "" && college == "cp"
+                ? `Подписка на замены: ${selectgroup}`
+                : ""
             }
             style={{ paddingTop: "0", width: "100%" }}
             action={
@@ -89,7 +103,7 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
               </>
             }
           >
-            <img src="logo.png" />
+            <img src="TelegramBotCollege/logo.png" />
           </Placeholder>
         ) : (
           <Placeholder style={{ paddingTop: "0", width: "100%" }}>
