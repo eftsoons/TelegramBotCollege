@@ -15,13 +15,7 @@ import Icons from "../components/icon";
 
 import axios from "axios";
 
-function Main({
-  setCurrentTab,
-  college,
-}: {
-  setCurrentTab: Function;
-  college: string | null;
-}) {
+function Main({ setCurrentTab }: { setCurrentTab: Function }) {
   const [selectgroup, setselectgroup] = useState<string>();
 
   const launchParams = retrieveLaunchParams();
@@ -54,17 +48,9 @@ function Main({
       >
         {selectgroup || selectgroup == "" ? (
           <Placeholder
-            header={`Расписание ${
-              college == "ranxigs"
-                ? "РАНХиГС"
-                : college == "kitis"
-                ? "КИТИС"
-                : "КП"
-            }`}
+            header={"Расписание"}
             description={
-              selectgroup != "" && college == "cp"
-                ? `Подписка на замены: ${selectgroup}`
-                : ""
+              selectgroup != "" ? `Подписка на замены: ${selectgroup}` : ""
             }
             style={{ paddingTop: "0", width: "100%" }}
             action={
