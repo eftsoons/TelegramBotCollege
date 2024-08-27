@@ -108,11 +108,7 @@ function Group({
                       JSON.stringify([false, false, false, false, false, false])
                     );
                   }}
-                  text={
-                    data.name == "ИСП 23-21" || infogroup == data.name
-                      ? data.name
-                      : ""
-                  }
+                  text={infogroup == data.name ? data.name : ""}
                 >
                   {data.name != "ИСП 23-21" ? (
                     infogroup == data.name ? (

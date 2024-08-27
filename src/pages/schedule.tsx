@@ -32,7 +32,9 @@ function Schedule({
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
 
-  const [info, setinfo] = useState<any>([[]]);
+  const [info, setinfo] = useState<
+    Array<Array<[string, string, string, string]>>
+  >([[]]);
   const [infogroup, setinfogroup] = useState<string>("");
 
   const [expand, setexpand] = useState([
