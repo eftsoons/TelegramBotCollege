@@ -13,7 +13,7 @@ import {
 
 import { AppRoot, List, Tabbar } from "@telegram-apps/telegram-ui";
 
-import { Main, Call, Group, Schedule } from "./pages";
+import { Main, Call, Group, Schedule, Teacher } from "./pages";
 
 import Icons from "./components/icon";
 
@@ -71,19 +71,26 @@ function App() {
       <List>
         {currentTab == "main" ? (
           currentTab2 == "main" ? (
-            <Main setCurrentTab={setCurrentTab2} />
+            <Main setCurrentTab2={setCurrentTab2} />
           ) : !currentTab2.includes("next") ? (
-            <Group
-              setactivegroup={setactivegroup}
-              currentTab={currentTab2}
-              setCurrentTab={setCurrentTab2}
-              setactiveindex={setactiveindex}
-            />
+            currentTab2 == "teacherinfo" ? (
+              <Teacher
+                setCurrentTab2={setCurrentTab2}
+                activegroup={activegroup}
+              />
+            ) : (
+              <Group
+                setactivegroup={setactivegroup}
+                currentTab2={currentTab2}
+                setCurrentTab2={setCurrentTab2}
+                setactiveindex={setactiveindex}
+              />
+            )
           ) : (
             <Schedule
               activegroup={activegroup}
-              currentTab={currentTab2}
-              setCurrentTab={setCurrentTab2}
+              currentTab2={currentTab2}
+              setCurrentTab2={setCurrentTab2}
               activeindex={activeindex}
             />
           )

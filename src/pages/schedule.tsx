@@ -19,14 +19,14 @@ import { GetInfoGroup, GetDay } from "../utils";
 import axios from "axios";
 
 function Schedule({
-  currentTab,
-  setCurrentTab,
   activegroup,
+  currentTab2,
+  setCurrentTab2,
   activeindex,
 }: {
-  currentTab: string;
-  setCurrentTab: Function;
   activegroup: string;
+  currentTab2: string;
+  setCurrentTab2: Function;
   activeindex: string;
 }) {
   const [backButton] = initBackButton();
@@ -61,7 +61,7 @@ function Schedule({
       setinfogroup(group.data);
 
       setinfo(
-        GetInfoGroup(currentTab, activegroup, activeindex, JsonData.data)
+        GetInfoGroup(currentTab2, activegroup, activeindex, JsonData.data)
       );
 
       const expand = localStorage.getItem("Expand");
@@ -78,8 +78,8 @@ function Schedule({
     backButton.show();
     backButton.on("click", () => {
       backButton.hide();
-      setCurrentTab(currentTab.split("next")[0]);
-      localStorage.setItem("Menu", currentTab.split("next")[0]);
+      setCurrentTab2(currentTab2.split("next")[0]);
+      localStorage.setItem("Menu", currentTab2.split("next")[0]);
     });
   }, []);
 
@@ -105,7 +105,7 @@ function Schedule({
           <Cell
             Component="label"
             before={
-              currentTab == "groupnext" ? (
+              currentTab2 == "groupnext" ? (
                 <Multiselectable
                   defaultChecked={infogroup == activegroup ? true : false}
                   name="multiselect"
@@ -124,7 +124,13 @@ function Schedule({
                 ""
               )
             }
-            description={currentTab == "groupnext" ? "Подписка на замены" : ""}
+            onClick={() => {
+              if (currentTab2 == "teachernext") {
+                setCurrentTab2("teacherinfo");
+                localStorage.setItem("Menu", "teacherinfo");
+              }
+            }}
+            description={currentTab2 == "groupnext" ? "Подписка на замены" : ""}
           >
             {activegroup}
           </Cell>
@@ -178,16 +184,16 @@ function Schedule({
                               }
                               subheader={
                                 data[2]
-                                  ? currentTab == "groupnext"
+                                  ? currentTab2 == "groupnext"
                                     ? `Преподователь: ${data[2]}`
-                                    : currentTab == "officenext"
+                                    : currentTab2 == "officenext"
                                     ? `Преподователь: ${data[2]}`
                                     : `Кабинет: ${data[2]}`
                                   : ""
                               }
                               description={
                                 data[3]
-                                  ? currentTab == "groupnext"
+                                  ? currentTab2 == "groupnext"
                                     ? `Кабинет: ${data[3]}`
                                     : `Группа: ${data[3]}`
                                   : ""

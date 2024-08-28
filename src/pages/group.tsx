@@ -19,13 +19,13 @@ import Icons from "../components/icon";
 import axios from "axios";
 
 function Group({
-  currentTab,
-  setCurrentTab,
+  currentTab2,
+  setCurrentTab2,
   setactivegroup,
   setactiveindex,
 }: {
-  currentTab: string;
-  setCurrentTab: Function;
+  currentTab2: string;
+  setCurrentTab2: Function;
   setactivegroup: Function;
   setactiveindex: Function;
 }) {
@@ -49,7 +49,7 @@ function Group({
 
       setinfogroup(group.data);
 
-      setJsonData(GetGroup(currentTab, JsonData.data));
+      setJsonData(GetGroup(currentTab2, JsonData.data));
     }
 
     fetchData();
@@ -60,7 +60,7 @@ function Group({
 
     backButton.on("click", () => {
       backButton.hide();
-      setCurrentTab("main");
+      setCurrentTab2("main");
       localStorage.setItem("Menu", "main");
     });
   }, []);
@@ -97,10 +97,10 @@ function Group({
                 <InlineButtonsItem
                   key={index}
                   onClick={() => {
-                    setCurrentTab(`${currentTab}next`);
+                    setCurrentTab2(`${currentTab2}next`);
                     setactivegroup(data.name);
                     setactiveindex(data.key);
-                    localStorage.setItem("Menu", `${currentTab}next`);
+                    localStorage.setItem("Menu", `${currentTab2}next`);
                     localStorage.setItem("Data", data.name);
                     localStorage.setItem("DataIndex", String(data.key));
                     localStorage.setItem(
@@ -108,16 +108,22 @@ function Group({
                       JSON.stringify([false, false, false, false, false, false])
                     );
                   }}
-                  text={infogroup == data.name ? data.name : ""}
+                  text={
+                    data.name == "ИСП 23-21" || infogroup == data.name
+                      ? data.name
+                      : ""
+                  }
                 >
-                  {data.name != "ИСП 23-21" ? (
+                  {data.name == "ИСП 23-21" ? (
                     infogroup == data.name ? (
                       Icons("check", "1")
                     ) : (
-                      <Caption weight={"2"}>{data.name}</Caption>
+                      "🏆"
                     )
+                  ) : infogroup == data.name ? (
+                    Icons("check", "1")
                   ) : (
-                    "🏆"
+                    <Caption weight={"2"}>{data.name}</Caption>
                   )}
                 </InlineButtonsItem>
               ))}
