@@ -11,7 +11,7 @@ import {
   useViewport,
 } from "@telegram-apps/sdk-react";
 
-import { AppRoot, List, Tabbar } from "@telegram-apps/telegram-ui";
+import { AppRoot, List, Snackbar, Tabbar } from "@telegram-apps/telegram-ui";
 
 import { Main, Call, Group, Schedule, Teacher } from "./pages";
 
@@ -29,6 +29,7 @@ function App() {
   const [currentTab2, setCurrentTab2] = useState("main");
   const [activegroup, setactivegroup] = useState("");
   const [activeindex, setactiveindex] = useState("");
+  const [snackbar, setsnackbar] = useState("");
 
   const [miniApp] = initMiniApp();
   const themeParams = useThemeParams();
@@ -92,6 +93,8 @@ function App() {
               currentTab2={currentTab2}
               setCurrentTab2={setCurrentTab2}
               activeindex={activeindex}
+              snackbar={snackbar}
+              setsnackbar={setsnackbar}
             />
           )
         ) : (
@@ -116,6 +119,20 @@ function App() {
             {Icons("call")}
           </Tabbar.Item>
         </Tabbar>
+
+        {snackbar != "" && (
+          <Snackbar
+            before={Icons("check")}
+            style={{ zIndex: "1" }}
+            onClose={() => {
+              /*гавнокод, но по другому не работает*/
+            }}
+            duration={2000}
+            description={snackbar}
+          >
+            Вы успешно изменили подписку на замены
+          </Snackbar>
+        )}
       </List>
     </AppRoot>
   );

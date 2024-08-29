@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useState } from "react";
+import ReactDOM from "react-dom"; // Импортируем ReactDOM
 
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -9,6 +10,7 @@ import {
   Cell,
   Multiselectable,
   Placeholder,
+  Snackbar,
   Spinner,
 } from "@telegram-apps/telegram-ui";
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
@@ -17,17 +19,24 @@ import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blo
 import { GetInfoGroup, GetDay } from "../utils";
 
 import axios from "axios";
+import React from "react";
+
+import Icons from "../components/icon";
 
 function Schedule({
   activegroup,
   currentTab2,
   setCurrentTab2,
   activeindex,
+  snackbar,
+  setsnackbar,
 }: {
   activegroup: string;
   currentTab2: string;
   setCurrentTab2: Function;
   activeindex: string;
+  snackbar: string;
+  setsnackbar: Function;
 }) {
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
@@ -118,6 +127,22 @@ function Schedule({
                         setgroup: activegroup,
                       }
                     );
+
+                    const group = await axios.post(
+                      `${import.meta.env.VITE_API_URL}/group`,
+                      {
+                        initData: launchParams.initDataRaw,
+                      }
+                    );
+
+                    setinfogroup(group.data);
+
+                    if (infogroup == activegroup) {
+                      setsnackbar(`Отписались от ${infogroup}`);
+                    } else {
+                      setsnackbar(`Подписались на ${activegroup}`);
+                    }
+                    setTimeout(() => setsnackbar(""), 2150); // гавнокод, но по другому оно не работает
                   }}
                 />
               ) : (
@@ -167,7 +192,7 @@ function Schedule({
                   <AccordionContent
                     style={{
                       background: "none",
-                      marginBottom: index == info.length - 1 ? "15vh" : "0",
+                      marginBottom: index == info.length - 1 ? "16vh" : "0",
                     }}
                   >
                     {data2.map(

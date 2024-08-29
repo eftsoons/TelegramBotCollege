@@ -88,7 +88,7 @@ function Call() {
               {data[0]}
             </AccordionSummary>
             <AccordionContent
-              style={{ marginBottom: index == 0 ? "0" : "15vh" }}
+              style={{ marginBottom: index == 0 ? "0" : "16vh" }}
             >
               <Section>
                 {Object.entries(data[1]).map((data, index) => {

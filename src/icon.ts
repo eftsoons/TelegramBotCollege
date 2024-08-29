@@ -5,4 +5,5 @@ export default {
   office: "e9df",
   teacher: "ea17",
   check: "e934",
+  notinfo: "ea00",
 };
