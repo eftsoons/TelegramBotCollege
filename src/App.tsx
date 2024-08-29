@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode, ReactElement } from "react";
 
 import { initMiniApp, postEvent } from "@telegram-apps/sdk";
 
@@ -29,7 +29,7 @@ function App() {
   const [currentTab2, setCurrentTab2] = useState("main");
   const [activegroup, setactivegroup] = useState("");
   const [activeindex, setactiveindex] = useState("");
-  const [snackbar, setsnackbar] = useState("");
+  const [snackbar, setsnackbar] = useState(null);
 
   const [miniApp] = initMiniApp();
   const themeParams = useThemeParams();
@@ -120,19 +120,7 @@ function App() {
           </Tabbar.Item>
         </Tabbar>
 
-        {snackbar != "" && (
-          <Snackbar
-            before={Icons("check")}
-            style={{ zIndex: "1" }}
-            onClose={() => {
-              /*гавнокод, но по другому не работает*/
-            }}
-            duration={2000}
-            description={snackbar}
-          >
-            Вы успешно изменили подписку на замены
-          </Snackbar>
-        )}
+        {snackbar}
       </List>
     </AppRoot>
   );

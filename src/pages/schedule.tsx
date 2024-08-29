@@ -35,7 +35,7 @@ function Schedule({
   currentTab2: string;
   setCurrentTab2: Function;
   activeindex: string;
-  snackbar: string;
+  snackbar: null | Element;
   setsnackbar: Function;
 }) {
   const [backButton] = initBackButton();
@@ -137,12 +137,41 @@ function Schedule({
 
                     setinfogroup(group.data);
 
-                    if (infogroup == activegroup) {
-                      setsnackbar(`Отписались от ${infogroup}`);
-                    } else {
-                      setsnackbar(`Подписались на ${activegroup}`);
+                    if (!snackbar) {
+                      if (infogroup == activegroup) {
+                        setsnackbar(
+                          <Snackbar
+                            before={Icons("check")}
+                            style={{ zIndex: "1" }}
+                            onClose={() => {
+                              //он баганный
+                            }}
+                            duration={2000}
+                            description={`Отписались от ${infogroup}`}
+                          >
+                            Вы успешно изменили подписку на замены
+                          </Snackbar>
+                        );
+                      } else {
+                        setsnackbar(
+                          <Snackbar
+                            before={Icons("check")}
+                            style={{ zIndex: "1" }}
+                            onClose={() => {
+                              //он баганный
+                            }}
+                            duration={2000}
+                            description={`Подписались на ${activegroup}`}
+                          >
+                            Вы успешно изменили подписку на замены
+                          </Snackbar>
+                        );
+                      }
+
+                      setTimeout(() => {
+                        setsnackbar(null);
+                      }, 2150); // так по правде лучше
                     }
-                    setTimeout(() => setsnackbar(""), 2150); // гавнокод, но по другому оно не работает
                   }}
                 />
               ) : (

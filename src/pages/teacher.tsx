@@ -139,20 +139,11 @@ function Teacher({
                 }}
               >
                 <Section style={{ height: "100%" }}>
-                  {info.education.map(
-                    (
-                      data: { name: string; college: string },
-                      index: number
-                    ) => (
-                      <Cell
-                        multiline={true}
-                        key={index}
-                        description={data.college}
-                      >
-                        {data.name}
-                      </Cell>
-                    )
-                  )}
+                  {info.education.map((data: string, index: number) => (
+                    <Cell multiline={true} key={index}>
+                      {data}
+                    </Cell>
+                  ))}
                 </Section>
               </AccordionContent>
             </Accordion>
