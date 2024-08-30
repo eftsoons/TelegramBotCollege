@@ -37,7 +37,7 @@ function Teacher({
     backButton.on("click", () => {
       backButton.hide();
       setCurrentTab2("teachernext");
-      localStorage.setItem("Menu", "main");
+      localStorage.setItem("Menu", "teachernext");
     });
   }, []);
 

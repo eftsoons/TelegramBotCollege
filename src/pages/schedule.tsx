@@ -237,13 +237,37 @@ function Schedule({
                                 data[1] ? `${data[0]}. ${data[1]}` : data[0]
                               }
                               subheader={
-                                data[2]
-                                  ? currentTab2 == "groupnext"
-                                    ? `Преподователь: ${data[2]}`
-                                    : currentTab2 == "officenext"
-                                    ? `Преподователь: ${data[2]}`
-                                    : `Кабинет: ${data[2]}`
-                                  : ""
+                                data[2] ? (
+                                  currentTab2 == "groupnext" ? (
+                                    <span
+                                      onClick={() => {
+                                        /*setCurrentTab2("teacherinfo");
+                                        localStorage.setItem(
+                                          "Menu",
+                                          "teacherinfo"
+                                        );доделать позже*/
+                                      }}
+                                    >
+                                      Преподователь: {data[2]}
+                                    </span>
+                                  ) : currentTab2 == "officenext" ? (
+                                    <span
+                                      onClick={() => {
+                                        /*setCurrentTab2("teacherinfo");
+                                        localStorage.setItem(
+                                          "Menu",
+                                          "teacherinfo"
+                                        ); доделать позже*/
+                                      }}
+                                    >
+                                      Преподователь: {data[2]}
+                                    </span>
+                                  ) : (
+                                    `Кабинет: ${data[2]}`
+                                  )
+                                ) : (
+                                  ""
+                                )
                               }
                               description={
                                 data[3]
