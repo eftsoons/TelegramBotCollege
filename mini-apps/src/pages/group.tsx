@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import {
   InlineButtons,
@@ -17,20 +17,15 @@ import { GetGroup } from "../utils";
 import Icons from "../components/icon";
 
 import axios from "axios";
-import axiosRetry from "axios-retry";
-axiosRetry(axios, {
-  retries: Infinity,
-  retryDelay: axiosRetry.exponentialDelay,
-});
 
 function Group({
-  currentTab,
-  setCurrentTab,
+  currentTab2,
+  setCurrentTab2,
   setactivegroup,
   setactiveindex,
 }: {
-  currentTab: string;
-  setCurrentTab: Function;
+  currentTab2: string;
+  setCurrentTab2: Function;
   setactivegroup: Function;
   setactiveindex: Function;
 }) {
@@ -42,17 +37,9 @@ function Group({
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
 
-  useEffect(() => {
-    backButton.show();
-
-    backButton.on("click", () => {
-      backButton.hide();
-      setCurrentTab("main");
-      localStorage.setItem("Menu", "main");
-    });
-
+  useLayoutEffect(() => {
     async function fetchData() {
-      const JsonData = await axios.post(`${import.meta.env.VITE_API_URL}`, {
+      const JsonData = await axios.post(import.meta.env.VITE_API_URL, {
         initData: launchParams.initDataRaw,
       });
 
@@ -62,10 +49,20 @@ function Group({
 
       setinfogroup(group.data);
 
-      setJsonData(GetGroup(currentTab, JsonData.data));
+      setJsonData(GetGroup(currentTab2, JsonData.data));
     }
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    backButton.show();
+
+    backButton.on("click", () => {
+      backButton.hide();
+      setCurrentTab2("main");
+      localStorage.setItem("Menu", "main");
+    });
   }, []);
 
   return (
@@ -100,10 +97,10 @@ function Group({
                 <InlineButtonsItem
                   key={index}
                   onClick={() => {
-                    setCurrentTab(`${currentTab}next`);
+                    setCurrentTab2(`${currentTab2}next`);
                     setactivegroup(data.name);
                     setactiveindex(data.key);
-                    localStorage.setItem("Menu", `${currentTab}next`);
+                    localStorage.setItem("Menu", `${currentTab2}next`);
                     localStorage.setItem("Data", data.name);
                     localStorage.setItem("DataIndex", String(data.key));
                     localStorage.setItem(
@@ -117,24 +114,23 @@ function Group({
                       : ""
                   }
                 >
-                  {data.name != "ИСП 23-21" ? (
+                  {data.name == "ИСП 23-21" ? (
                     infogroup == data.name ? (
                       Icons("check", "1")
                     ) : (
-                      <Caption weight={"2"}>{data.name}</Caption>
+                      "🏆"
                     )
+                  ) : infogroup == data.name ? (
+                    Icons("check", "1")
                   ) : (
-                    "🏆"
+                    <Caption weight={"2"}>{data.name}</Caption>
                   )}
                 </InlineButtonsItem>
               ))}
             </InlineButtons>
           ))
         ) : (
-          <Placeholder
-            style={{ paddingTop: "0", width: "100%" }}
-            header={"Сервер недоступен"}
-          >
+          <Placeholder style={{ paddingTop: "0", width: "100%" }}>
             <Spinner size="l" />
           </Placeholder>
         )}

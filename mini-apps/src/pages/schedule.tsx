@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+import ReactDOM from "react-dom"; // Импортируем ReactDOM
 
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -9,6 +10,7 @@ import {
   Cell,
   Multiselectable,
   Placeholder,
+  Snackbar,
   Spinner,
 } from "@telegram-apps/telegram-ui";
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
@@ -17,22 +19,31 @@ import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blo
 import { GetInfoGroup, GetDay } from "../utils";
 
 import axios from "axios";
+import React from "react";
+
+import Icons from "../components/icon";
 
 function Schedule({
-  currentTab,
-  setCurrentTab,
   activegroup,
+  currentTab2,
+  setCurrentTab2,
   activeindex,
+  snackbar,
+  setsnackbar,
 }: {
-  currentTab: string;
-  setCurrentTab: Function;
   activegroup: string;
+  currentTab2: string;
+  setCurrentTab2: Function;
   activeindex: string;
+  snackbar: null | Element;
+  setsnackbar: Function;
 }) {
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
 
-  const [info, setinfo] = useState<any>([[]]);
+  const [info, setinfo] = useState<
+    Array<Array<[string, string, string, string]>>
+  >([[]]);
   const [infogroup, setinfogroup] = useState<string>("");
 
   const [expand, setexpand] = useState([
@@ -46,16 +57,9 @@ function Schedule({
 
   const today = new Date().getDay();
 
-  useEffect(() => {
-    backButton.show();
-    backButton.on("click", () => {
-      backButton.hide();
-      setCurrentTab(currentTab.split("next")[0]);
-      localStorage.setItem("Menu", currentTab.split("next")[0]);
-    });
-
+  useLayoutEffect(() => {
     async function fetchData() {
-      const JsonData = await axios.post(`${import.meta.env.VITE_API_URL}`, {
+      const JsonData = await axios.post(import.meta.env.VITE_API_URL, {
         initData: launchParams.initDataRaw,
       });
 
@@ -66,22 +70,26 @@ function Schedule({
       setinfogroup(group.data);
 
       setinfo(
-        GetInfoGroup(currentTab, activegroup, activeindex, JsonData.data)
+        GetInfoGroup(currentTab2, activegroup, activeindex, JsonData.data)
       );
 
-      setTimeout(() => {
-        // мб немного гавнокод
-        const expand = localStorage.getItem("Expand");
+      const expand = localStorage.getItem("Expand");
 
-        setexpand(
-          expand
-            ? JSON.parse(expand)
-            : [false, false, false, false, false, false]
-        );
-      }, 0);
+      setexpand(
+        expand ? JSON.parse(expand) : [false, false, false, false, false, false]
+      );
     }
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    backButton.show();
+    backButton.on("click", () => {
+      backButton.hide();
+      setCurrentTab2(currentTab2.split("next")[0]);
+      localStorage.setItem("Menu", currentTab2.split("next")[0]);
+    });
   }, []);
 
   return (
@@ -106,7 +114,7 @@ function Schedule({
           <Cell
             Component="label"
             before={
-              currentTab == "groupnext" ? (
+              currentTab2 == "groupnext" ? (
                 <Multiselectable
                   defaultChecked={infogroup == activegroup ? true : false}
                   name="multiselect"
@@ -119,13 +127,64 @@ function Schedule({
                         setgroup: activegroup,
                       }
                     );
+
+                    const group = await axios.post(
+                      `${import.meta.env.VITE_API_URL}/group`,
+                      {
+                        initData: launchParams.initDataRaw,
+                      }
+                    );
+
+                    setinfogroup(group.data);
+
+                    if (!snackbar) {
+                      if (infogroup == activegroup) {
+                        setsnackbar(
+                          <Snackbar
+                            before={Icons("check")}
+                            style={{ zIndex: "1" }}
+                            onClose={() => {
+                              //он баганный
+                            }}
+                            duration={2000}
+                            description={`Отписались от ${infogroup}`}
+                          >
+                            Вы успешно изменили подписку на замены
+                          </Snackbar>
+                        );
+                      } else {
+                        setsnackbar(
+                          <Snackbar
+                            before={Icons("check")}
+                            style={{ zIndex: "1" }}
+                            onClose={() => {
+                              //он баганный
+                            }}
+                            duration={2000}
+                            description={`Подписались на ${activegroup}`}
+                          >
+                            Вы успешно изменили подписку на замены
+                          </Snackbar>
+                        );
+                      }
+
+                      setTimeout(() => {
+                        setsnackbar(null);
+                      }, 2150); // так по правде лучше
+                    }
                   }}
                 />
               ) : (
                 ""
               )
             }
-            description={currentTab == "groupnext" ? "Подписка на замены" : ""}
+            onClick={() => {
+              if (currentTab2 == "teachernext") {
+                setCurrentTab2("teacherinfo");
+                localStorage.setItem("Menu", "teacherinfo");
+              }
+            }}
+            description={currentTab2 == "groupnext" ? "Подписка на замены" : ""}
           >
             {activegroup}
           </Cell>
@@ -162,7 +221,7 @@ function Schedule({
                   <AccordionContent
                     style={{
                       background: "none",
-                      marginBottom: index == info.length - 1 ? "15vh" : "0",
+                      marginBottom: index == info.length - 1 ? "16vh" : "0",
                     }}
                   >
                     {data2.map(
@@ -178,17 +237,41 @@ function Schedule({
                                 data[1] ? `${data[0]}. ${data[1]}` : data[0]
                               }
                               subheader={
-                                data[2]
-                                  ? currentTab == "groupnext"
-                                    ? `Преподователь: ${data[2]}`
-                                    : currentTab == "officenext"
-                                    ? `Преподователь: ${data[2]}`
-                                    : `Кабинет: ${data[2]}`
-                                  : ""
+                                data[2] ? (
+                                  currentTab2 == "groupnext" ? (
+                                    <span
+                                      onClick={() => {
+                                        /*setCurrentTab2("teacherinfo");
+                                        localStorage.setItem(
+                                          "Menu",
+                                          "teacherinfo"
+                                        );доделать позже*/
+                                      }}
+                                    >
+                                      Преподователь: {data[2]}
+                                    </span>
+                                  ) : currentTab2 == "officenext" ? (
+                                    <span
+                                      onClick={() => {
+                                        /*setCurrentTab2("teacherinfo");
+                                        localStorage.setItem(
+                                          "Menu",
+                                          "teacherinfo"
+                                        ); доделать позже*/
+                                      }}
+                                    >
+                                      Преподователь: {data[2]}
+                                    </span>
+                                  ) : (
+                                    `Кабинет: ${data[2]}`
+                                  )
+                                ) : (
+                                  ""
+                                )
                               }
                               description={
                                 data[3]
-                                  ? currentTab == "groupnext"
+                                  ? currentTab2 == "groupnext"
                                     ? `Кабинет: ${data[3]}`
                                     : `Группа: ${data[3]}`
                                   : ""
@@ -211,10 +294,7 @@ function Schedule({
             }
           )
         ) : (
-          <Placeholder
-            style={{ paddingTop: "0", width: "100%" }}
-            header={"Сервер недоступен"}
-          >
+          <Placeholder style={{ paddingTop: "0", width: "100%" }}>
             <Spinner size="l" />
           </Placeholder>
         )}

@@ -21,6 +21,8 @@ app.post("/", (_, res) => {
 app.post("/group", (req, res) => {
   const initData = new URLSearchParams(req.body.initData);
   const userinfo = JSON.parse(initData.get("user"));
+
+  console.log(`Connect College-Mini-apps: ${userinfo.id}`);
   GetInfoUser(userinfo.id, (data) => {
     res.send(data.group);
   });
@@ -48,18 +50,14 @@ app.post("/setgroup", (req, res) => {
   res.send("ok");
 });
 
-/*const options = {
+const options = {
   key: fs.readFileSync("/etc/letsencrypt/live/widgetvoting.ru/privkey.pem"),
   cert: fs.readFileSync("/etc/letsencrypt/live/widgetvoting.ru/fullchain.pem"),
   ca: fs.readFileSync("/etc/letsencrypt/live/widgetvoting.ru/chain.pem"),
 };
 
-const server = https.createServer(app, options);
+const server = https.createServer(options, app);
 
-server.listen(443, () => {
-  console.log("Сервер запущен");
-});*/
-
-app.listen(80, () => {
+server.listen(444, () => {
   console.log("Сервер запущен");
 });

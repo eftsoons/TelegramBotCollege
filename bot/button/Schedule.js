@@ -16,6 +16,61 @@ module.exports = async (chatid, message_id, command, channel) => {
                 { text: "Кабинетов", callback_data: "office" },
               ],
               [{ text: "Звонков", callback_data: "lessoncall" }],
+              [{ text: "Подписаться на замены", callback_data: "settings&*" }],
+              [
+                {
+                  text: "Назад",
+                  callback_data: "exit",
+                },
+              ],
+            ],
+          },
+        })
+        .catch(() => {});
+    } else {
+      await bot
+        .sendMessage(chatid, "Расписание", {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                { text: "Групп", callback_data: "Group" },
+                {
+                  text: "Преподователей",
+                  callback_data: "Teacher",
+                },
+                { text: "Кабинетов", callback_data: "office" },
+              ],
+              [{ text: "Звонков", callback_data: "lessoncall" }],
+              [{ text: "Подписаться на замены", callback_data: "settings&*" }],
+              [
+                {
+                  text: "Назад",
+                  callback_data: "exit",
+                },
+              ],
+            ],
+          },
+        })
+        .catch(() => {});
+    }
+  } catch {}
+  /*try {
+    if (!command) {
+      await bot
+        .editMessageText("Расписание", {
+          chat_id: chatid,
+          message_id: message_id,
+          reply_markup: {
+            inline_keyboard: [
+              [
+                { text: "Групп", callback_data: "Group" },
+                {
+                  text: "Преподователей",
+                  callback_data: "Teacher",
+                },
+                { text: "Кабинетов", callback_data: "office" },
+              ],
+              [{ text: "Звонков", callback_data: "lessoncall" }],
               channel
                 ? [
                     {
@@ -65,7 +120,7 @@ module.exports = async (chatid, message_id, command, channel) => {
         })
         .catch(() => {});
     }
-  } catch {}
+  } catch {}*/
   /*try {
     if (!command) {
       await bot

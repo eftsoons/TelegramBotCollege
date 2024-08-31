@@ -23,9 +23,7 @@ module.exports = (name, chatid, message_id, chatidsave, channel) => {
                   [
                     {
                       text: "Расписание",
-                      web_app: {
-                        url: "https://eftsoons.github.io/FriendsApp/",
-                      },
+                      url: "https://t.me/College39Bot/app",
                     },
                   ],
                   /*[
@@ -78,9 +76,7 @@ module.exports = (name, chatid, message_id, chatidsave, channel) => {
                   [
                     {
                       text: "Расписание",
-                      web_app: {
-                        url: "https://eftsoons.github.io/FriendsApp/",
-                      },
+                      url: "https://t.me/College39Bot/app",
                     },
                   ],
                   /*[
@@ -89,7 +85,12 @@ module.exports = (name, chatid, message_id, chatidsave, channel) => {
                       callback_data: "schedule",
                     },
                   ],*/
-                  [{ text: "Автор", callback_data: "author" }],
+                  [
+                    {
+                      text: "Автор",
+                      callback_data: "author",
+                    },
+                  ],
                   /*[
                 {
                   text: "Выбор группы",

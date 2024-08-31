@@ -1,13 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode, ReactElement } from "react";
 
 import { initMiniApp, postEvent } from "@telegram-apps/sdk";
 
-import { List, Tabbar } from "@telegram-apps/telegram-ui";
+import {
+  bindMiniAppCSSVars,
+  bindThemeParamsCSSVars,
+  bindViewportCSSVars,
+  useLaunchParams,
+  useThemeParams,
+  useViewport,
+} from "@telegram-apps/sdk-react";
 
-import Call from "./pages/call";
-import Main from "./pages/main";
-import Group from "./pages/group";
-import Schedule from "./pages/schedule";
+import { AppRoot, List, Snackbar, Tabbar } from "@telegram-apps/telegram-ui";
+
+import { Main, Call, Group, Schedule, Teacher } from "./pages";
 
 import Icons from "./components/icon";
 
@@ -23,8 +29,12 @@ function App() {
   const [currentTab2, setCurrentTab2] = useState("main");
   const [activegroup, setactivegroup] = useState("");
   const [activeindex, setactiveindex] = useState("");
+  const [snackbar, setsnackbar] = useState(null);
 
   const [miniApp] = initMiniApp();
+  const themeParams = useThemeParams();
+  const viewport = useViewport();
+  const lp = useLaunchParams();
 
   useEffect(() => {
     miniApp.ready();
@@ -39,52 +49,80 @@ function App() {
 
     postEvent("web_app_expand");
 
-    miniApp.setHeaderColor("secondary_bg_color");
+    miniApp.setHeaderColor("bg_color");
   }, []);
 
-  return (
-    <List>
-      {currentTab == "main" ? (
-        currentTab2 == "main" ? (
-          <Main setCurrentTab={setCurrentTab2} />
-        ) : !currentTab2.includes("next") ? (
-          <Group
-            setactivegroup={setactivegroup}
-            currentTab={currentTab2}
-            setCurrentTab={setCurrentTab2}
-            setactiveindex={setactiveindex}
-          />
-        ) : (
-          <Schedule
-            activegroup={activegroup}
-            currentTab={currentTab2}
-            setCurrentTab={setCurrentTab2}
-            activeindex={activeindex}
-          />
-        )
-      ) : (
-        <Call />
-      )}
+  useEffect(() => {
+    return bindMiniAppCSSVars(miniApp, themeParams);
+  }, [miniApp, themeParams]);
 
-      <Tabbar style={{ zIndex: "1" }}>
-        <Tabbar.Item
-          id="main"
-          text={"Главное меню"}
-          selected={"main" === currentTab}
-          onClick={() => setCurrentTab("main")}
-        >
-          {Icons("mainmenu")}
-        </Tabbar.Item>
-        <Tabbar.Item
-          id="call"
-          text={"Звонки"}
-          selected={"call" === currentTab}
-          onClick={() => setCurrentTab("call")}
-        >
-          {Icons("call")}
-        </Tabbar.Item>
-      </Tabbar>
-    </List>
+  useEffect(() => {
+    return bindThemeParamsCSSVars(themeParams);
+  }, [themeParams]);
+
+  useEffect(() => {
+    return viewport && bindViewportCSSVars(viewport);
+  }, [viewport]);
+
+  return (
+    <AppRoot
+      appearance={miniApp.isDark ? "dark" : "light"}
+      platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
+    >
+      <List>
+        {currentTab == "main" ? (
+          currentTab2 == "main" ? (
+            <Main setCurrentTab2={setCurrentTab2} />
+          ) : !currentTab2.includes("next") ? (
+            currentTab2 == "teacherinfo" ? (
+              <Teacher
+                setCurrentTab2={setCurrentTab2}
+                activegroup={activegroup}
+              />
+            ) : (
+              <Group
+                setactivegroup={setactivegroup}
+                currentTab2={currentTab2}
+                setCurrentTab2={setCurrentTab2}
+                setactiveindex={setactiveindex}
+              />
+            )
+          ) : (
+            <Schedule
+              activegroup={activegroup}
+              currentTab2={currentTab2}
+              setCurrentTab2={setCurrentTab2}
+              activeindex={activeindex}
+              snackbar={snackbar}
+              setsnackbar={setsnackbar}
+            />
+          )
+        ) : (
+          <Call />
+        )}
+
+        <Tabbar style={{ zIndex: "1" }}>
+          <Tabbar.Item
+            id="main"
+            text={"Главное меню"}
+            selected={"main" === currentTab}
+            onClick={() => setCurrentTab("main")}
+          >
+            {Icons("mainmenu")}
+          </Tabbar.Item>
+          <Tabbar.Item
+            id="call"
+            text={"Звонки"}
+            selected={"call" === currentTab}
+            onClick={() => setCurrentTab("call")}
+          >
+            {Icons("call")}
+          </Tabbar.Item>
+        </Tabbar>
+
+        {snackbar}
+      </List>
+    </AppRoot>
   );
 }
 

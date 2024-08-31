@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 
 import { Cell, Section, Accordion } from "@telegram-apps/telegram-ui";
-import { getlessoncall } from "../utils";
+import { ConvertTimeZone, getlessoncall } from "../utils";
 
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
 import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionContent/AccordionContent";
@@ -11,17 +11,25 @@ import { AnimatePresence, motion } from "framer-motion";
 import { initBackButton } from "@telegram-apps/sdk";
 
 function Call() {
-  const today = new Date().getDay();
   const [expand, setexpand] = useState([false, false]);
+  const [timekaliningrad, settimekaliningrad] = useState<Date>(
+    ConvertTimeZone(new Date(), "Europe/Kaliningrad")
+  );
 
   const [backButton] = initBackButton();
   backButton.hide();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const expand = localStorage.getItem("ExpandCall");
 
     setexpand(expand ? JSON.parse(expand) : [false, false]);
   }, []);
+
+  const today = timekaliningrad.getDay();
+
+  setInterval(() => {
+    settimekaliningrad(ConvertTimeZone(new Date(), "Europe/Kaliningrad"));
+  }, 1000);
 
   const lessoncall = {
     [today == 1 ? "Понедельник 🌄" : "Понедельник 📅"]: {
@@ -80,18 +88,18 @@ function Call() {
               {data[0]}
             </AccordionSummary>
             <AccordionContent
-              style={{ marginBottom: index == 0 ? "0" : "15vh" }}
+              style={{ marginBottom: index == 0 ? "0" : "16vh" }}
             >
               <Section>
-                {Object.entries(data[1]).map((data, index) => (
-                  <Cell
-                    key={index}
-                    after={getlessoncall(data[1])}
-                    description={data[1]}
-                  >
-                    {data[0]}
-                  </Cell>
-                ))}
+                {Object.entries(data[1]).map((data, index) => {
+                  const time = getlessoncall(data[1], timekaliningrad);
+
+                  return (
+                    <Cell key={index} after={time} description={data[1]}>
+                      {data[0]}
+                    </Cell>
+                  );
+                })}
               </Section>
             </AccordionContent>
           </Accordion>

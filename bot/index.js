@@ -73,7 +73,8 @@ try {
     bot
       .sendMessage(
         chatid,
-        `Привет! Я бот с расписанием колледжа предпринимательства.\nМой создатель - @shishkin666\nМои команды:\n/start${usernamebot} - запускает главное меню бота\n/schedule${usernamebot} - запускает меню с расписанием\n/call${usernamebot} - запускает меню с звонками\n/help${usernamebot} - помощь в боте (лучше не прописывать)`
+        // `Привет! Я бот с расписанием колледжа предпринимательства.\nМой создатель - @shishkin666\nМои команды:\n/start${usernamebot} - запускает главное меню бота\n/schedule${usernamebot} - запускает меню с расписанием\n/call${usernamebot} - запускает меню с звонками\n/help${usernamebot} - помощь в боте (лучше не прописывать)`
+        `Привет! Я бот с расписанием колледжа предпринимательства.\nМой создатель - @shishkin666\nМои команды:\n/start${usernamebot} - запускает главное меню бота\n/help${usernamebot} - помощь в боте (лучше не прописывать)`
       )
       .catch(() => {});
   });
@@ -84,12 +85,15 @@ try {
 
     const usernamebot = `@${usernamebotresponse.username}`;
 
-    bot
-      .sendMessage(
-        chatid,
-        `Привет! Я бот с расписанием колледжа предпринимательства.\nМой создатель - @shishkin666\nМои команды:\n/start${usernamebot} - запускает главное меню бота\n/schedule${usernamebot} - запускает меню с расписанием\n/call${usernamebot} - запускает меню с звонками\n/help${usernamebot} - помощь в боте (лучше не прописывать)`
-      )
-      .catch(() => {});
+    if (msg.new_chat_member.id == usernamebotresponse.id) {
+      bot
+        .sendMessage(
+          chatid,
+          //`Привет! Я бот с расписанием колледжа предпринимательства.\nМой создатель - @shishkin666\nМои команды:\n/start${usernamebot} - запускает главное меню бота\n/schedule${usernamebot} - запускает меню с расписанием\n/call${usernamebot} - запускает меню с звонками\n/help${usernamebot} - помощь в боте (лучше не прописывать)`
+          `Привет! Я бот с расписанием колледжа предпринимательства.\nМой создатель - @shishkin666\nМои команды:\n/start${usernamebot} - запускает главное меню бота\n/help${usernamebot} - помощь в боте (лучше не прописывать)`
+        )
+        .catch(() => {});
+    }
   });
 
   bot.on("message", async (msg) => {
@@ -99,149 +103,191 @@ try {
 
     const chatid = msg.chat.id;
     const text = msg.text;
-    // const typechat = msg.chat.type;
 
-    await bot.setMyCommands([
+    /* await bot.setMyCommands([
       { command: "start", description: "Запуск" },
       { command: "schedule", description: "Расписание" },
       { command: "call", description: "Звонки" },
+      { command: "help", description: "Помощь" },
+    ]);*/
+
+    await bot.setMyCommands([
+      { command: "start", description: "Запуск" },
       { command: "help", description: "Помощь" },
     ]);
 
     console.log(`TG BOT: ${msg.from.username} | ${msg.text}`);
 
-    if (text == "/start" || text == "/start" + usernamebot) {
-      Main(msg.from.first_name, chatid, null, msg.from.id);
-    } else if (text == "/help" || text == "/help" + usernamebot) {
-      await bot.sendMessage(chatid, "Зачем тебе помощь в таком простом боте?");
-    } else if (
-      (text == "/stats" || text == "/stats" + usernamebot) &&
-      (chatid == 1619511344 || chatid == 331259777)
-    ) {
-      const alluser = fs.readdirSync("./bass");
-      const allgroup = [];
-
-      alluser.map((data) => {
-        const userinfo = JSON.parse(
-          fs.readFileSync(`./bass/${data}/info.json`, "utf-8")
+    if (text) {
+      if (text == "/start" || text == "/start" + usernamebot) {
+        Main(msg.from.first_name, chatid, null, msg.from.id);
+      } else if (text == "/help" || text == "/help" + usernamebot) {
+        await bot.sendMessage(
+          chatid,
+          "Зачем тебе помощь в таком простом боте?"
         );
+      } else if (
+        (text == "/stats" || text == "/stats" + usernamebot) &&
+        (chatid == 1619511344 || chatid == 331259777)
+      ) {
+        const alluser = fs.readdirSync("./bass");
+        const allgroup = [];
 
-        if (!allgroup.find((data) => data.group == userinfo.group)) {
-          allgroup.push({
-            group: userinfo.group,
-            all: 1,
-            user: [data],
-          });
-        } else {
-          allgroup.map((data2) => {
-            if (data2.group == userinfo.group) {
-              data2.all = data2.all + 1;
-              data2.user.push(data);
-            }
-          });
-        }
-      });
+        alluser.map((data) => {
+          const userinfo = JSON.parse(
+            fs.readFileSync(`./bass/${data}/info.json`, "utf-8")
+          );
 
-      /* const infouser = bot
+          if (!allgroup.find((data) => data.group == userinfo.group)) {
+            allgroup.push({
+              group: userinfo.group,
+              all: 1,
+              user: [data],
+            });
+          } else {
+            allgroup.map((data2) => {
+              if (data2.group == userinfo.group) {
+                data2.all = data2.all + 1;
+                data2.user.push(data);
+              }
+            });
+          }
+        });
+
+        /* const infouser = bot
         .getChat(data)
         .then((data) => {
           return `${data.first_name} | ${data.last_name} | @${data.username}`;
         })
         .catch(() => {});*/
 
-      await bot
-        .sendMessage(
-          chatid,
-          `Статистика:\n${allgroup
-            .map(
-              (data) =>
-                `${data.group == null ? "Не выбрало" : data.group}: ${data.all}`
-            )
-            .join("\n")}\nВсего активных групп: ${
-            allgroup.length
-          }\nВсего пользователей: ${alluser.length}`
-        )
-        .catch(() => {});
-    } else if (
-      (text == "/deleted" || text == "/deleted" + usernamebot) &&
-      (chatid == 1619511344 || chatid == 331259777)
-    ) {
-      const change = JSON.parse(fs.readFileSync("./change.json", "utf-8"));
-      change.map((data) => {
-        bot.deleteMessage(data[0], data[1]).catch(() => {});
-      });
-      fs.writeFileSync("./change.json", "[]");
-      bot.sendMessage(chatid, `Замены удалены`);
-    } else if (
-      (text == "/statsuser" || text == "/statsuser" + usernamebot) &&
-      (chatid == 1619511344 || chatid == 331259777)
-    ) {
-      const buttonarray = [];
-
-      if (arrayuserinfo.length > 0) {
-        arrayuserinfo.map((data, index) => {
-          if (index % 5 == 0) {
-            buttonarray.push([
-              {
-                text: index == 0 ? `• ${index + 1} •` : index + 1,
-                callback_data: `statsuser&*${index}`,
-              },
-            ]);
-          } else {
-            buttonarray[buttonarray.length - 1].push({
-              text: index == 0 ? `• ${index + 1} •` : index + 1,
-              callback_data: `statsuser&*${index}`,
-            });
-          }
-        });
-
-        bot
+        await bot
           .sendMessage(
             chatid,
-            `Список пользователей:\n${arrayuserinfo[0]
-              .map((data) => {
-                return `${data[4]}. ${data[0]} | ${data[1]} ${
-                  data[2] ? data[2] : ""
-                }${data[3] ? ` | ${data[3]}` : ""}${
-                  data[5] ? ` | ${data[5]}` : ""
-                }\nСоздан: ${data[6]}`;
-              })
-              .join("\n")}`,
-            {
-              reply_markup: {
-                inline_keyboard: buttonarray,
-              },
-            }
+            `Статистика:\n${allgroup
+              .map(
+                (data) =>
+                  `${data.group == null ? "Не выбрало" : data.group}: ${
+                    data.all
+                  }`
+              )
+              .join("\n")}\nВсего активных групп: ${
+              allgroup.length
+            }\nВсего пользователей: ${alluser.length}`
           )
           .catch(() => {});
-      }
-    } else if (text == "/schedule" || text == "/schedule" + usernamebot) {
-      Schedule(chatid, null, true);
-    } else if (text == "/call" || text == "/call" + usernamebot) {
-      //Call(chatid);
-      Schedule(chatid, null, true);
-    } else {
-      settext.map((data) => {
-        if (data[1] == chatid) {
-          try {
-            bot
-              .editMessageCaption(
-                `${data[0]}\nТекст: ${text}${data[3] ? data[3] : ""}`,
+      } else if (
+        (text == "/deleted" || text == "/deleted" + usernamebot) &&
+        (chatid == 1619511344 || chatid == 331259777)
+      ) {
+        const change = JSON.parse(fs.readFileSync("./change.json", "utf-8"));
+        change.map((data) => {
+          bot.deleteMessage(data[0], data[1]).catch(() => {});
+        });
+        fs.writeFileSync("./change.json", "[]");
+        bot.sendMessage(chatid, `Замены удалены`);
+      } else if (
+        (text == "/statsuser" || text == "/statsuser" + usernamebot) &&
+        (chatid == 1619511344 || chatid == 331259777)
+      ) {
+        const buttonarray = [];
+
+        if (arrayuserinfo.length > 0) {
+          arrayuserinfo.map((data, index) => {
+            if (index % 5 == 0) {
+              buttonarray.push([
                 {
-                  chat_id: chatid,
-                  message_id: data[2],
-                  reply_markup: {
-                    inline_keyboard: [
-                      [{ text: "Да", callback_data: `yessend` }],
-                      [{ text: "Назад", callback_data: "exitmenu" }],
-                    ],
-                  },
-                }
-              )
-              .catch(() => {});
-          } catch {}
+                  text: index == 0 ? `• ${index + 1} •` : index + 1,
+                  callback_data: `statsuser&*${index}`,
+                },
+              ]);
+            } else {
+              buttonarray[buttonarray.length - 1].push({
+                text: index == 0 ? `• ${index + 1} •` : index + 1,
+                callback_data: `statsuser&*${index}`,
+              });
+            }
+          });
+
+          bot
+            .sendMessage(
+              chatid,
+              `Список пользователей:\n${arrayuserinfo[0]
+                .map((data) => {
+                  return `${data[4]}. <a href="tg://user?id=${data[0]}">${
+                    data[0]
+                  }</a> | ${data[1]} ${data[2] ? data[2] : ""}${
+                    data[3] ? ` | ${data[3]}` : ""
+                  }${data[5] ? ` | ${data[5]}` : ""}\nСоздан: ${data[6]}`;
+                })
+                .join("\n")}`,
+              {
+                reply_markup: {
+                  inline_keyboard: buttonarray,
+                },
+                parse_mode: "HTML",
+              }
+            )
+            .catch(() => {});
         }
-      });
+      } else if (
+        (chatid == 1619511344 || chatid == 331259777) &&
+        text.split(" ")[0] == "/searchuser"
+      ) {
+        const search = arrayuserinfo.find((data) => {
+          return (
+            data.find((data) => {
+              return data[0] == text.split(" ")[1];
+            }) !== undefined
+          );
+        });
+
+        if (search) {
+          const data = search.find((data) => data[0] == text.split(" ")[1]);
+
+          bot.sendMessage(
+            chatid,
+            `Пользователь найден\n${data[4]}. <a href="tg://user?id=${
+              data[0]
+            }">${data[0]}</a> | ${data[1]} ${data[2] ? data[2] : ""}${
+              data[3] ? ` | ${data[3]}` : ""
+            }${data[5] ? ` | ${data[5]}` : ""}\nСоздан: ${data[6]}`,
+            {
+              parse_mode: "HTML",
+            }
+          );
+        } else {
+          bot.sendMessage(chatid, "Пользователь не найден");
+        }
+        /*} else if (text == "/schedule" || text == "/schedule" + usernamebot) {
+        Schedule(chatid, null, true);
+      } else if (text == "/call" || text == "/call" + usernamebot) {
+        Call(chatid);
+        //Schedule(chatid, null, true);
+        */
+      } else {
+        settext.map((data) => {
+          if (data[1] == chatid) {
+            try {
+              bot
+                .editMessageCaption(
+                  `${data[0]}\nТекст: ${text}${data[3] ? data[3] : ""}`,
+                  {
+                    chat_id: chatid,
+                    message_id: data[2],
+                    reply_markup: {
+                      inline_keyboard: [
+                        [{ text: "Да", callback_data: `yessend` }],
+                        [{ text: "Назад", callback_data: "exitmenu" }],
+                      ],
+                    },
+                  }
+                )
+                .catch(() => {});
+            } catch {}
+          }
+        });
+      }
     }
   });
 
@@ -260,7 +306,7 @@ try {
         msg.from.id,
         msg.message.chat.type == "channel"
       );
-    } else if (data == "schedule") {
+      /*} else if (data == "schedule") {
       Schedule(chatid, message_id, null, msg.message.chat.type == "channel");
     } else if (data == "Teacher") {
       Teacher(chatid, message_id);
@@ -276,6 +322,7 @@ try {
       GroupDay(data, chatid, message_id);
     } else if (data.split("&*")[0] == "settings") {
       Settings(data, chatid, message_id, msg.from.id);
+      */
     } else if (
       "clicksend" == data.split("&*")[0] &&
       (chatid == 1619511344 || chatid == 331259777)
@@ -318,7 +365,7 @@ try {
             .catch(() => {});
         } catch {}
       }
-    } else if (data == "lessoncall") {
+      /*}  else if (data == "lessoncall") {
       Call(chatid, message_id);
     } else if (data == "sendpdf") {
       const alluser = fs.readdirSync("./bass");
@@ -343,6 +390,7 @@ try {
             }
           });
         }
+          
       });
 
       bot
@@ -358,6 +406,7 @@ try {
           }
         )
         .catch(() => {});
+        */
     } else if (
       data.split("&*")[0] == "statsuser" &&
       (chatid == 1619511344 || chatid == 331259777)
@@ -408,7 +457,7 @@ try {
           )
           .catch(() => {});
       }
-    } else if (data == "authorchannel") {
+      /*} else if (data == "authorchannel") {
       bot.editMessageText(
         "Разработано совместно со Студенческим Советом.\nРазработчик: @shishkin666 (участник студ. совета)\nGithub: https://github.com/eftsoons/TelegramBotCollege.git",
         {
@@ -429,6 +478,7 @@ try {
       OfficeWeek(chatid, message_id, data);
     } else if (data.split("&*")[0] == "officeday") {
       OfficeDay(chatid, message_id, data);
+      */
     }
   });
 
@@ -469,59 +519,14 @@ try {
         //fs.readFile("./10.04.2024 замены.pdf", (err, pdfBuffer) => {
         pdfParserInstance.parseBuffer(buffer, {
           combinedText: true,
-          encoding: "UTF-8",
         });
 
-        const tablzamen = [];
-
         pdfParserInstance.on("pdfParser_dataReady", async (pdfData) => {
-          pdfData.Pages[0].Texts.map((data) => {
-            const numbertext = decodeURIComponent(data.R[0].T).match(/\d+\./);
-            if (numbertext) {
-              tablzamen.push([data.R[0].T]);
-            } else {
-              tablzamen[tablzamen.length - 1] += decodeURIComponent(
-                data.R[0].T
-              );
-            }
+          console.log(pdfData.Pages[0].Texts);
+          pdfData.Pages[1].Texts.map((text) => {
+            text.R[0].T = decodeURIComponent(text.R[0].T);
+            console.log(text);
           });
-
-          tablzamen.map((data, index) => {
-            if (index < tablzamen.length - 1) {
-              const groupname = data.match(/[А-Я]+ \d+\-\d+/);
-              if (groupname) {
-                tablzamen2.push([
-                  groupname[0],
-                  data.replace(groupname[0], "").replace(/\s+/, " "),
-                ]);
-              } else {
-                tablzamen2[tablzamen2.length - 1].push(
-                  data.replace(/\s+/, " ")
-                );
-              }
-            }
-          });
-
-          bot.sendMessage(
-            id,
-            `Замены:\n${tablzamen2
-              .map((data) => {
-                return data.join("\n");
-              })
-              .join("\n")}`,
-            {
-              reply_markup: {
-                inline_keyboard: [
-                  [
-                    {
-                      text: "Отправить",
-                      callback_data: "sendpdf",
-                    },
-                  ],
-                ],
-              },
-            }
-          );
         });
       })
     );

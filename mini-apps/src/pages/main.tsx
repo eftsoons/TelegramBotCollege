@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 
 import { retrieveLaunchParams } from "@telegram-apps/sdk";
 
@@ -15,16 +15,16 @@ import Icons from "../components/icon";
 
 import axios from "axios";
 
-function Main({ setCurrentTab }: { setCurrentTab: Function }) {
+function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
   const [selectgroup, setselectgroup] = useState<string>();
 
   const launchParams = retrieveLaunchParams();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function fetchData() {
       const group = await axios.post(`${import.meta.env.VITE_API_URL}/group`, {
         initData: launchParams.initDataRaw,
-      }); // мб сделать повторное подключение в случае неудачи?
+      });
 
       setselectgroup(group.data);
     }
@@ -48,7 +48,7 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
       >
         {selectgroup || selectgroup == "" ? (
           <Placeholder
-            header="Расписание"
+            header={"Расписание"}
             description={
               selectgroup != "" ? `Подписка на замены: ${selectgroup}` : ""
             }
@@ -58,7 +58,7 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
                 <InlineButtons style={{ width: "100%" }} mode="bezeled">
                   <InlineButtonsItem
                     onClick={() => {
-                      setCurrentTab("group");
+                      setCurrentTab2("group");
                       localStorage.setItem("Menu", "group");
                     }}
                     text="Групп"
@@ -67,7 +67,7 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
                   </InlineButtonsItem>
                   <InlineButtonsItem
                     onClick={() => {
-                      setCurrentTab("teacher");
+                      setCurrentTab2("teacher");
                       localStorage.setItem("Menu", "teacher");
                     }}
                     text="Преподователей"
@@ -77,7 +77,7 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
                 </InlineButtons>
                 <InlineButtonsItem
                   onClick={() => {
-                    setCurrentTab("office");
+                    setCurrentTab2("office");
                     localStorage.setItem("Menu", "office");
                   }}
                   style={{ width: "100%" }}
@@ -89,13 +89,10 @@ function Main({ setCurrentTab }: { setCurrentTab: Function }) {
               </>
             }
           >
-            <img alt="test" src="/logo.png" />
+            <img src="logo.png" />
           </Placeholder>
         ) : (
-          <Placeholder
-            style={{ paddingTop: "0", width: "100%" }}
-            header={"Сервер недоступен"}
-          >
+          <Placeholder style={{ paddingTop: "0", width: "100%" }}>
             <Spinner size="l" />
           </Placeholder>
         )}
