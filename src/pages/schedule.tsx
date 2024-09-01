@@ -239,17 +239,21 @@ function Schedule({
                               subheader={
                                 data[2] ? (
                                   currentTab2 == "groupnext" ? (
-                                    <span
-                                      onClick={() => {
-                                        /*setCurrentTab2("teacherinfo");
-                                        localStorage.setItem(
-                                          "Menu",
-                                          "teacherinfo"
-                                        );доделать позже*/
-                                      }}
-                                    >
-                                      Преподователь: {data[2]}
-                                    </span>
+                                    data[3] ? (
+                                      <span
+                                        onClick={() => {
+                                          /*setCurrentTab2("teacherinfo");
+                                      localStorage.setItem(
+                                        "Menu",
+                                        "teacherinfo"
+                                      );доделать позже*/
+                                        }}
+                                      >
+                                        Преподователь: {data[2]}
+                                      </span>
+                                    ) : (
+                                      `Кабинет: ${data[2]}`
+                                    )
                                   ) : currentTab2 == "officenext" ? (
                                     <span
                                       onClick={() => {

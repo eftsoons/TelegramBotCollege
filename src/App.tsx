@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode, ReactElement } from "react";
+import { useState, useEffect } from "react";
 
 import { initMiniApp, postEvent } from "@telegram-apps/sdk";
 
@@ -11,7 +11,7 @@ import {
   useViewport,
 } from "@telegram-apps/sdk-react";
 
-import { AppRoot, List, Snackbar, Tabbar } from "@telegram-apps/telegram-ui";
+import { AppRoot, List, Tabbar } from "@telegram-apps/telegram-ui";
 
 import { Main, Call, Group, Schedule, Teacher } from "./pages";
 
