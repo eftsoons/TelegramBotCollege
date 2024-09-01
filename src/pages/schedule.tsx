@@ -325,7 +325,7 @@ function Schedule({
                               />
                             }*/
                             >
-                              {today - 1 != index
+                              {today - 1 == index
                                 ? Number(data[0])
                                   ? getlessoncall(
                                       lessoncall[index == 0 ? 0 : 1][
