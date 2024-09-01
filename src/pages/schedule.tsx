@@ -1,5 +1,4 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import ReactDOM from "react-dom"; // Импортируем ReactDOM
 
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -12,14 +11,14 @@ import {
   Placeholder,
   Snackbar,
   Spinner,
+  Text,
 } from "@telegram-apps/telegram-ui";
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
 import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionContent/AccordionContent";
 
-import { GetInfoGroup, GetDay } from "../utils";
+import { GetInfoGroup, GetDay, getlessoncall, ConvertTimeZone } from "../utils";
 
 import axios from "axios";
-import React from "react";
 
 import Icons from "../components/icon";
 
@@ -45,6 +44,9 @@ function Schedule({
     Array<Array<[string, string, string, string]>>
   >([[]]);
   const [infogroup, setinfogroup] = useState<string>("");
+  const [timekaliningrad, settimekaliningrad] = useState<Date>(
+    ConvertTimeZone(new Date(), "Europe/Kaliningrad")
+  );
 
   const [expand, setexpand] = useState([
     false,
@@ -55,7 +57,36 @@ function Schedule({
     false,
   ]);
 
-  const today = new Date().getDay();
+  const lessoncall = [
+    [
+      "08:30-09:10",
+      "09:20-10:30",
+      "10:40-11:50",
+      "11:50-12:10",
+      "12:10-13:20",
+      "13:30-14:40",
+      "15:00-15:40",
+      "15:50-17:00",
+      "17:10-18:20",
+      "18:40-19:50",
+      "20:00-21:10",
+    ],
+    [
+      "08:30-09:50",
+      "10:00-11:20",
+      "11:20-11:40",
+      "11:40-13:00",
+      "13:10-14:30",
+      "14:30-14:50",
+      "14:50-16:10",
+      "16:20-17:40",
+      "17:40-18:00",
+      "18:00-19:20",
+      "19:30-20:50",
+    ],
+  ];
+
+  const today = timekaliningrad.getDay();
 
   useLayoutEffect(() => {
     async function fetchData() {
@@ -90,6 +121,12 @@ function Schedule({
       setCurrentTab2(currentTab2.split("next")[0]);
       localStorage.setItem("Menu", currentTab2.split("next")[0]);
     });
+
+    const intervalId = setInterval(() => {
+      settimekaliningrad(ConvertTimeZone(new Date(), "Europe/Kaliningrad"));
+    }, 1000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -227,12 +264,12 @@ function Schedule({
                     {data2.map(
                       (
                         data: [string, string, string, string],
-                        index: number
+                        index2: number
                       ) => {
-                        if (index > 0) {
+                        if (index2 > 0) {
                           return (
                             <Banner
-                              key={index}
+                              key={index2}
                               header={
                                 data[1] ? `${data[0]}. ${data[1]}` : data[0]
                               }
@@ -287,7 +324,18 @@ function Schedule({
                                 src="https://sun9-40.userapi.com/impg/R6XwqoBGYeDf7uYpDOpEU1BXuFri9uTXJ3jClA/_w4Y50ET1Rg.jpg?size=1280x572&quality=95&sign=e6fce4d523ca0fbe9e70e6a984dda4a1&type=album"
                               />
                             }*/
-                            />
+                            >
+                              {today - 1 != index
+                                ? Number(data[0])
+                                  ? getlessoncall(
+                                      lessoncall[index == 0 ? 0 : 1][
+                                        Number(data[0])
+                                      ],
+                                      timekaliningrad
+                                    )
+                                  : getlessoncall(data[0], timekaliningrad, ".")
+                                : ""}
+                            </Banner>
                           );
                         }
                       }

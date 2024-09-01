@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 
 import { Cell, Section, Accordion } from "@telegram-apps/telegram-ui";
 import { ConvertTimeZone, getlessoncall } from "../utils";
@@ -27,9 +27,13 @@ function Call() {
 
   const today = timekaliningrad.getDay();
 
-  setInterval(() => {
-    settimekaliningrad(ConvertTimeZone(new Date(), "Europe/Kaliningrad"));
-  }, 1000);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      settimekaliningrad(ConvertTimeZone(new Date(), "Europe/Kaliningrad"));
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   const lessoncall = {
     [today == 1 ? "Понедельник 🌄" : "Понедельник 📅"]: {

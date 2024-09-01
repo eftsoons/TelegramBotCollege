@@ -1,12 +1,23 @@
 import { Badge } from "@telegram-apps/telegram-ui";
 
-export const getlessoncall = (timelesson: string, date: Date) => {
-  //console.log(date);
-  const m = Number(timelesson.split("-")[0].split(":")[1]);
-  const h = Number(timelesson.split("-")[0].split(":")[0]);
+export const getlessoncall = (
+  timelesson: string,
+  date: Date,
+  typeseperation?: string
+) => {
+  const m = Number(
+    timelesson.split("-")[0].split(typeseperation ? typeseperation : ":")[1]
+  );
+  const h = Number(
+    timelesson.split("-")[0].split(typeseperation ? typeseperation : ":")[0]
+  );
   const minut = m + h * 60;
-  const m2 = Number(timelesson.split("-")[1].split(":")[1]);
-  const h2 = Number(timelesson.split("-")[1].split(":")[0]);
+  const m2 = Number(
+    timelesson.split("-")[1].split(typeseperation ? typeseperation : ":")[1]
+  );
+  const h2 = Number(
+    timelesson.split("-")[1].split(typeseperation ? typeseperation : ":")[0]
+  );
   const minut2 = m2 + h2 * 60;
   const minutes = date.getHours() * 60 + date.getMinutes();
 
