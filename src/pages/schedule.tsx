@@ -65,6 +65,7 @@ function Schedule({
       "11:50-12:10",
       "12:10-13:20",
       "13:30-14:40",
+      "14:40-15:00",
       "15:00-15:40",
       "15:50-17:00",
       "17:10-18:20",
@@ -83,6 +84,14 @@ function Schedule({
       "17:40-18:00",
       "18:00-19:20",
       "19:30-20:50",
+    ],
+    [
+      "08:30-09:50",
+      "10:00-11:20",
+      "11:30-12:50",
+      "13:00-14:20",
+      "14:30-15:50",
+      "16:00-17:20",
     ],
   ];
 
@@ -328,9 +337,9 @@ function Schedule({
                               {today - 1 == index
                                 ? Number(data[0])
                                   ? getlessoncall(
-                                      lessoncall[index == 0 ? 0 : 1][
-                                        Number(data[0])
-                                      ],
+                                      lessoncall[
+                                        index == 0 ? 0 : index == 5 ? 2 : 1
+                                      ][Number(data[0])],
                                       timekaliningrad
                                     )
                                   : getlessoncall(data[0], timekaliningrad, ".")
