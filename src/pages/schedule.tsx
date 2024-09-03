@@ -81,11 +81,11 @@ function Schedule({
     ],
     [
       "08:30-09:50",
-      "10:00-11:20",
-      "11:30-12:50",
-      "13:00-14:20",
-      "14:30-15:50",
-      "16:00-17:20",
+      "09:55-11:15",
+      "11:20-12:40",
+      "12:45-14:05",
+      "14:10-15:30",
+      "15:35-16:55",
     ],
   ];
 
@@ -329,48 +329,50 @@ function Schedule({
                                 src="https://sun9-40.userapi.com/impg/R6XwqoBGYeDf7uYpDOpEU1BXuFri9uTXJ3jClA/_w4Y50ET1Rg.jpg?size=1280x572&quality=95&sign=e6fce4d523ca0fbe9e70e6a984dda4a1&type=album"
                               />
                             }*/
-                              style={{ alignItems: "center" }}
+                              style={{ color: "red" }}
                             >
-                              {today - 1 == index ? (
-                                Number(data[0]) ? (
-                                  <>
-                                    <Badge
-                                      type="number"
-                                      mode="primary"
-                                      large={true}
-                                    >
-                                      {
+                              <div className="call">
+                                {today - 1 == index ? (
+                                  Number(data[0]) ? (
+                                    <>
+                                      <Badge
+                                        type="number"
+                                        mode="primary"
+                                        large={true}
+                                      >
+                                        {
+                                          lessoncall[
+                                            index == 0 ? 0 : index == 5 ? 2 : 1
+                                          ][Number(data[0]) - 1]
+                                        }
+                                      </Badge>
+                                      {getlessoncall(
                                         lessoncall[
                                           index == 0 ? 0 : index == 5 ? 2 : 1
-                                        ][Number(data[0]) - 1]
-                                      }
-                                    </Badge>
-                                    {getlessoncall(
-                                      lessoncall[
-                                        index == 0 ? 0 : index == 5 ? 2 : 1
-                                      ][Number(data[0]) - 1],
-                                      timekaliningrad
-                                    )}
-                                  </>
+                                        ][Number(data[0]) - 1],
+                                        timekaliningrad
+                                      )}
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Badge
+                                        type="number"
+                                        mode="primary"
+                                        large={true}
+                                      >
+                                        {data[0]}
+                                      </Badge>
+                                      {getlessoncall(
+                                        data[0],
+                                        timekaliningrad,
+                                        "."
+                                      )}
+                                    </>
+                                  )
                                 ) : (
-                                  <>
-                                    <Badge
-                                      type="number"
-                                      mode="primary"
-                                      large={true}
-                                    >
-                                      {data[0]}
-                                    </Badge>
-                                    {getlessoncall(
-                                      data[0],
-                                      timekaliningrad,
-                                      "."
-                                    )}
-                                  </>
-                                )
-                              ) : (
-                                ""
-                              )}
+                                  ""
+                                )}
+                              </div>
                             </Banner>
                           );
                         }
