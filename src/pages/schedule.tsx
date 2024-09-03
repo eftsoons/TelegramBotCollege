@@ -95,8 +95,6 @@ function Schedule({
     ],
   ];
 
-  const today = timekaliningrad.getDay();
-
   useLayoutEffect(() => {
     async function fetchData() {
       const JsonData = await axios.post(import.meta.env.VITE_API_URL, {
@@ -130,7 +128,11 @@ function Schedule({
       setCurrentTab2(currentTab2.split("next")[0]);
       localStorage.setItem("Menu", currentTab2.split("next")[0]);
     });
+  }, []);
 
+  const today = timekaliningrad.getDay();
+
+  useEffect(() => {
     const intervalId = setInterval(() => {
       settimekaliningrad(ConvertTimeZone(new Date(), "Europe/Kaliningrad"));
     }, 1000);
@@ -339,7 +341,7 @@ function Schedule({
                                   ? getlessoncall(
                                       lessoncall[
                                         index == 0 ? 0 : index == 5 ? 2 : 1
-                                      ][Number(data[0])],
+                                      ][Number(data[0]) - 1],
                                       timekaliningrad
                                     )
                                   : getlessoncall(data[0], timekaliningrad, ".")
