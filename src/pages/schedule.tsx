@@ -330,9 +330,9 @@ function Schedule({
                               />
                             }*/
                             >
-                              <div className="call">
-                                {today - 1 == index ? (
-                                  Number(data[0]) ? (
+                              {today - 1 == index ? (
+                                <div className="call">
+                                  {Number(data[0]) ? (
                                     <>
                                       <Badge
                                         type="number"
@@ -367,11 +367,11 @@ function Schedule({
                                         "."
                                       )}
                                     </>
-                                  )
-                                ) : (
-                                  ""
-                                )}
-                              </div>
+                                  )}
+                                </div>
+                              ) : (
+                                ""
+                              )}
                             </Banner>
                           );
                         }
