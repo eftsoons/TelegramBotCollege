@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { initBackButton, retrieveLaunchParams } from "@telegram-apps/sdk";
 import {
   Accordion,
+  Badge,
   Banner,
   Cell,
   Multiselectable,
@@ -328,17 +329,48 @@ function Schedule({
                                 src="https://sun9-40.userapi.com/impg/R6XwqoBGYeDf7uYpDOpEU1BXuFri9uTXJ3jClA/_w4Y50ET1Rg.jpg?size=1280x572&quality=95&sign=e6fce4d523ca0fbe9e70e6a984dda4a1&type=album"
                               />
                             }*/
+                              style={{ alignItems: "center" }}
                             >
-                              {today - 1 == index
-                                ? Number(data[0])
-                                  ? getlessoncall(
+                              {today - 1 == index ? (
+                                Number(data[0]) ? (
+                                  <>
+                                    <Badge
+                                      type="number"
+                                      mode="primary"
+                                      large={true}
+                                    >
+                                      {
+                                        lessoncall[
+                                          index == 0 ? 0 : index == 5 ? 2 : 1
+                                        ][Number(data[0]) - 1]
+                                      }
+                                    </Badge>
+                                    {getlessoncall(
                                       lessoncall[
                                         index == 0 ? 0 : index == 5 ? 2 : 1
                                       ][Number(data[0]) - 1],
                                       timekaliningrad
-                                    )
-                                  : getlessoncall(data[0], timekaliningrad, ".")
-                                : ""}
+                                    )}
+                                  </>
+                                ) : (
+                                  <>
+                                    <Badge
+                                      type="number"
+                                      mode="primary"
+                                      large={true}
+                                    >
+                                      {data[0]}
+                                    </Badge>
+                                    {getlessoncall(
+                                      data[0],
+                                      timekaliningrad,
+                                      "."
+                                    )}
+                                  </>
+                                )
+                              ) : (
+                                ""
+                              )}
                             </Banner>
                           );
                         }
