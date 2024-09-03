@@ -329,7 +329,6 @@ function Schedule({
                                 src="https://sun9-40.userapi.com/impg/R6XwqoBGYeDf7uYpDOpEU1BXuFri9uTXJ3jClA/_w4Y50ET1Rg.jpg?size=1280x572&quality=95&sign=e6fce4d523ca0fbe9e70e6a984dda4a1&type=album"
                               />
                             }*/
-                              style={{ color: "red" }}
                             >
                               <div className="call">
                                 {today - 1 == index ? (
