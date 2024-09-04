@@ -22,6 +22,7 @@ import { GetInfoGroup, GetDay, getlessoncall, ConvertTimeZone } from "../utils";
 import axios from "axios";
 
 import Icons from "../components/icon";
+import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 function Schedule({
   activegroup,
@@ -40,6 +41,7 @@ function Schedule({
 }) {
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
+  const lp = useLaunchParams();
 
   const [info, setinfo] = useState<
     Array<Array<[string, string, string, string]>>
@@ -260,7 +262,7 @@ function Schedule({
                   >
                     {GetDay(index)}
                   </AccordionSummary>
-                  {expand[index] && (
+                  {(lp.platform != "ios" || expand[index]) && (
                     <AccordionContent
                       style={{
                         background: "none",
