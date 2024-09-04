@@ -331,11 +331,11 @@ function Schedule({
                             }*/
                             >
                               <Badge type="number" mode="primary" large={true}>
-                                {
-                                  lessoncall[
-                                    index == 0 ? 0 : index == 5 ? 2 : 1
-                                  ][Number(data[0]) - 1]
-                                }
+                                {Number(data[0])
+                                  ? lessoncall[
+                                      index == 0 ? 0 : index == 5 ? 2 : 1
+                                    ][Number(data[0]) - 1]
+                                  : data[0]}
                               </Badge>
                               {today - 1 == index ? (
                                 <div className="call">
