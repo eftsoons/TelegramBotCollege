@@ -101,7 +101,14 @@ function App() {
           <Call />
         )}
 
-        <Tabbar style={{ zIndex: "1" }}>
+        <Tabbar
+          style={{
+            zIndex: "1",
+            paddingBottom: ["macos", "ios"].includes(lp.platform)
+              ? "1.5rem"
+              : "0",
+          }}
+        >
           <Tabbar.Item
             id="main"
             text={"Главное меню"}
