@@ -65,10 +65,7 @@ function App() {
   }, [viewport]);
 
   return (
-    <AppRoot
-      appearance={miniApp.isDark ? "dark" : "light"}
-      platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
-    >
+    <AppRoot appearance={miniApp.isDark ? "dark" : "light"} platform={"base"}>
       <List>
         {currentTab == "main" ? (
           currentTab2 == "main" ? (
