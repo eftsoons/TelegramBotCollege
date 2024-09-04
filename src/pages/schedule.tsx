@@ -330,44 +330,27 @@ function Schedule({
                               />
                             }*/
                             >
+                              <Badge type="number" mode="primary" large={true}>
+                                {
+                                  lessoncall[
+                                    index == 0 ? 0 : index == 5 ? 2 : 1
+                                  ][Number(data[0]) - 1]
+                                }
+                              </Badge>
                               {today - 1 == index ? (
                                 <div className="call">
-                                  {Number(data[0]) ? (
-                                    <>
-                                      <Badge
-                                        type="number"
-                                        mode="primary"
-                                        large={true}
-                                      >
-                                        {
-                                          lessoncall[
-                                            index == 0 ? 0 : index == 5 ? 2 : 1
-                                          ][Number(data[0]) - 1]
-                                        }
-                                      </Badge>
-                                      {getlessoncall(
+                                  {Number(data[0])
+                                    ? getlessoncall(
                                         lessoncall[
                                           index == 0 ? 0 : index == 5 ? 2 : 1
                                         ][Number(data[0]) - 1],
                                         timekaliningrad
-                                      )}
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Badge
-                                        type="number"
-                                        mode="primary"
-                                        large={true}
-                                      >
-                                        {data[0]}
-                                      </Badge>
-                                      {getlessoncall(
+                                      )
+                                    : getlessoncall(
                                         data[0],
                                         timekaliningrad,
                                         "."
                                       )}
-                                    </>
-                                  )}
                                 </div>
                               ) : (
                                 ""
