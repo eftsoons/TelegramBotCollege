@@ -9,6 +9,7 @@ import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blo
 import { AnimatePresence, motion } from "framer-motion";
 
 import { initBackButton } from "@telegram-apps/sdk";
+import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 function Call() {
   const [expand, setexpand] = useState([false, false]);
@@ -18,6 +19,8 @@ function Call() {
 
   const [backButton] = initBackButton();
   backButton.hide();
+
+  const lp = useLaunchParams();
 
   useLayoutEffect(() => {
     const expand = localStorage.getItem("ExpandCall");
@@ -102,21 +105,23 @@ function Call() {
             >
               {data[0]}
             </AccordionSummary>
-            <AccordionContent
-              style={{ marginBottom: index == 2 ? "16vh" : "0" }}
-            >
-              <Section>
-                {Object.entries(data[1]).map((data, index) => {
-                  const time = getlessoncall(data[1], timekaliningrad);
+            {(lp.platform != "ios" || expand[index]) && (
+              <AccordionContent
+                style={{ marginBottom: index == 2 ? "16vh" : "0" }}
+              >
+                <Section>
+                  {Object.entries(data[1]).map((data, index) => {
+                    const time = getlessoncall(data[1], timekaliningrad);
 
-                  return (
-                    <Cell key={index} after={time} description={data[1]}>
-                      {data[0]}
-                    </Cell>
-                  );
-                })}
-              </Section>
-            </AccordionContent>
+                    return (
+                      <Cell key={index} after={time} description={data[1]}>
+                        {data[0]}
+                      </Cell>
+                    );
+                  })}
+                </Section>
+              </AccordionContent>
+            )}
           </Accordion>
         ))}
       </motion.div>

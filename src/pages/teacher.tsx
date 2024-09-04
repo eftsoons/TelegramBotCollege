@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { GetInfoTeacher } from "../utils";
 
 import Icons from "../components/icon";
+import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 function Teacher({
   setCurrentTab2,
@@ -30,6 +31,8 @@ function Teacher({
   const [backButton] = initBackButton();
 
   const info = GetInfoTeacher(activegroup);
+
+  const lp = useLaunchParams();
 
   useEffect(() => {
     backButton.show();
@@ -75,21 +78,23 @@ function Teacher({
               >
                 Группы
               </AccordionSummary>
-              <AccordionContent>
-                <Section style={{ height: "100%" }}>
-                  {info.group.map(
-                    (data: { code: string; name: string }, index: number) => (
-                      <Cell
-                        multiline={true}
-                        key={index}
-                        description={`Код группы: ${data.code}`}
-                      >
-                        {data.name}
-                      </Cell>
-                    )
-                  )}
-                </Section>
-              </AccordionContent>
+              {(lp.platform != "ios" || opengroup) && (
+                <AccordionContent>
+                  <Section style={{ height: "100%" }}>
+                    {info.group.map(
+                      (data: { code: string; name: string }, index: number) => (
+                        <Cell
+                          multiline={true}
+                          key={index}
+                          description={`Код группы: ${data.code}`}
+                        >
+                          {data.name}
+                        </Cell>
+                      )
+                    )}
+                  </Section>
+                </AccordionContent>
+              )}
             </Accordion>
             <Accordion
               expanded={opensubjects}
@@ -101,26 +106,28 @@ function Teacher({
               >
                 Предметы
               </AccordionSummary>
-              <AccordionContent>
-                <Section style={{ height: "100%" }}>
-                  {info.subjects.map(
-                    (
-                      data: { code: string | null; name: string },
-                      index: number
-                    ) => (
-                      <Cell
-                        multiline={true}
-                        key={index}
-                        description={
-                          data.code ? `Код предмета: ${data.code}` : ""
-                        }
-                      >
-                        {data.name}
-                      </Cell>
-                    )
-                  )}
-                </Section>
-              </AccordionContent>
+              {(lp.platform != "ios" || opensubjects) && (
+                <AccordionContent>
+                  <Section style={{ height: "100%" }}>
+                    {info.subjects.map(
+                      (
+                        data: { code: string | null; name: string },
+                        index: number
+                      ) => (
+                        <Cell
+                          multiline={true}
+                          key={index}
+                          description={
+                            data.code ? `Код предмета: ${data.code}` : ""
+                          }
+                        >
+                          {data.name}
+                        </Cell>
+                      )
+                    )}
+                  </Section>
+                </AccordionContent>
+              )}
             </Accordion>
             <Accordion
               expanded={openeducation}
