@@ -260,35 +260,51 @@ function Schedule({
                   >
                     {GetDay(index)}
                   </AccordionSummary>
-                  <AccordionContent
-                    style={{
-                      background: "none",
-                      marginBottom: index == info.length - 1 ? "16vh" : "0",
-                    }}
-                  >
-                    {data2.map(
-                      (
-                        data: [string, string, string, string],
-                        index2: number
-                      ) => {
-                        if (index2 > 0) {
-                          return (
-                            <Banner
-                              key={index2}
-                              header={
-                                data[1] ? `${data[0]}. ${data[1]}` : data[0]
-                              }
-                              subheader={
-                                data[2] ? (
-                                  currentTab2 == "groupnext" ? (
-                                    data[3] ? (
-                                      <span
-                                        onClick={() => {
-                                          /*setCurrentTab2("teacherinfo");
+                  {expand[index] && (
+                    <AccordionContent
+                      style={{
+                        background: "none",
+                        marginBottom: index == info.length - 1 ? "16vh" : "0",
+                      }}
+                    >
+                      {data2.map(
+                        (
+                          data: [string, string, string, string],
+                          index2: number
+                        ) => {
+                          if (index2 > 0) {
+                            return (
+                              <Banner
+                                key={index2}
+                                header={
+                                  data[1] ? `${data[0]}. ${data[1]}` : data[0]
+                                }
+                                subheader={
+                                  data[2] ? (
+                                    currentTab2 == "groupnext" ? (
+                                      data[3] ? (
+                                        <span
+                                          onClick={() => {
+                                            /*setCurrentTab2("teacherinfo");
                                       localStorage.setItem(
                                         "Menu",
                                         "teacherinfo"
                                       );доделать позже*/
+                                          }}
+                                        >
+                                          Преподователь: {data[2]}
+                                        </span>
+                                      ) : (
+                                        `Кабинет: ${data[2]}`
+                                      )
+                                    ) : currentTab2 == "officenext" ? (
+                                      <span
+                                        onClick={() => {
+                                          /*setCurrentTab2("teacherinfo");
+                                        localStorage.setItem(
+                                          "Menu",
+                                          "teacherinfo"
+                                        ); доделать позже*/
                                         }}
                                       >
                                         Преподователь: {data[2]}
@@ -296,71 +312,61 @@ function Schedule({
                                     ) : (
                                       `Кабинет: ${data[2]}`
                                     )
-                                  ) : currentTab2 == "officenext" ? (
-                                    <span
-                                      onClick={() => {
-                                        /*setCurrentTab2("teacherinfo");
-                                        localStorage.setItem(
-                                          "Menu",
-                                          "teacherinfo"
-                                        ); доделать позже*/
-                                      }}
-                                    >
-                                      Преподователь: {data[2]}
-                                    </span>
                                   ) : (
-                                    `Кабинет: ${data[2]}`
+                                    ""
                                   )
-                                ) : (
-                                  ""
-                                )
-                              }
-                              description={
-                                data[3]
-                                  ? currentTab2 == "groupnext"
-                                    ? `Кабинет: ${data[3]}`
-                                    : `Группа: ${data[3]}`
-                                  : ""
-                              }
-                              type="inline"
-                              /*background={
+                                }
+                                description={
+                                  data[3]
+                                    ? currentTab2 == "groupnext"
+                                      ? `Кабинет: ${data[3]}`
+                                      : `Группа: ${data[3]}`
+                                    : ""
+                                }
+                                type="inline"
+                                /*background={
                               <img
                                 style={{ width: "100%" }}
                                 src="https://sun9-40.userapi.com/impg/R6XwqoBGYeDf7uYpDOpEU1BXuFri9uTXJ3jClA/_w4Y50ET1Rg.jpg?size=1280x572&quality=95&sign=e6fce4d523ca0fbe9e70e6a984dda4a1&type=album"
                               />
                             }*/
-                            >
-                              <Badge type="number" mode="primary" large={true}>
-                                {Number(data[0])
-                                  ? lessoncall[
-                                      index == 0 ? 0 : index == 5 ? 2 : 1
-                                    ][Number(data[0]) - 1]
-                                  : data[0]}
-                              </Badge>
-                              {today - 1 == index ? (
-                                <div className="call">
+                              >
+                                <Badge
+                                  type="number"
+                                  mode="primary"
+                                  large={true}
+                                >
                                   {Number(data[0])
-                                    ? getlessoncall(
-                                        lessoncall[
-                                          index == 0 ? 0 : index == 5 ? 2 : 1
-                                        ][Number(data[0]) - 1],
-                                        timekaliningrad
-                                      )
-                                    : getlessoncall(
-                                        data[0],
-                                        timekaliningrad,
-                                        "."
-                                      )}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </Banner>
-                          );
+                                    ? lessoncall[
+                                        index == 0 ? 0 : index == 5 ? 2 : 1
+                                      ][Number(data[0]) - 1]
+                                    : data[0]}
+                                </Badge>
+                                {today - 1 == index ? (
+                                  <div className="call">
+                                    {Number(data[0])
+                                      ? getlessoncall(
+                                          lessoncall[
+                                            index == 0 ? 0 : index == 5 ? 2 : 1
+                                          ][Number(data[0]) - 1],
+                                          timekaliningrad
+                                        )
+                                      : getlessoncall(
+                                          data[0],
+                                          timekaliningrad,
+                                          "."
+                                        )}
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </Banner>
+                            );
+                          }
                         }
-                      }
-                    )}
-                  </AccordionContent>
+                      )}
+                    </AccordionContent>
+                  )}
                 </Accordion>
               );
             }
