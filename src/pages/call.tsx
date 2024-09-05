@@ -11,6 +11,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { initBackButton } from "@telegram-apps/sdk";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
 
+import lang from "../lang";
+
 function Call() {
   const [expand, setexpand] = useState([false, false]);
   const [timekaliningrad, settimekaliningrad] = useState<Date>(
@@ -39,7 +41,7 @@ function Call() {
   }, []);
 
   const lessoncall = {
-    [today == 1 ? "Понедельник 🌄" : "Понедельник 📅"]: {
+    [today == 1 ? `${lang.monday} 🌄` : `${lang.monday} 📅`]: {
       "Разговоры о важном": "08:30-09:10",
       "1 пара": "09:20-10:30",
       "2 пара": "10:40-11:50",
@@ -54,8 +56,8 @@ function Call() {
       "8 пара": "20:00-21:10",
     },
     [today != 1 && today != 0 && today != 5
-      ? "Вторник-Пятница 🌄"
-      : "Вторник-Пятница 📅"]: {
+      ? `${lang.tuesday}-${lang.friday} 🌄`
+      : `${lang.tuesday}-${lang.friday} 📅`]: {
       /*"1 пара": "08:30-09:50",
       "2 пара": "10:00-11:20",
       "Большая переменна": "11:20-11:40",
@@ -76,7 +78,7 @@ function Call() {
       "7 пара": "17:10-18:10",
       "8 пара": "18:20-19:20",
     },
-    [today == 5 ? "Суббота 🌄" : "Суббота 📅"]: {
+    [today == 5 ? `${lang.saturday} 🌄` : `${lang.saturday} 📅`]: {
       "1 пара": "08:30-09:50",
       "2 пара": "09:55-11:15",
       "3 пара": "11:20-12:40",

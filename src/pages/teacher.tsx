@@ -2,7 +2,6 @@ import { initBackButton } from "@telegram-apps/sdk";
 import {
   Accordion,
   Cell,
-  Info,
   Placeholder,
   Section,
   Text,
@@ -16,6 +15,8 @@ import { GetInfoTeacher } from "../utils";
 
 import Icons from "../components/icon";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
+
+import lang from "../lang";
 
 function Teacher({
   setCurrentTab2,
@@ -55,18 +56,18 @@ function Teacher({
         {info ? (
           <>
             <Cell
-              description={`Учённая степень: ${info.degree}`}
+              description={`${lang.academidegree}: ${info.degree}`}
               subhead={info.rank}
-              subtitle={`Категория: ${info.category}`}
+              subtitle={`${lang.category}: ${info.category}`}
             >
               {activegroup}
             </Cell>
             <Cell
-              subhead={"Стаж работы"}
-              subtitle={`Педагогический: ${info.experiencecollege} лет`}
-              description={`В профессии: ${info.experiencework} лет`}
+              subhead={lang.profession}
+              subtitle={`${lang.pedagogical}: ${info.experiencecollege} ${lang.years}`}
+              description={`${lang.profession}: ${info.experiencework} ${lang.years}`}
             >
-              {info.experience} лет
+              {info.experience} {lang.years}
             </Cell>
             <Accordion
               expanded={opengroup}
@@ -76,7 +77,7 @@ function Teacher({
                 style={{ margin: "0" }}
                 interactiveAnimation="opacity"
               >
-                Группы
+                {lang.groups}
               </AccordionSummary>
               {(lp.platform != "ios" || opengroup) && (
                 <AccordionContent>
@@ -86,7 +87,7 @@ function Teacher({
                         <Cell
                           multiline={true}
                           key={index}
-                          description={`Код группы: ${data.code}`}
+                          description={`${lang.codegroup}: ${data.code}`}
                         >
                           {data.name}
                         </Cell>
@@ -104,7 +105,7 @@ function Teacher({
                 style={{ margin: "0" }}
                 interactiveAnimation="opacity"
               >
-                Предметы
+                {lang.items}
               </AccordionSummary>
               {(lp.platform != "ios" || opensubjects) && (
                 <AccordionContent>
@@ -118,7 +119,7 @@ function Teacher({
                           multiline={true}
                           key={index}
                           description={
-                            data.code ? `Код предмета: ${data.code}` : ""
+                            data.code ? `${lang.itemcode}: ${data.code}` : ""
                           }
                         >
                           {data.name}
@@ -137,7 +138,7 @@ function Teacher({
                 style={{ margin: "0" }}
                 interactiveAnimation="opacity"
               >
-                Образование
+                {lang.education}
               </AccordionSummary>
               <AccordionContent
                 style={{
@@ -160,7 +161,7 @@ function Teacher({
             header={Icons("notinfo")}
             style={{ paddingTop: "0", height: "80vh" }}
           >
-            <Text weight={"1"}>Информация отсутствует</Text>
+            <Text weight={"1"}>{lang.notinformation}</Text>
           </Placeholder>
         )}
       </motion.div>

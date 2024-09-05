@@ -200,9 +200,9 @@ function Schedule({
                               //он баганный
                             }}
                             duration={2000}
-                            description={`Отписались от ${infogroup}`}
+                            description={`${lang.subscribenotificationoff} ${infogroup}`}
                           >
-                            Вы успешно изменили подписку на замены
+                            {lang.subscribenotification}
                           </Snackbar>
                         );
                       } else {
@@ -214,9 +214,9 @@ function Schedule({
                               //он баганный
                             }}
                             duration={2000}
-                            description={`Подписались на ${activegroup}`}
+                            description={`${lang.subscribenotificationon} ${activegroup}`}
                           >
-                            Вы успешно изменили подписку на замены
+                            {lang.subscribenotification}
                           </Snackbar>
                         );
                       }
@@ -237,7 +237,7 @@ function Schedule({
                 localStorage.setItem("Menu", "teacherinfo");
               }
             }}
-            description={currentTab2 == "groupnext" ? "Подписка на замены" : ""}
+            description={currentTab2 == "groupnext" ? `${lang.subscribe}` : ""}
           >
             {activegroup}
           </Cell>
@@ -303,10 +303,10 @@ function Schedule({
                                       );доделать позже*/
                                           }}
                                         >
-                                          Преподователь: {data[2]}
+                                          {lang.teacher}: {data[2]}
                                         </span>
                                       ) : (
-                                        `Кабинет: ${data[2]}`
+                                        `${lang.office}: ${data[2]}`
                                       )
                                     ) : currentTab2 == "officenext" ? (
                                       <span
@@ -318,10 +318,10 @@ function Schedule({
                                         ); доделать позже*/
                                         }}
                                       >
-                                        Преподователь: {data[2]}
+                                        {lang.teacher}: {data[2]}
                                       </span>
                                     ) : (
-                                      `Кабинет: ${data[2]}`
+                                      `${lang.office}: ${data[2]}`
                                     )
                                   ) : (
                                     ""
@@ -330,8 +330,8 @@ function Schedule({
                                 description={
                                   data[3]
                                     ? currentTab2 == "groupnext"
-                                      ? `Кабинет: ${data[3]}`
-                                      : `Группа: ${data[3]}`
+                                      ? `${lang.office}: ${data[3]}`
+                                      : `${lang.group2}: ${data[3]}`
                                     : ""
                                 }
                                 type="inline"

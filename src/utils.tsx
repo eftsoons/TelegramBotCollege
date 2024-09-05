@@ -1,13 +1,5 @@
 import { Badge } from "@telegram-apps/telegram-ui";
-import { initInitData } from "@telegram-apps/sdk-react";
-
-export const getlangcode = () => {
-  const initData = initInitData();
-
-  return ((initData?.user?.languageCode == "ru" || "en" || "de"
-    ? initData?.user?.languageCode
-    : "ru") || "ru") as "ru" | "en" | "de";
-};
+import lang from "./lang";
 
 export const getlessoncall = (
   timelesson: string,
@@ -324,9 +316,14 @@ export function GetInfoGroup(
 }
 
 export function GetDay(index: number) {
-  return ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"][
-    index
-  ];
+  return [
+    lang.monday,
+    lang.tuesday,
+    lang.wendnesday,
+    lang.thursday,
+    lang.friday,
+    lang.saturday,
+  ][index];
 }
 
 export function ConvertTimeZone(date: Date, timezone: string) {

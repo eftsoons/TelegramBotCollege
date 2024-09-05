@@ -52,7 +52,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
           <Placeholder
             header={lang.schedule}
             description={
-              selectgroup != "" ? `Подписка на замены: ${selectgroup}` : ""
+              selectgroup != "" ? `${lang.subscribe}: ${selectgroup}` : ""
             }
             style={{ paddingTop: "0", width: "100%" }}
             action={
@@ -63,7 +63,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
                       setCurrentTab2("group");
                       localStorage.setItem("Menu", "group");
                     }}
-                    text="Групп"
+                    text={lang.group}
                   >
                     {Icons("group")}
                   </InlineButtonsItem>
@@ -72,7 +72,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
                       setCurrentTab2("teacher");
                       localStorage.setItem("Menu", "teacher");
                     }}
-                    text="Преподователей"
+                    text={lang.teachers}
                   >
                     {Icons("teacher")}
                   </InlineButtonsItem>
@@ -84,14 +84,14 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
                   }}
                   style={{ width: "100%" }}
                   mode="bezeled"
-                  text="Кабинетов"
+                  text={lang.offices}
                 >
                   {Icons("office")}
                 </InlineButtonsItem>
               </>
             }
           >
-            <img src="logo.png" />
+            <img src="logo.png" loading="eager" />
           </Placeholder>
         ) : (
           <Placeholder style={{ paddingTop: "0", width: "100%" }}>

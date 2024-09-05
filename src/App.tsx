@@ -38,8 +38,6 @@ function App() {
   const viewport = useViewport();
   const lp = useLaunchParams();
 
-  console.log(lang.schedule);
-
   useEffect(() => {
     miniApp.ready();
 
