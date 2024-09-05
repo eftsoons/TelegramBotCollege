@@ -12,7 +12,6 @@ import {
   Placeholder,
   Snackbar,
   Spinner,
-  Text,
 } from "@telegram-apps/telegram-ui";
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
 import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionContent/AccordionContent";
@@ -23,6 +22,8 @@ import axios from "axios";
 
 import Icons from "../components/icon";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
+
+import lang from "../lang";
 
 function Schedule({
   activegroup,
@@ -72,14 +73,22 @@ function Schedule({
       "20:00-21:10",
     ],
     [
-      "08:30-09:50",
+      /*"08:30-09:50",
       "10:00-11:20",
       "11:40-13:00",
       "13:10-14:30",
       "14:50-16:10",
       "16:20-17:40",
       "18:00-19:20",
-      "19:30-20:50",
+      "19:30-20:50",*/
+      "10:00-11:00",
+      "11:10-12:10",
+      "12:20-13:20",
+      "13:30-14:30",
+      "14:50-15:50",
+      "16:00-17:00",
+      "17:10-18:10",
+      "18:20-19:20",
     ],
     [
       "08:30-09:50",

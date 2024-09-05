@@ -15,6 +15,8 @@ import Icons from "../components/icon";
 
 import axios from "axios";
 
+import lang from "../lang";
+
 function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
   const [selectgroup, setselectgroup] = useState<string>();
 
@@ -48,7 +50,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
       >
         {selectgroup || selectgroup == "" ? (
           <Placeholder
-            header={"Расписание"}
+            header={lang.schedule}
             description={
               selectgroup != "" ? `Подписка на замены: ${selectgroup}` : ""
             }

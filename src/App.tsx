@@ -17,6 +17,8 @@ import { Main, Call, Group, Schedule, Teacher } from "./pages";
 
 import Icons from "./components/icon";
 
+import lang from "./lang";
+
 import axios from "axios";
 import axiosRetry from "axios-retry";
 axiosRetry(axios, {
@@ -35,6 +37,8 @@ function App() {
   const themeParams = useThemeParams();
   const viewport = useViewport();
   const lp = useLaunchParams();
+
+  console.log(lang.schedule);
 
   useEffect(() => {
     miniApp.ready();
@@ -111,7 +115,7 @@ function App() {
         >
           <Tabbar.Item
             id="main"
-            text={"Главное меню"}
+            text={lang.mainmenu}
             selected={"main" === currentTab}
             onClick={() => setCurrentTab("main")}
           >
@@ -119,7 +123,7 @@ function App() {
           </Tabbar.Item>
           <Tabbar.Item
             id="call"
-            text={"Звонки"}
+            text={lang.call}
             selected={"call" === currentTab}
             onClick={() => setCurrentTab("call")}
           >

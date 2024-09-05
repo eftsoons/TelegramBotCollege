@@ -1,4 +1,13 @@
 import { Badge } from "@telegram-apps/telegram-ui";
+import { initInitData } from "@telegram-apps/sdk-react";
+
+export const getlangcode = () => {
+  const initData = initInitData();
+
+  return ((initData?.user?.languageCode == "ru" || "en" || "de"
+    ? initData?.user?.languageCode
+    : "ru") || "ru") as "ru" | "en" | "de";
+};
 
 export const getlessoncall = (
   timelesson: string,
