@@ -1,4 +1,4 @@
-import { initInitData, subscribe } from "@telegram-apps/sdk-react";
+import { initInitData } from "@telegram-apps/sdk-react";
 const initData = initInitData();
 const langcode = ((initData?.user?.languageCode == "ru" || "en" || "de"
   ? initData?.user?.languageCode
