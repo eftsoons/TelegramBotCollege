@@ -9,9 +9,7 @@ import {
   Banner,
   Cell,
   Multiselectable,
-  Placeholder,
   Snackbar,
-  Spinner,
 } from "@telegram-apps/telegram-ui";
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
 import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionContent/AccordionContent";
@@ -24,6 +22,8 @@ import Icons from "../components/icon";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
+
+import { Wait } from "./index";
 
 function Schedule({
   activegroup,
@@ -147,177 +147,144 @@ function Schedule({
     return () => clearInterval(intervalId);
   }, []);
 
-  return (
+  return info.length != 1 ? (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        style={
-          info.length != 1
-            ? {}
-            : {
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "85vh",
-              }
-        }
       >
-        {info.length != 1 && (
-          <Cell
-            Component="label"
-            before={
-              currentTab2 == "groupnext" ? (
-                <Multiselectable
-                  defaultChecked={infogroup == activegroup ? true : false}
-                  name="multiselect"
-                  value="1"
-                  onClick={async () => {
-                    await axios.post(
-                      `${import.meta.env.VITE_API_URL}/setgroup`,
-                      {
-                        initData: launchParams.initDataRaw,
-                        setgroup: activegroup,
-                      }
-                    );
+        <Cell
+          Component="label"
+          before={
+            currentTab2 == "groupnext" ? (
+              <Multiselectable
+                defaultChecked={infogroup == activegroup ? true : false}
+                name="multiselect"
+                value="1"
+                onClick={async () => {
+                  await axios.post(`${import.meta.env.VITE_API_URL}/setgroup`, {
+                    initData: launchParams.initDataRaw,
+                    setgroup: activegroup,
+                  });
 
-                    const group = await axios.post(
-                      `${import.meta.env.VITE_API_URL}/group`,
-                      {
-                        initData: launchParams.initDataRaw,
-                      }
-                    );
-
-                    setinfogroup(group.data);
-
-                    if (!snackbar) {
-                      if (infogroup == activegroup) {
-                        setsnackbar(
-                          <Snackbar
-                            before={Icons("check")}
-                            style={{ zIndex: "1" }}
-                            onClose={() => {
-                              //он баганный
-                            }}
-                            duration={2000}
-                            description={`${lang.subscribenotificationoff} ${infogroup}`}
-                          >
-                            {lang.subscribenotification}
-                          </Snackbar>
-                        );
-                      } else {
-                        setsnackbar(
-                          <Snackbar
-                            before={Icons("check")}
-                            style={{ zIndex: "1" }}
-                            onClose={() => {
-                              //он баганный
-                            }}
-                            duration={2000}
-                            description={`${lang.subscribenotificationon} ${activegroup}`}
-                          >
-                            {lang.subscribenotification}
-                          </Snackbar>
-                        );
-                      }
-
-                      setTimeout(() => {
-                        setsnackbar(null);
-                      }, 2150); // так по правде лучше
+                  const group = await axios.post(
+                    `${import.meta.env.VITE_API_URL}/group`,
+                    {
+                      initData: launchParams.initDataRaw,
                     }
-                  }}
-                />
-              ) : (
-                ""
-              )
-            }
-            onClick={() => {
-              if (currentTab2 == "teachernext") {
-                setCurrentTab2("teacherinfo");
-                localStorage.setItem("Menu", "teacherinfo");
-              }
-            }}
-            description={currentTab2 == "groupnext" ? `${lang.subscribe}` : ""}
-          >
-            {activegroup}
-          </Cell>
-        )}
-        {info.length != 1 ? (
-          info.map(
-            (data2: Array<[string, string, string, string]>, index: number) => {
-              return (
-                <Accordion
-                  expanded={expand[index]}
-                  key={index}
-                  onChange={() => {
-                    if (data2.length > 1) {
-                      const expandclone = [...expand];
-                      expandclone[index] = !expandclone[index];
+                  );
 
-                      localStorage.setItem(
-                        "Expand",
-                        JSON.stringify(expandclone)
+                  setinfogroup(group.data);
+
+                  if (!snackbar) {
+                    if (infogroup == activegroup) {
+                      setsnackbar(
+                        <Snackbar
+                          before={Icons("check")}
+                          style={{ zIndex: "1" }}
+                          onClose={() => {
+                            //он баганный
+                          }}
+                          duration={2000}
+                          description={`${lang.subscribenotificationoff} ${infogroup}`}
+                        >
+                          {lang.subscribenotification}
+                        </Snackbar>
                       );
-                      setexpand(expandclone);
+                    } else {
+                      setsnackbar(
+                        <Snackbar
+                          before={Icons("check")}
+                          style={{ zIndex: "1" }}
+                          onClose={() => {
+                            //он баганный
+                          }}
+                          duration={2000}
+                          description={`${lang.subscribenotificationon} ${activegroup}`}
+                        >
+                          {lang.subscribenotification}
+                        </Snackbar>
+                      );
                     }
-                  }}
+
+                    setTimeout(() => {
+                      setsnackbar(null);
+                    }, 2150); // так по правде лучше
+                  }
+                }}
+              />
+            ) : (
+              ""
+            )
+          }
+          onClick={() => {
+            if (currentTab2 == "teachernext") {
+              setCurrentTab2("teacherinfo");
+              localStorage.setItem("Menu", "teacherinfo");
+            }
+          }}
+          description={currentTab2 == "groupnext" ? `${lang.subscribe}` : ""}
+        >
+          {activegroup}
+        </Cell>
+
+        {info.map(
+          (data2: Array<[string, string, string, string]>, index: number) => {
+            return (
+              <Accordion
+                expanded={expand[index]}
+                key={index}
+                onChange={() => {
+                  if (data2.length > 1) {
+                    const expandclone = [...expand];
+                    expandclone[index] = !expandclone[index];
+
+                    localStorage.setItem("Expand", JSON.stringify(expandclone));
+                    setexpand(expandclone);
+                  }
+                }}
+              >
+                <AccordionSummary
+                  style={{ margin: "0" }}
+                  interactiveAnimation="opacity"
+                  hint={today - 1 == index ? "🌄" : "📅"}
+                  hovered={expand[index]}
+                  disabled={data2.length > 1 ? false : true}
                 >
-                  <AccordionSummary
-                    style={{ margin: "0" }}
-                    interactiveAnimation="opacity"
-                    hint={today - 1 == index ? "🌄" : "📅"}
-                    hovered={expand[index]}
-                    disabled={data2.length > 1 ? false : true}
+                  {GetDay(index)}
+                </AccordionSummary>
+                {(lp.platform != "ios" || expand[index]) && (
+                  <AccordionContent
+                    style={{
+                      background: "none",
+                      marginBottom: index == info.length - 1 ? "16vh" : "0",
+                    }}
                   >
-                    {GetDay(index)}
-                  </AccordionSummary>
-                  {(lp.platform != "ios" || expand[index]) && (
-                    <AccordionContent
-                      style={{
-                        background: "none",
-                        marginBottom: index == info.length - 1 ? "16vh" : "0",
-                      }}
-                    >
-                      {data2.map(
-                        (
-                          data: [string, string, string, string],
-                          index2: number
-                        ) => {
-                          if (index2 > 0) {
-                            return (
-                              <Banner
-                                key={index2}
-                                header={
-                                  data[1] ? `${data[0]}. ${data[1]}` : data[0]
-                                }
-                                subheader={
-                                  data[2] ? (
-                                    currentTab2 == "groupnext" ? (
-                                      data[3] ? (
-                                        <span
-                                          onClick={() => {
-                                            /*setCurrentTab2("teacherinfo");
+                    {data2.map(
+                      (
+                        data: [string, string, string, string],
+                        index2: number
+                      ) => {
+                        if (index2 > 0) {
+                          return (
+                            <Banner
+                              key={index2}
+                              header={
+                                data[1] ? `${data[0]}. ${data[1]}` : data[0]
+                              }
+                              subheader={
+                                data[2] ? (
+                                  currentTab2 == "groupnext" ? (
+                                    data[3] ? (
+                                      <span
+                                        onClick={() => {
+                                          /*setCurrentTab2("teacherinfo");
                                       localStorage.setItem(
                                         "Menu",
                                         "teacherinfo"
                                       );доделать позже*/
-                                          }}
-                                        >
-                                          {lang.teacher}: {data[2]}
-                                        </span>
-                                      ) : (
-                                        `${lang.office}: ${data[2]}`
-                                      )
-                                    ) : currentTab2 == "officenext" ? (
-                                      <span
-                                        onClick={() => {
-                                          /*setCurrentTab2("teacherinfo");
-                                        localStorage.setItem(
-                                          "Menu",
-                                          "teacherinfo"
-                                        ); доделать позже*/
                                         }}
                                       >
                                         {lang.teacher}: {data[2]}
@@ -325,72 +292,80 @@ function Schedule({
                                     ) : (
                                       `${lang.office}: ${data[2]}`
                                     )
+                                  ) : currentTab2 == "officenext" ? (
+                                    <span
+                                      onClick={() => {
+                                        /*setCurrentTab2("teacherinfo");
+                                        localStorage.setItem(
+                                          "Menu",
+                                          "teacherinfo"
+                                        ); доделать позже*/
+                                      }}
+                                    >
+                                      {lang.teacher}: {data[2]}
+                                    </span>
                                   ) : (
-                                    ""
+                                    `${lang.office}: ${data[2]}`
                                   )
-                                }
-                                description={
-                                  data[3]
-                                    ? currentTab2 == "groupnext"
-                                      ? `${lang.office}: ${data[3]}`
-                                      : `${lang.group2}: ${data[3]}`
-                                    : ""
-                                }
-                                type="inline"
-                                /*background={
+                                ) : (
+                                  ""
+                                )
+                              }
+                              description={
+                                data[3]
+                                  ? currentTab2 == "groupnext"
+                                    ? `${lang.office}: ${data[3]}`
+                                    : `${lang.group2}: ${data[3]}`
+                                  : ""
+                              }
+                              type="inline"
+                              /*background={
                               <img
                                 style={{ width: "100%" }}
                                 src="https://sun9-40.userapi.com/impg/R6XwqoBGYeDf7uYpDOpEU1BXuFri9uTXJ3jClA/_w4Y50ET1Rg.jpg?size=1280x572&quality=95&sign=e6fce4d523ca0fbe9e70e6a984dda4a1&type=album"
                               />
                             }*/
-                              >
-                                <Badge
-                                  type="number"
-                                  mode="primary"
-                                  large={true}
-                                >
+                            >
+                              <Badge type="number" mode="primary" large={true}>
+                                {Number(data[0])
+                                  ? lessoncall[
+                                      index == 0 ? 0 : index == 5 ? 2 : 1
+                                    ][Number(data[0]) - 1]
+                                  : data[0]}
+                              </Badge>
+                              {today - 1 == index ? (
+                                <div className="call">
                                   {Number(data[0])
-                                    ? lessoncall[
-                                        index == 0 ? 0 : index == 5 ? 2 : 1
-                                      ][Number(data[0]) - 1]
-                                    : data[0]}
-                                </Badge>
-                                {today - 1 == index ? (
-                                  <div className="call">
-                                    {Number(data[0])
-                                      ? getlessoncall(
-                                          lessoncall[
-                                            index == 0 ? 0 : index == 5 ? 2 : 1
-                                          ][Number(data[0]) - 1],
-                                          timekaliningrad
-                                        )
-                                      : getlessoncall(
-                                          data[0],
-                                          timekaliningrad,
-                                          "."
-                                        )}
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </Banner>
-                            );
-                          }
+                                    ? getlessoncall(
+                                        lessoncall[
+                                          index == 0 ? 0 : index == 5 ? 2 : 1
+                                        ][Number(data[0]) - 1],
+                                        timekaliningrad
+                                      )
+                                    : getlessoncall(
+                                        data[0],
+                                        timekaliningrad,
+                                        "."
+                                      )}
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </Banner>
+                          );
                         }
-                      )}
-                    </AccordionContent>
-                  )}
-                </Accordion>
-              );
-            }
-          )
-        ) : (
-          <Placeholder style={{ paddingTop: "0", width: "100%" }}>
-            <Spinner size="l" />
-          </Placeholder>
+                      }
+                    )}
+                  </AccordionContent>
+                )}
+              </Accordion>
+            );
+          }
         )}
       </motion.div>
     </AnimatePresence>
+  ) : (
+    <Wait />
   );
 }
 

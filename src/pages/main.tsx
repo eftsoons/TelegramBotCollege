@@ -2,11 +2,7 @@ import { useState, useLayoutEffect } from "react";
 
 import { retrieveLaunchParams } from "@telegram-apps/sdk";
 
-import {
-  Placeholder,
-  InlineButtons,
-  Spinner,
-} from "@telegram-apps/telegram-ui";
+import { Placeholder, InlineButtons } from "@telegram-apps/telegram-ui";
 import { InlineButtonsItem } from "@telegram-apps/telegram-ui/dist/components/Blocks/InlineButtons/components/InlineButtonsItem/InlineButtonsItem";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -16,6 +12,8 @@ import Icons from "../components/icon";
 import axios from "axios";
 
 import lang from "../lang";
+
+import { Wait } from "./index";
 
 function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
   const [selectgroup, setselectgroup] = useState<string>();
@@ -34,7 +32,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
     fetchData();
   }, []);
 
-  return (
+  return selectgroup || selectgroup == "" ? (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
@@ -48,58 +46,54 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
           height: "85vh",
         }}
       >
-        {selectgroup || selectgroup == "" ? (
-          <Placeholder
-            header={lang.schedule}
-            description={
-              selectgroup != "" ? `${lang.subscribe}: ${selectgroup}` : ""
-            }
-            style={{ paddingTop: "0", width: "100%" }}
-            action={
-              <>
-                <InlineButtons style={{ width: "100%" }} mode="bezeled">
-                  <InlineButtonsItem
-                    onClick={() => {
-                      setCurrentTab2("group");
-                      localStorage.setItem("Menu", "group");
-                    }}
-                    text={lang.group}
-                  >
-                    {Icons("group")}
-                  </InlineButtonsItem>
-                  <InlineButtonsItem
-                    onClick={() => {
-                      setCurrentTab2("teacher");
-                      localStorage.setItem("Menu", "teacher");
-                    }}
-                    text={lang.teachers}
-                  >
-                    {Icons("teacher")}
-                  </InlineButtonsItem>
-                </InlineButtons>
+        <Placeholder
+          header={lang.schedule}
+          description={
+            selectgroup != "" ? `${lang.subscribe}: ${selectgroup}` : ""
+          }
+          style={{ paddingTop: "0", width: "100%" }}
+          action={
+            <>
+              <InlineButtons style={{ width: "100%" }} mode="bezeled">
                 <InlineButtonsItem
                   onClick={() => {
-                    setCurrentTab2("office");
-                    localStorage.setItem("Menu", "office");
+                    setCurrentTab2("group");
+                    localStorage.setItem("Menu", "group");
                   }}
-                  style={{ width: "100%" }}
-                  mode="bezeled"
-                  text={lang.offices}
+                  text={lang.group}
                 >
-                  {Icons("office")}
+                  {Icons("group")}
                 </InlineButtonsItem>
-              </>
-            }
-          >
-            <img src="logo.png" loading="eager" />
-          </Placeholder>
-        ) : (
-          <Placeholder style={{ paddingTop: "0", width: "100%" }}>
-            <Spinner size="l" />
-          </Placeholder>
-        )}
+                <InlineButtonsItem
+                  onClick={() => {
+                    setCurrentTab2("teacher");
+                    localStorage.setItem("Menu", "teacher");
+                  }}
+                  text={lang.teachers}
+                >
+                  {Icons("teacher")}
+                </InlineButtonsItem>
+              </InlineButtons>
+              <InlineButtonsItem
+                onClick={() => {
+                  setCurrentTab2("office");
+                  localStorage.setItem("Menu", "office");
+                }}
+                style={{ width: "100%" }}
+                mode="bezeled"
+                text={lang.offices}
+              >
+                {Icons("office")}
+              </InlineButtonsItem>
+            </>
+          }
+        >
+          <img src="logo.png" loading="eager" />
+        </Placeholder>
       </motion.div>
     </AnimatePresence>
+  ) : (
+    <Wait />
   );
 }
 

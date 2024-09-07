@@ -18,6 +18,8 @@ import Icons from "../components/icon";
 
 import axios from "axios";
 
+import { Wait } from "./index";
+
 function Group({
   currentTab2,
   setCurrentTab2,
@@ -65,78 +67,71 @@ function Group({
     });
   }, []);
 
-  return (
+  return JsonData[0].length ? (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        style={
-          JsonData[0].length
-            ? { padding: "10px" }
-            : {
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "85vh",
-              }
-        }
+        style={{ padding: "10px" }}
       >
-        {JsonData[0].length ? (
-          JsonData.map((data: Array<{ name: string; key: number }>, index) => (
-            <InlineButtons
-              key={index}
-              style={{
-                width: "100%",
-                marginBottom: index != JsonData.length - 1 ? "2.5vh" : "15vh",
-              }}
-              mode="bezeled"
-            >
-              {data.map((data, index) => (
-                <InlineButtonsItem
-                  key={index}
-                  onClick={() => {
-                    setCurrentTab2(`${currentTab2}next`);
-                    setactivegroup(data.name);
-                    setactiveindex(data.key);
-                    localStorage.setItem("Menu", `${currentTab2}next`);
-                    localStorage.setItem("Data", data.name);
-                    localStorage.setItem("DataIndex", String(data.key));
-                    localStorage.setItem(
-                      "Expand",
-                      JSON.stringify([false, false, false, false, false, false])
-                    );
-                  }}
-                  text={
-                    data.name == "ИСП 23-21" || infogroup == data.name
-                      ? data.name
-                      : ""
-                  }
-                >
-                  {data.name == "ИСП 23-21" ? (
-                    infogroup == data.name ? (
-                      Icons("check", "1")
-                    ) : (
-                      "🏆"
-                    )
-                  ) : infogroup == data.name ? (
+        {JsonData.map((data: Array<{ name: string; key: number }>, index) => (
+          <InlineButtons
+            key={index}
+            style={{
+              width: "100%",
+              marginBottom: index != JsonData.length - 1 ? "2.5vh" : "15vh",
+            }}
+            mode="bezeled"
+          >
+            {data.map((data, index) => (
+              <InlineButtonsItem
+                key={index}
+                onClick={() => {
+                  setCurrentTab2(`${currentTab2}next`);
+                  setactivegroup(data.name);
+                  setactiveindex(data.key);
+                  localStorage.setItem("Menu", `${currentTab2}next`);
+                  localStorage.setItem("Data", data.name);
+                  localStorage.setItem("DataIndex", String(data.key));
+                  localStorage.setItem(
+                    "Expand",
+                    JSON.stringify([false, false, false, false, false, false])
+                  );
+                }}
+                text={
+                  data.name == "ИСП 23-21" || infogroup == data.name
+                    ? data.name
+                    : ""
+                }
+              >
+                {data.name == "ИСП 23-21" ? (
+                  infogroup == data.name ? (
                     Icons("check", "1")
                   ) : (
-                    <Caption weight={"2"}>{data.name}</Caption>
-                  )}
-                </InlineButtonsItem>
-              ))}
-            </InlineButtons>
-          ))
-        ) : (
-          <Placeholder style={{ paddingTop: "0", width: "100%" }}>
-            <Spinner size="l" />
-          </Placeholder>
-        )}
+                    "🏆"
+                  )
+                ) : infogroup == data.name ? (
+                  Icons("check", "1")
+                ) : (
+                  <Caption weight={"2"}>{data.name}</Caption>
+                )}
+              </InlineButtonsItem>
+            ))}
+          </InlineButtons>
+        ))}
       </motion.div>
     </AnimatePresence>
+  ) : (
+    <Wait />
   );
 }
+
+/*
+ <Placeholder style={{ paddingTop: "0", width: "100%" }}>
+      <Spinner size="l" />
+    </Placeholder>
+    */
 
 export default Group;
