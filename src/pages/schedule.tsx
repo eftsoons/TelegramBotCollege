@@ -259,9 +259,7 @@ function Schedule({
                     interactiveAnimation="opacity"
                     hint={today - 1 == index ? "🌄" : "📅"}
                     hovered={expand[index]}
-                    disabled={
-                      data2.length > 1 ? (index == 5 ? true : false) : true
-                    }
+                    disabled={data2.length > 1 ? false : true}
                   >
                     {GetDay(index)}
                   </AccordionSummary>
