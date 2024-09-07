@@ -128,10 +128,4 @@ function Group({
   );
 }
 
-/*
- <Placeholder style={{ paddingTop: "0", width: "100%" }}>
-      <Spinner size="l" />
-    </Placeholder>
-    */
-
 export default Group;

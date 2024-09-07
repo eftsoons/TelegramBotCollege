@@ -229,7 +229,6 @@ function Schedule({
         >
           {activegroup}
         </Cell>
-
         {info.map(
           (data2: Array<[string, string, string, string]>, index: number) => {
             return (
