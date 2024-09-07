@@ -104,9 +104,19 @@ function Schedule({
 
       setinfogroup(group.data);
 
-      setinfo(
-        GetInfoGroup(currentTab2, activegroup, activeindex, JsonData.data)
+      const info = GetInfoGroup(
+        currentTab2,
+        activegroup,
+        activeindex,
+        JsonData.data
       );
+
+      if (info) {
+        setinfo(info);
+      } else {
+        setCurrentTab2(currentTab2.split("next")[0]);
+        localStorage.setItem("Menu", currentTab2.split("next")[0]);
+      }
 
       const expand = localStorage.getItem("Expand");
 
