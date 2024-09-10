@@ -68,6 +68,12 @@ const lang = {
     de: "Keine Informationen verfügbar",
   },
   years: { ru: "лет", en: "years", de: "jahre" },
+  search: { ru: "Поиск", en: "Search", de: "Suche" },
+  entername: {
+    ru: "Введите название",
+    en: "Enter a name",
+    de: "Geben Sie einen Namen ein",
+  },
 };
 
 export default {
@@ -102,4 +108,6 @@ export default {
   education: lang.education[langcode],
   notinformation: lang.notinformation[langcode],
   years: lang.years[langcode],
+  search: lang.search[langcode],
+  entername: lang.entername[langcode],
 };

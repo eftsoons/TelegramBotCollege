@@ -20,6 +20,8 @@ import axios from "axios";
 
 import { Wait } from "./index";
 
+import lang from "../lang";
+
 function Group({
   currentTab2,
   setCurrentTab2,
@@ -82,11 +84,12 @@ function Group({
         style={{ padding: "10px" }}
       >
         <Input
-          header="Поиск"
+          header={lang.search}
           onChange={(e) => {
             setsearchgroup(e.target.value);
             localStorage.setItem("Search", e.target.value);
           }}
+          placeholder={lang.entername}
           after={
             <IconButton
               onClick={() => {
