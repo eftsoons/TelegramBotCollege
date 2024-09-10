@@ -7,7 +7,7 @@ import { InlineButtonsItem } from "@telegram-apps/telegram-ui/dist/components/Bl
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import Icons from "../components/icon";
+import { Icon } from "../components";
 
 import axios from "axios";
 
@@ -59,31 +59,34 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
                   onClick={() => {
                     setCurrentTab2("group");
                     localStorage.setItem("Menu", "group");
+                    localStorage.setItem("Search", "");
                   }}
                   text={lang.group}
                 >
-                  {Icons("group")}
+                  {Icon("group")}
                 </InlineButtonsItem>
                 <InlineButtonsItem
                   onClick={() => {
                     setCurrentTab2("teacher");
                     localStorage.setItem("Menu", "teacher");
+                    localStorage.setItem("Search", "");
                   }}
                   text={lang.teachers}
                 >
-                  {Icons("teacher")}
+                  {Icon("teacher")}
                 </InlineButtonsItem>
               </InlineButtons>
               <InlineButtonsItem
                 onClick={() => {
                   setCurrentTab2("office");
                   localStorage.setItem("Menu", "office");
+                  localStorage.setItem("Search", "");
                 }}
                 style={{ width: "100%" }}
                 mode="bezeled"
                 text={lang.offices}
               >
-                {Icons("office")}
+                {Icon("office")}
               </InlineButtonsItem>
             </>
           }

@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 
 import { GetInfoTeacher } from "../utils";
 
-import Icons from "../components/icon";
+import { Icon } from "../components";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
@@ -158,7 +158,7 @@ function Teacher({
           </>
         ) : (
           <Placeholder
-            header={Icons("notinfo")}
+            header={Icon("notinfo")}
             style={{ paddingTop: "0", height: "80vh" }}
           >
             <Text weight={"1"}>{lang.notinformation}</Text>

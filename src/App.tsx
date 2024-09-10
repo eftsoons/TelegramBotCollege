@@ -13,9 +13,9 @@ import {
 
 import { AppRoot, List, Tabbar } from "@telegram-apps/telegram-ui";
 
-import { Main, Call, Group, Schedule, Teacher } from "./pages";
+import { Main, Call, Group, Schedule, Teacher, PixelBattle } from "./pages";
 
-import Icons from "./components/icon";
+import { Icon } from "./components";
 
 import lang from "./lang";
 
@@ -99,8 +99,10 @@ function App() {
               setsnackbar={setsnackbar}
             />
           )
-        ) : (
+        ) : currentTab == "call" ? (
           <Call />
+        ) : (
+          <PixelBattle />
         )}
 
         <Tabbar
@@ -117,7 +119,7 @@ function App() {
             selected={"main" === currentTab}
             onClick={() => setCurrentTab("main")}
           >
-            {Icons("mainmenu")}
+            {Icon("mainmenu")}
           </Tabbar.Item>
           <Tabbar.Item
             id="call"
@@ -125,8 +127,16 @@ function App() {
             selected={"call" === currentTab}
             onClick={() => setCurrentTab("call")}
           >
-            {Icons("call")}
+            {Icon("call")}
           </Tabbar.Item>
+          {/*<Tabbar.Item
+            id="pixel"
+            text={"Pixel Battle"}
+            selected={"pixel" === currentTab}
+            onClick={() => setCurrentTab("pixel")}
+          >
+            {Icon("bomb")}
+          </Tabbar.Item>*/}
         </Tabbar>
 
         {snackbar}

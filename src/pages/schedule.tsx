@@ -18,7 +18,7 @@ import { GetInfoGroup, GetDay, getlessoncall, ConvertTimeZone } from "../utils";
 
 import axios from "axios";
 
-import Icons from "../components/icon";
+import { Icon } from "../components";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
@@ -182,7 +182,7 @@ function Schedule({
                     if (infogroup == activegroup) {
                       setsnackbar(
                         <Snackbar
-                          before={Icons("check")}
+                          before={Icon("check")}
                           style={{ zIndex: "1" }}
                           onClose={() => {
                             //он баганный
@@ -196,7 +196,7 @@ function Schedule({
                     } else {
                       setsnackbar(
                         <Snackbar
-                          before={Icons("check")}
+                          before={Icon("check")}
                           style={{ zIndex: "1" }}
                           onClose={() => {
                             //он баганный
