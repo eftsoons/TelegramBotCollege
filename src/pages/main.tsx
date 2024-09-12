@@ -115,7 +115,9 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
             </ins>
             ,{" "}
             <ins
-              onClick={() => utils.openTelegramLink("https://t.me/shishkin666")}
+              onClick={() =>
+                utils.openTelegramLink("https://t.me/tommyilinykh")
+              }
             >
               Антон Ильиних
             </ins>
