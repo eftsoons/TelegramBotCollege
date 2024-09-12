@@ -106,10 +106,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
           <Caption className="authortext">
             Авторы:{" "}
             <ins
-              onClick={() => {
-                utils.openTelegramLink("https://t.me/shishkin666");
-                miniApp.close();
-              }}
+              onClick={() => utils.openTelegramLink("https://t.me/shishkin666")}
             >
               Александр Федорович
             </ins>
