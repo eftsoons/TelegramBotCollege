@@ -1,10 +1,6 @@
 import { useState, useLayoutEffect } from "react";
 
-import {
-  retrieveLaunchParams,
-  initUtils,
-  initMiniApp,
-} from "@telegram-apps/sdk";
+import { retrieveLaunchParams, initUtils } from "@telegram-apps/sdk";
 
 import {
   Placeholder,
@@ -26,7 +22,6 @@ import { Wait } from "./index";
 function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
   const [selectgroup, setselectgroup] = useState<string>();
 
-  const [miniApp] = initMiniApp();
   const utils = initUtils();
   const launchParams = retrieveLaunchParams();
 
@@ -103,7 +98,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
           <img src="logo.png" loading="eager" />
         </Placeholder>
         <div className="author">
-          <Caption className="authortext">
+          <Caption className="authortext" weight={"1"}>
             Авторы:{" "}
             <ins
               onClick={() => utils.openTelegramLink("https://t.me/shishkin666")}

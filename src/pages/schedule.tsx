@@ -2,11 +2,16 @@ import { useEffect, useLayoutEffect, useState } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import { initBackButton, retrieveLaunchParams } from "@telegram-apps/sdk";
+import {
+  initBackButton,
+  initUtils,
+  retrieveLaunchParams,
+} from "@telegram-apps/sdk";
 import {
   Accordion,
   Badge,
   Banner,
+  Button,
   Cell,
   IconButton,
   Multiselectable,
@@ -50,6 +55,7 @@ function Schedule({
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
   const lp = useLaunchParams();
+  const utils = initUtils();
 
   const infoteacher = GetInfoTeacher(activegroup);
 
@@ -157,6 +163,20 @@ function Schedule({
   }, []);
 
   //{lang.teacher}: {data[2]}
+
+  /*<div className="sferum">
+    
+    <IconButton
+      size="s"
+      onClick={() =>
+        utils.openLink(
+          "https://web.vk.me/convo/818778625"
+        )
+      }
+    >
+      {Icon("bomb")}
+    </IconButton>
+  </div>*/
 
   return info.length != 1 ? (
     <AnimatePresence>

@@ -380,7 +380,10 @@ export function GetInfoTeacher(TeacherName: string) {
           name: "Реставрация",
         },
       ],
-      subjects: [],
+      subjects: [
+        { code: null, name: "Иностранный язык" },
+        { code: null, name: "История" },
+      ],
       education: ["высшее"],
       category: "высшая",
       degree: "не имеет",
@@ -4056,7 +4059,7 @@ export function GetInfoTeacher(TeacherName: string) {
       subjects: [
         {
           code: "ОУП.03.",
-          name: " Математика",
+          name: "Математика",
         },
         {
           code: "ОУП.03",
