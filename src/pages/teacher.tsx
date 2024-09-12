@@ -60,7 +60,7 @@ function Teacher({
               subhead={info.rank}
               subtitle={`${lang.category}: ${info.category}`}
             >
-              {activegroup}
+              {info.fullname}
             </Cell>
             <Cell
               subhead={lang.profession}

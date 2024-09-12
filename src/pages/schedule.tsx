@@ -8,13 +8,20 @@ import {
   Badge,
   Banner,
   Cell,
+  IconButton,
   Multiselectable,
   Snackbar,
 } from "@telegram-apps/telegram-ui";
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
 import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionContent/AccordionContent";
 
-import { GetInfoGroup, GetDay, getlessoncall, ConvertTimeZone } from "../utils";
+import {
+  GetInfoGroup,
+  GetDay,
+  getlessoncall,
+  ConvertTimeZone,
+  GetInfoTeacher,
+} from "../utils";
 
 import axios from "axios";
 
@@ -43,6 +50,8 @@ function Schedule({
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
   const lp = useLaunchParams();
+
+  const infoteacher = GetInfoTeacher(activegroup);
 
   const [info, setinfo] = useState<
     Array<Array<[string, string, string, string]>>
@@ -147,6 +156,8 @@ function Schedule({
     return () => clearInterval(intervalId);
   }, []);
 
+  //{lang.teacher}: {data[2]}
+
   return info.length != 1 ? (
     <AnimatePresence>
       <motion.div
@@ -223,11 +234,27 @@ function Schedule({
             if (currentTab2 == "teachernext") {
               setCurrentTab2("teacherinfo");
               localStorage.setItem("Menu", "teacherinfo");
+              /*} else if (currentTab2 == "groupnext") {
+              if (!snackbar) {
+                setsnackbar(
+                  <Snackbar
+                    before={Icon("bug")}
+                    style={{ zIndex: "1" }}
+                    onClose={() => {
+                      setsnackbar(null);
+                    }}
+                    duration={4000}
+                    description={"Приносим извинения 🙏"}
+                  >
+                    Администрация колледжа запретила присылать замены 🔐
+                  </Snackbar>
+                );
+              }*/
             }
           }}
           description={currentTab2 == "groupnext" ? `${lang.subscribe}` : ""}
         >
-          {activegroup}
+          {infoteacher ? infoteacher.fullname : activegroup}
         </Cell>
         {info.map(
           (data2: Array<[string, string, string, string]>, index: number) => {
@@ -267,6 +294,7 @@ function Schedule({
                         index2: number
                       ) => {
                         if (index2 > 0) {
+                          const teacherinfo = GetInfoTeacher(data[2]);
                           return (
                             <Banner
                               key={index2}
@@ -286,7 +314,10 @@ function Schedule({
                                       );доделать позже*/
                                         }}
                                       >
-                                        {lang.teacher}: {data[2]}
+                                        {lang.teacher}:{" "}
+                                        {teacherinfo
+                                          ? teacherinfo.fullname
+                                          : data[2]}
                                       </span>
                                     ) : (
                                       `${lang.office}: ${data[2]}`
@@ -301,7 +332,10 @@ function Schedule({
                                         ); доделать позже*/
                                       }}
                                     >
-                                      {lang.teacher}: {data[2]}
+                                      {lang.teacher}:{" "}
+                                      {teacherinfo
+                                        ? teacherinfo.fullname
+                                        : data[2]}
                                     </span>
                                   ) : (
                                     `${lang.office}: ${data[2]}`

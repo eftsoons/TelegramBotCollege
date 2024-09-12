@@ -10,4 +10,5 @@ export default {
   plus: "e9b8",
   minus: "e995",
   cross: "e937",
+  bug: "e920",
 };

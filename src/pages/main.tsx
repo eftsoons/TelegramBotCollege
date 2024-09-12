@@ -1,8 +1,16 @@
 import { useState, useLayoutEffect } from "react";
 
-import { retrieveLaunchParams } from "@telegram-apps/sdk";
+import {
+  retrieveLaunchParams,
+  initUtils,
+  initMiniApp,
+} from "@telegram-apps/sdk";
 
-import { Placeholder, InlineButtons } from "@telegram-apps/telegram-ui";
+import {
+  Placeholder,
+  InlineButtons,
+  Caption,
+} from "@telegram-apps/telegram-ui";
 import { InlineButtonsItem } from "@telegram-apps/telegram-ui/dist/components/Blocks/InlineButtons/components/InlineButtonsItem/InlineButtonsItem";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -18,6 +26,8 @@ import { Wait } from "./index";
 function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
   const [selectgroup, setselectgroup] = useState<string>();
 
+  const [miniApp] = initMiniApp();
+  const utils = initUtils();
   const launchParams = retrieveLaunchParams();
 
   useLayoutEffect(() => {
@@ -42,8 +52,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
         style={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
-          height: "85vh",
+          flexDirection: "column",
         }}
       >
         <Placeholder
@@ -51,7 +60,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
           description={
             selectgroup != "" ? `${lang.subscribe}: ${selectgroup}` : ""
           }
-          style={{ paddingTop: "0", width: "100%" }}
+          style={{ paddingTop: "0" }}
           action={
             <>
               <InlineButtons style={{ width: "100%" }} mode="bezeled">
@@ -93,6 +102,25 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
         >
           <img src="logo.png" loading="eager" />
         </Placeholder>
+        <div className="author">
+          <Caption className="authortext">
+            Авторы:{" "}
+            <ins
+              onClick={() => {
+                utils.openTelegramLink("https://t.me/shishkin666");
+                miniApp.close();
+              }}
+            >
+              Александр Федорович
+            </ins>
+            ,{" "}
+            <ins
+              onClick={() => utils.openTelegramLink("https://t.me/shishkin666")}
+            >
+              Антон Ильиних
+            </ins>
+          </Caption>
+        </div>
       </motion.div>
     </AnimatePresence>
   ) : (

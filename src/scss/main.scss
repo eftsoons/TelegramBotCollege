@@ -33,3 +33,18 @@ img {
   display: flex;
   align-items: center;
 }
+
+.author {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16vh;
+
+  .authortext {
+    color: #939393;
+
+    ins {
+      cursor: pointer;
+    }
+  }
+}

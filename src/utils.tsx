@@ -344,6 +344,7 @@ export function ConvertTimeZone(date: Date, timezone: string) {
 export function GetInfoTeacher(TeacherName: string) {
   const teacherinfo = {
     "Абдуллаев Р.Ф.": {
+      fullname: "Абдуллаев Роял Фаталиевич",
       rank: "преподаватель",
       group: [
         {
@@ -379,10 +380,7 @@ export function GetInfoTeacher(TeacherName: string) {
           name: "Реставрация",
         },
       ],
-      subjects: [
-        { code: null, name: "Иностранный язык" },
-        { code: null, name: "История" },
-      ],
+      subjects: [],
       education: ["высшее"],
       category: "высшая",
       degree: "не имеет",
@@ -391,6 +389,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Бахтин А.И.": {
+      fullname: "Бахтин Александр Иванович",
       rank: "преподаватель",
       group: [
         {
@@ -440,6 +439,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Бахтина О.Н.": {
+      fullname: "Бахтина Олеся Николаевна",
       rank: "Заведующий отделением",
       group: [
         {
@@ -485,6 +485,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Белова Е.В.": {
+      fullname: "Белова Елена Викторовна",
       rank: "преподаватель",
       group: [
         {
@@ -530,6 +531,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Березкина Н.Ю.": {
+      fullname: "Березкина Наталия Юрьевна",
       rank: "преподаватель",
       group: [
         {
@@ -567,6 +569,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "33",
     },
     "Бледных О.В.": {
+      fullname: "Бледных Ольга Витальевна",
       rank: "преподаватель",
       group: [
         {
@@ -652,6 +655,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Бобылёва М.А.": {
+      fullname: "Бобылёва Марина Анатольевна",
       rank: "преподаватель",
       group: [
         {
@@ -701,6 +705,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "2",
     },
     "Бровков А.М.": {
+      fullname: "Бровков Александр Максимович",
       rank: "Педагог-организатор",
       group: [],
       subjects: [],
@@ -712,6 +717,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Бычай А.П.": {
+      fullname: "Бычай Алексей Петрович",
       rank: "преподаватель",
       group: [
         {
@@ -765,6 +771,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "25",
     },
     "Бычай Е.В.": {
+      fullname: "Бычай Елена Васильевна",
       rank: "преподаватель",
       group: [
         {
@@ -834,6 +841,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "6",
     },
     "Вагапова И.С.": {
+      fullname: "Вагапова Инна Станиславовна",
       rank: "преподаватель",
       group: [
         {
@@ -883,6 +891,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Василенкова М.С.": {
+      fullname: "Василенкова Милана Сергеевна",
       rank: "преподаватель",
       group: [
         {
@@ -920,6 +929,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "2",
     },
     "Винидиктов Д.Г.": {
+      fullname: "Винидиктов Дмитрий Григорьевич",
       rank: "преподаватель",
       group: [
         {
@@ -961,6 +971,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "13",
     },
     "Воробьева О.Ю.": {
+      fullname: "Воробьева Ольга Юрьевна",
       rank: "преподаватель",
       group: [
         {
@@ -1042,6 +1053,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Воронько Д.А.": {
+      fullname: "Воронько Дарья Аркадьевна",
       rank: "преподаватель",
       group: [
         {
@@ -1111,6 +1123,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Гегель П.В.": {
+      fullname: "Гегель Пауль Викторович",
       rank: "преподаватель",
       group: [
         {
@@ -1164,6 +1177,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Гейко Н.Е.": {
+      fullname: "Гейко Наталья Евгеньевна",
       rank: "преподаватель",
       group: [
         {
@@ -1205,6 +1219,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "15",
     },
     "Гризецкий А.А.": {
+      fullname: "Гризецкий Александр Анатольевич",
       rank: "заведующий отделом,\nпреподаватель",
       group: [
         {
@@ -1306,6 +1321,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Гриневич У.Г.": {
+      fullname: "Гриневич Ульяна Григорьевна",
       rank: "преподаватель",
       group: [
         {
@@ -1367,6 +1383,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Гуренко О.В.": {
+      fullname: "Гуренко Ольга Васильевна",
       rank: "преподаватель",
       group: [
         {
@@ -1432,6 +1449,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Древич Я.С.": {
+      fullname: "Древич Яна Степановна",
       rank: "преподаватель",
       group: [
         {
@@ -1473,6 +1491,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Дюжикова А.С.": {
+      fullname: "Дюжикова Алёна Сергеевна",
       rank: "преподаватель",
       group: [
         {
@@ -1554,6 +1573,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Жулега В.В.": {
+      fullname: "Жулега Вера Васильевна",
       rank: "преподаватель",
       group: [
         {
@@ -1599,6 +1619,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Зверев М.В.": {
+      fullname: "Зверев Максим Владимирович",
       rank: "заведующий отделением,\nпреподаватель",
       group: [
         {
@@ -1648,6 +1669,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "20",
     },
     "Калинин А.Н.": {
+      fullname: "Калинин Анатолий Николаевич",
       rank: "преподаватель",
       group: [
         {
@@ -1741,6 +1763,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Кархерт С.Э.": {
+      fullname: "Кархерт Светлана Эрвиновна",
       rank: "Социальный педагог",
       group: [],
       subjects: [],
@@ -1752,6 +1775,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Кириллова О.Б.": {
+      fullname: "Кириллова Ольга Борисовна",
       rank: "преподаватель",
       group: [
         {
@@ -1773,6 +1797,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Кислова Н.И.": {
+      fullname: "Кислова Наталья Ивановна",
       rank: "преподаватель",
       group: [
         {
@@ -1842,6 +1867,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Ковальчук А.С.": {
+      fullname: "Ковальчук Анна Сергеевна",
       rank: "преподаватель",
       group: [
         {
@@ -1891,6 +1917,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Ковалевский К.Ю.": {
+      fullname: "Ковалевский Константин Юрьевич",
       rank: "заведующий отделением,\nпреподаватель",
       group: [
         {
@@ -1932,6 +1959,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "12",
     },
     "Кондакова В.Е.": {
+      fullname: "Кондакова Виктория Евгеньевна",
       rank: "преподаватель",
       group: [
         {
@@ -1977,6 +2005,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Красильникова И.А.": {
+      fullname: "Красильникова Ирина Алаевна",
       rank: "преподаватель",
       group: [
         {
@@ -2034,6 +2063,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Крючкова Т.И.": {
+      fullname: "Крючкова Татьяна Ивановна",
       rank: "преподаватель",
       group: [
         {
@@ -2075,6 +2105,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "20",
     },
     "Куриленко Е.Н.": {
+      fullname: "Куриленко Елена Николаевна",
       rank: "преподаватель",
       group: [
         {
@@ -2116,6 +2147,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "25",
     },
     "Кучиева Н.А.": {
+      fullname: "Кучиева Наталия Анатольевна",
       rank: "преподаватель",
       group: [
         {
@@ -2201,6 +2233,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Лавринец А.В.": {
+      fullname: "Лавринец Анастасия Владимировна",
       rank: "советник директора по\nвоспитанию и\nвзаимодействию с\nдетскими общественными\nобъединениями",
       group: [],
       subjects: [],
@@ -2212,6 +2245,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Лунина А.В.": {
+      fullname: "Лунина Ангелина Владиславовна",
       rank: "преподаватель",
       group: [
         {
@@ -2281,6 +2315,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Мамаев П.В.": {
+      fullname: "Мамаев Павел Владимирович",
       rank: "преподаватель",
       group: [
         {
@@ -2342,6 +2377,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Мандрыкина О.Э.": {
+      fullname: "Мандрыкина Ольга Эрнестовна",
       rank: "преподаватель",
       group: [
         {
@@ -2399,6 +2435,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "21",
     },
     "Мартиросян Т.Э.": {
+      fullname: "Мартиросян Татьяна Эдвардовна",
       rank: "преподаватель",
       group: [
         {
@@ -2480,6 +2517,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Машковский Е.В.": {
+      fullname: "Машковский Евгений Валерьевич",
       rank: "преподаватель",
       group: [
         {
@@ -2525,6 +2563,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "11",
     },
     "Морылёв С.И.": {
+      fullname: "Морылёв Сергей Иванович",
       rank: "преподаватель",
       group: [
         {
@@ -2578,6 +2617,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "28",
     },
     "Морылёва Л.М.": {
+      fullname: "Морылёва Людмила Михайловна",
       rank: "преподаватель",
       group: [
         {
@@ -2659,6 +2699,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "28",
     },
     "Москалюк А.И.": {
+      fullname: "Москалюк Алексей Игоревич",
       rank: "преподаватель",
       group: [
         {
@@ -2680,6 +2721,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "9",
     },
     "Москаева С.С.": {
+      fullname: "Москаева Серафима Сергеевна",
       rank: "преподаватель",
       group: [
         {
@@ -2733,6 +2775,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Наумчик А.А.": {
+      fullname: "Наумчик Антонина Алексеевна",
       rank: "преподаватель",
       group: [
         {
@@ -2814,6 +2857,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Никитин С.С.": {
+      fullname: "Никитин Сергей Сергеевич",
       rank: "преподаватель",
       group: [
         {
@@ -2859,6 +2903,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Осипова Г.В.": {
+      fullname: "Осипова Галина Владимировна",
       rank: "преподаватель",
       group: [
         {
@@ -2924,6 +2969,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Петровская Е.В.": {
+      fullname: "Петровская Елена Витальевна",
       rank: "преподаватель",
       group: [
         {
@@ -2949,6 +2995,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "26",
     },
     "Пластова А.Л.": {
+      fullname: "Пластова Алена Леонидовна",
       rank: "преподаватель",
       group: [
         {
@@ -2986,6 +3033,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Пономарчук А.А.": {
+      fullname: "Пономарчук Анастасия Анатольевна",
       rank: "преподаватель",
       group: [
         {
@@ -3031,6 +3079,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Прокофьева Г.А.": {
+      fullname: "Прокофьева Галина Алексеевна",
       rank: "преподаватель",
       group: [
         {
@@ -3088,6 +3137,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Сахапов Ф.Р.": {
+      fullname: "Сахапов Фаим Ризайдинович",
       rank: "преподаватель",
       group: [
         {
@@ -3153,6 +3203,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "25",
     },
     "Сергеенко К.К.": {
+      fullname: "Сергеенко Ксения Константиновна",
       rank: "преподаватель",
       group: [
         {
@@ -3190,6 +3241,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "18",
     },
     "Сидорова О.А.": {
+      fullname: "Сидорова Оксана Андреевна",
       rank: "преподаватель",
       group: [
         {
@@ -3239,6 +3291,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Скворцов Д.С.": {
+      fullname: "Скворцов Дмитрий Сергеевич",
       rank: "преподаватель",
       group: [
         {
@@ -3320,6 +3373,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Смольникова В.Р.": {
+      fullname: "Смольникова Виктория Романовна",
       rank: "преподаватель",
       group: [
         {
@@ -3385,6 +3439,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Сорочан Ю.В.": {
+      fullname: "Сорочан Юлия Валерьевна",
       rank: "преподаватель",
       group: [
         {
@@ -3438,6 +3493,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "6",
     },
     "Трофимова Т.Д.": {
+      fullname: "Трофимова Татьяна Дмитриевна",
       rank: "преподаватель",
       group: [
         {
@@ -3503,6 +3559,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Трусов М.М.": {
+      fullname: "Трусов Михаил Михайлович",
       rank: "преподаватель",
       group: [
         {
@@ -3556,6 +3613,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "30",
     },
     "Тупиков П.А.": {
+      fullname: "Тупиков Павел Александрович",
       rank: "преподаватель",
       group: [
         {
@@ -3585,6 +3643,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Федорова А.Д.": {
+      fullname: "Федорова Анастасия Дмитриевна",
       rank: "Методист",
       group: [],
       subjects: [],
@@ -3596,6 +3655,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Федорова Т.В.": {
+      fullname: "Федорова Татьяна Вячеславовна",
       rank: "Заведующий отделением,\nпреподаватель",
       group: [
         {
@@ -3673,6 +3733,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Федотова Н.Ю.": {
+      fullname: "Федотова Нина Юрьевна",
       rank: "преподаватель",
       group: [
         {
@@ -3730,6 +3791,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "11",
     },
     "Филиппов М.Д.": {
+      fullname: "Филиппов Максим Дмитриевич",
       rank: "преподаватель",
       group: [
         {
@@ -3755,6 +3817,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Чернобылец О.И.": {
+      fullname: "Чернобылец Ольга Ивановна",
       rank: "преподаватель",
       group: [
         {
@@ -3792,6 +3855,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Чурсанова И.В.": {
+      fullname: "Чурсанова Ирина Владимировна",
       rank: "преподаватель",
       group: [
         {
@@ -3857,6 +3921,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Шевчук Д.В.": {
+      fullname: "Шевчук Дарья Владиславовна",
       rank: "преподаватель",
       group: [
         {
@@ -3910,6 +3975,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Шимина Н.Г.": {
+      fullname: "Шимина Наталья Георгиевна",
       rank: "преподаватель",
       group: [
         {
@@ -3967,6 +4033,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Юркина Н.А.": {
+      fullname: "Юркина Наталья Алексеевна",
       rank: "преподаватель",
       group: [
         {
@@ -4004,6 +4071,7 @@ export function GetInfoTeacher(TeacherName: string) {
       experiencework: "0",
     },
     "Яценко С.В.": {
+      fullname: "Яценко Сергей Вадимович",
       rank: "преподаватель",
       group: [
         {
@@ -4110,6 +4178,7 @@ export function GetInfoTeacher(TeacherName: string) {
     },
   } as {
     [key: string]: {
+      fullname: string;
       rank: string;
       group: Array<{ code: string; name: string }>;
       subjects: Array<{ code: string | null; name: string }>;
