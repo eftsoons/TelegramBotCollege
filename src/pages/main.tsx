@@ -111,7 +111,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
                 utils.openTelegramLink("https://t.me/tommyilinykh")
               }
             >
-              Антон Ильиних
+              Антон Ильиных
             </ins>
           </Caption>
         </div>
