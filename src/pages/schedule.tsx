@@ -59,6 +59,7 @@ function Schedule({
   const utils = initUtils();
 
   const infoteacher = GetInfoTeacher(activegroup);
+  const idinfosferum = infoteacher ? GetSferum(activegroup) : null;
 
   const [info, setinfo] = useState<
     Array<Array<[string, string, string, string]>>
@@ -274,6 +275,85 @@ function Schedule({
             }
           }}
           description={currentTab2 == "groupnext" ? `${lang.subscribe}` : ""}
+          after={
+            idinfosferum && (
+              <Button
+                size="s"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (idinfosferum != 0) {
+                    if (!snackbar) {
+                      setsnackbar(
+                        <Snackbar
+                          after={
+                            <IconButton
+                              onClick={() => {
+                                utils.openLink(
+                                  `https://web.vk.me/convo/${idinfosferum}`,
+                                  { tryBrowser: true }
+                                );
+                              }}
+                            >
+                              Согласен
+                            </IconButton>
+                          }
+                          style={{ zIndex: "1" }}
+                          onClose={() => {
+                            //он баганный
+                          }}
+                          duration={5000}
+                          description={
+                            <>
+                              <span>
+                                Для доступа вам необходимо иметь сферум и
+                                подключиться к нашему колледжу.
+                              </span>
+                              <br />
+                              <br />
+                              <span>
+                                Совет от нас - пишите преподавателям только в
+                                рабочее время.
+                              </span>
+                            </>
+                          }
+                        >
+                          {"Важно!"}
+                        </Snackbar>
+                      );
+
+                      setTimeout(() => {
+                        setsnackbar(null);
+                      }, 5150); // так по правде лучше
+                    }
+                  } else {
+                    if (!snackbar) {
+                      setsnackbar(
+                        <Snackbar
+                          before={Icon("bug")}
+                          style={{ zIndex: "1" }}
+                          onClose={() => {
+                            //он баганный
+                          }}
+                          duration={2000}
+                        >
+                          {"Преподаватель еще не подключен к сферуму"}
+                        </Snackbar>
+                      );
+
+                      setTimeout(() => {
+                        setsnackbar(null);
+                      }, 2150); // так по правде лучше
+                    }
+                  }
+                }}
+                style={{
+                  opacity: idinfosferum != 0 ? "1" : "0.35",
+                }}
+              >
+                Написать
+              </Button>
+            )
+          }
         >
           {infoteacher ? infoteacher.fullname : activegroup}
         </Cell>

@@ -85,8 +85,6 @@ function App() {
               <Teacher
                 setCurrentTab2={setCurrentTab2}
                 activegroup={activegroup}
-                snackbar={snackbar}
-                setsnackbar={setsnackbar}
               />
             ) : (
               <Group
