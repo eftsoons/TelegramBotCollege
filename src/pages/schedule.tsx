@@ -2,11 +2,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import {
-  initBackButton,
-  initUtils,
-  retrieveLaunchParams,
-} from "@telegram-apps/sdk";
+import { initBackButton, retrieveLaunchParams } from "@telegram-apps/sdk";
 import {
   Accordion,
   Badge,
@@ -31,7 +27,7 @@ import {
 
 import axios from "axios";
 
-import { Icon } from "../components";
+import { Icon, SferumTeacher } from "../components";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
@@ -56,10 +52,9 @@ function Schedule({
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
   const lp = useLaunchParams();
-  const utils = initUtils();
 
   const infoteacher = GetInfoTeacher(activegroup);
-  const idinfosferum = infoteacher ? GetSferum(activegroup) : null;
+  const idinfosferum = GetSferum(activegroup);
 
   const [info, setinfo] = useState<
     Array<Array<[string, string, string, string]>>
@@ -276,82 +271,13 @@ function Schedule({
           }}
           description={currentTab2 == "groupnext" ? `${lang.subscribe}` : ""}
           after={
-            idinfosferum && (
-              <Button
-                size="s"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (idinfosferum != 0) {
-                    if (!snackbar) {
-                      setsnackbar(
-                        <Snackbar
-                          after={
-                            <IconButton
-                              onClick={() => {
-                                utils.openLink(
-                                  `https://web.vk.me/convo/${idinfosferum}`,
-                                  { tryInstantView: false }
-                                );
-                              }}
-                            >
-                              Согласен
-                            </IconButton>
-                          }
-                          style={{ zIndex: "1" }}
-                          onClose={() => {
-                            //он баганный
-                          }}
-                          duration={5000}
-                          description={
-                            <>
-                              <span>
-                                Для доступа вам необходимо иметь сферум и
-                                подключиться к нашему колледжу.
-                              </span>
-                              <br />
-                              <br />
-                              <span>
-                                Совет от нас - пишите преподавателям только в
-                                рабочее время.
-                              </span>
-                            </>
-                          }
-                        >
-                          {"Важно!"}
-                        </Snackbar>
-                      );
-
-                      setTimeout(() => {
-                        setsnackbar(null);
-                      }, 5150); // так по правде лучше
-                    }
-                  } else {
-                    if (!snackbar) {
-                      setsnackbar(
-                        <Snackbar
-                          before={Icon("bug")}
-                          style={{ zIndex: "1" }}
-                          onClose={() => {
-                            //он баганный
-                          }}
-                          duration={2000}
-                        >
-                          {"Преподаватель еще не подключен к сферуму"}
-                        </Snackbar>
-                      );
-
-                      setTimeout(() => {
-                        setsnackbar(null);
-                      }, 2150); // так по правде лучше
-                    }
-                  }
-                }}
-                style={{
-                  opacity: idinfosferum != 0 ? "1" : "0.35",
-                }}
-              >
-                Написать
-              </Button>
+            currentTab2 == "teachernext" && (
+              <SferumTeacher
+                idteachersferum={idinfosferum}
+                snackbar={snackbar}
+                setsnackbar={setsnackbar}
+                text="Написать"
+              />
             )
           }
         >
@@ -397,6 +323,7 @@ function Schedule({
                         if (index2 > 0) {
                           const teacherinfo = GetInfoTeacher(data[2]);
                           const idteachersferum = GetSferum(data[2]);
+
                           return (
                             <Banner
                               key={index2}
@@ -497,91 +424,27 @@ function Schedule({
                                     ""
                                   )}
                                 </div>
-                                {idteachersferum && (
-                                  <Button
-                                    size="s"
-                                    onClick={() => {
-                                      /*utils.openLink(
-                                          `https://web.vk.me/convo/${idteachersferum.idsferum}`
-                                        )*/
-                                      if (idteachersferum != 0) {
-                                        if (!snackbar) {
-                                          setsnackbar(
-                                            <Snackbar
-                                              after={
-                                                <IconButton
-                                                  onClick={() =>
-                                                    utils.openLink(
-                                                      `https://web.vk.me/convo/${idteachersferum}`,
-                                                      { tryBrowser: true }
-                                                    )
-                                                  }
-                                                >
-                                                  Согласен
-                                                </IconButton>
-                                              }
-                                              style={{ zIndex: "1" }}
-                                              onClose={() => {
-                                                //он баганный
-                                              }}
-                                              duration={5000}
-                                              description={
-                                                <>
-                                                  <span>
-                                                    Для доступа вам необходимо
-                                                    иметь сферум и подключиться
-                                                    к нашему колледжу.
-                                                  </span>
-                                                  <br />
-                                                  <br />
-                                                  <span>
-                                                    Совет от нас - пишите
-                                                    преподавателям только в
-                                                    рабочее время.
-                                                  </span>
-                                                </>
-                                              }
-                                            >
-                                              {"Важно!"}
-                                            </Snackbar>
-                                          );
-
-                                          setTimeout(() => {
-                                            setsnackbar(null);
-                                          }, 5150); // так по правде лучше
-                                        }
-                                      } else {
-                                        if (!snackbar) {
-                                          setsnackbar(
-                                            <Snackbar
-                                              before={Icon("bug")}
-                                              style={{ zIndex: "1" }}
-                                              onClose={() => {
-                                                //он баганный
-                                              }}
-                                              duration={2000}
-                                            >
-                                              {
-                                                "Преподаватель еще не подключен к сферуму"
-                                              }
-                                            </Snackbar>
-                                          );
-
-                                          setTimeout(() => {
-                                            setsnackbar(null);
-                                          }, 2150); // так по правде лучше
-                                        }
-                                      }
-                                    }}
-                                    style={{
-                                      marginTop: "1rem",
-                                      opacity:
-                                        idteachersferum != 0 ? "1" : "0.35",
-                                    }}
-                                  >
-                                    Написать преподавателю
-                                  </Button>
-                                )}
+                                {currentTab2 == "groupnext"
+                                  ? data[3] && (
+                                      <SferumTeacher
+                                        idteachersferum={idteachersferum}
+                                        snackbar={snackbar}
+                                        setsnackbar={setsnackbar}
+                                        text="Написать"
+                                        margin={true}
+                                      />
+                                    )
+                                  : currentTab2 == "officenext"
+                                  ? data[2] && (
+                                      <SferumTeacher
+                                        idteachersferum={idteachersferum}
+                                        snackbar={snackbar}
+                                        setsnackbar={setsnackbar}
+                                        text="Написать"
+                                        margin={true}
+                                      />
+                                    )
+                                  : ""}
                               </div>
                             </Banner>
                           );

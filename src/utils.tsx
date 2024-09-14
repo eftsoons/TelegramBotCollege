@@ -4358,5 +4358,5 @@ export function GetSferum(teacher: string) {
     [key: string]: number;
   };
 
-  return idsferum[teacher];
+  return idsferum[teacher] ? idsferum[teacher] : 0;
 }
