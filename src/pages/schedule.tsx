@@ -430,7 +430,7 @@ function Schedule({
                                         idteachersferum={idteachersferum}
                                         snackbar={snackbar}
                                         setsnackbar={setsnackbar}
-                                        text="Написать"
+                                        text="Написать преподавателю"
                                         margin={true}
                                       />
                                     )
@@ -440,7 +440,7 @@ function Schedule({
                                         idteachersferum={idteachersferum}
                                         snackbar={snackbar}
                                         setsnackbar={setsnackbar}
-                                        text="Написать"
+                                        text="Написать преподавателю"
                                         margin={true}
                                       />
                                     )
