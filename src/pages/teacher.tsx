@@ -80,7 +80,8 @@ function Teacher({
                               <IconButton
                                 onClick={() =>
                                   utils.openLink(
-                                    `https://web.vk.me/convo/${idinfosferum}`
+                                    `https://web.vk.me/convo/${idinfosferum}`,
+                                    { tryBrowser: true }
                                   )
                                 }
                               >
@@ -93,7 +94,18 @@ function Teacher({
                             }}
                             duration={5000}
                             description={
-                              "Для доступа вам необходимо иметь сферум и подключиться к нашему колледжу"
+                              <>
+                                <span>
+                                  Для доступа вам необходимо иметь сферум и
+                                  подключиться к нашему колледжу.
+                                </span>
+                                <br />
+                                <br />
+                                <span>
+                                  Совет от нас - пишите преподавателям только в
+                                  рабочее время.
+                                </span>
+                              </>
                             }
                           >
                             {"Важно!"}

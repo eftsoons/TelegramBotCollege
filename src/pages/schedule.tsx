@@ -432,7 +432,8 @@ function Schedule({
                                                 <IconButton
                                                   onClick={() =>
                                                     utils.openLink(
-                                                      `https://web.vk.me/convo/${idteachersferum}`
+                                                      `https://web.vk.me/convo/${idteachersferum}`,
+                                                      { tryBrowser: true }
                                                     )
                                                   }
                                                 >
