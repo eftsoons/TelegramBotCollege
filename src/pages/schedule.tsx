@@ -290,7 +290,7 @@ function Schedule({
                               onClick={() => {
                                 utils.openLink(
                                   `https://web.vk.me/convo/${idinfosferum}`,
-                                  { tryBrowser: true }
+                                  { tryInstantView: false }
                                 );
                               }}
                             >
