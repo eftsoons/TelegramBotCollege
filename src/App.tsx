@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { initMiniApp, postEvent } from "@telegram-apps/sdk";
+import { initMiniApp, postEvent, initCloudStorage } from "@telegram-apps/sdk";
 
 import {
   bindMiniAppCSSVars,
@@ -21,6 +21,7 @@ import lang from "./lang";
 
 import axios from "axios";
 import axiosRetry from "axios-retry";
+import Prefects from "./pages/prefects";
 axiosRetry(axios, {
   retries: Infinity,
   retryDelay: axiosRetry.exponentialDelay,
@@ -66,6 +67,10 @@ function App() {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
 
+  //const cloudStorage = initCloudStorage();
+
+  //cloudStorage.delete("my-key").then(() => console.log("Key was deleted")); для старост
+
   return (
     <AppRoot
       appearance={miniApp.isDark ? "dark" : "light"}
@@ -80,6 +85,8 @@ function App() {
               <Teacher
                 setCurrentTab2={setCurrentTab2}
                 activegroup={activegroup}
+                snackbar={snackbar}
+                setsnackbar={setsnackbar}
               />
             ) : (
               <Group
@@ -101,8 +108,10 @@ function App() {
           )
         ) : currentTab == "call" ? (
           <Call />
-        ) : (
+        ) : currentTab == "pixelbattle" ? (
           <PixelBattle />
+        ) : (
+          <Prefects />
         )}
 
         <Tabbar
@@ -130,6 +139,14 @@ function App() {
             {Icon("call")}
           </Tabbar.Item>
           {/*<Tabbar.Item
+            id="prefects"
+            text={"Для старост"}
+            selected={"prefects" === currentTab}
+            onClick={() => setCurrentTab("prefects")}
+          >
+            {Icon("prefects")}
+          </Tabbar.Item>
+          <Tabbar.Item
             id="pixel"
             text={"Pixel Battle"}
             selected={"pixel" === currentTab}

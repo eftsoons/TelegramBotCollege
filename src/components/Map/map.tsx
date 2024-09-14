@@ -18,7 +18,7 @@ class Map extends Component {
       });
     }
 
-    this.test[555].color = "white";
+    this.test[549].color = "white";
     this.test[556].color = "white";
     this.test[557].color = "white";
   }
@@ -50,12 +50,13 @@ class Map extends Component {
           this.test[(x + y) * 5].color = "white";
 
           const ctx = canvas.getContext("2d");
-          if (ctx) {
+          /*if (ctx) {
             this.test.map((data: any) => {
               ctx.fillStyle = data.color;
               ctx.fillRect(data.x, data.y, 10, 10);
             });
-          }
+          }*/
+          console.log(this.test);
           console.log(x, y);
         }}
       />

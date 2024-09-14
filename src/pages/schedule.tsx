@@ -26,6 +26,7 @@ import {
   getlessoncall,
   ConvertTimeZone,
   GetInfoTeacher,
+  GetSferum,
 } from "../utils";
 
 import axios from "axios";
@@ -315,6 +316,7 @@ function Schedule({
                       ) => {
                         if (index2 > 0) {
                           const teacherinfo = GetInfoTeacher(data[2]);
+                          const idteachersferum = GetSferum(data[2]);
                           return (
                             <Banner
                               key={index2}
@@ -379,31 +381,127 @@ function Schedule({
                               />
                             }*/
                             >
-                              <Badge type="number" mode="primary" large={true}>
-                                {Number(data[0])
-                                  ? lessoncall[
-                                      index == 0 ? 0 : index == 5 ? 2 : 1
-                                    ][Number(data[0]) - 1]
-                                  : data[0]}
-                              </Badge>
-                              {today - 1 == index ? (
-                                <div className="call">
-                                  {Number(data[0])
-                                    ? getlessoncall(
-                                        lessoncall[
+                              <div className="infolesson">
+                                <div className="callmain">
+                                  <Badge
+                                    type="number"
+                                    mode="primary"
+                                    large={true}
+                                  >
+                                    {Number(data[0])
+                                      ? lessoncall[
                                           index == 0 ? 0 : index == 5 ? 2 : 1
-                                        ][Number(data[0]) - 1],
-                                        timekaliningrad
-                                      )
-                                    : getlessoncall(
-                                        data[0],
-                                        timekaliningrad,
-                                        "."
-                                      )}
+                                        ][Number(data[0]) - 1]
+                                      : data[0]}
+                                  </Badge>
+                                  {today - 1 == index ? (
+                                    <div className="call">
+                                      {Number(data[0])
+                                        ? getlessoncall(
+                                            lessoncall[
+                                              index == 0
+                                                ? 0
+                                                : index == 5
+                                                ? 2
+                                                : 1
+                                            ][Number(data[0]) - 1],
+                                            timekaliningrad
+                                          )
+                                        : getlessoncall(
+                                            data[0],
+                                            timekaliningrad,
+                                            "."
+                                          )}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
                                 </div>
-                              ) : (
-                                ""
-                              )}
+                                {idteachersferum && (
+                                  <Button
+                                    size="s"
+                                    onClick={() => {
+                                      /*utils.openLink(
+                                          `https://web.vk.me/convo/${idteachersferum.idsferum}`
+                                        )*/
+                                      if (idteachersferum != 0) {
+                                        if (!snackbar) {
+                                          setsnackbar(
+                                            <Snackbar
+                                              after={
+                                                <IconButton
+                                                  onClick={() =>
+                                                    utils.openLink(
+                                                      `https://web.vk.me/convo/${idteachersferum}`
+                                                    )
+                                                  }
+                                                >
+                                                  Согласен
+                                                </IconButton>
+                                              }
+                                              style={{ zIndex: "1" }}
+                                              onClose={() => {
+                                                //он баганный
+                                              }}
+                                              duration={5000}
+                                              description={
+                                                <>
+                                                  <span>
+                                                    Для доступа вам необходимо
+                                                    иметь сферум и подключиться
+                                                    к нашему колледжу.
+                                                  </span>
+                                                  <br />
+                                                  <br />
+                                                  <span>
+                                                    Совет от нас - пишите
+                                                    преподавателям только в
+                                                    рабочее время.
+                                                  </span>
+                                                </>
+                                              }
+                                            >
+                                              {"Важно!"}
+                                            </Snackbar>
+                                          );
+
+                                          setTimeout(() => {
+                                            setsnackbar(null);
+                                          }, 5150); // так по правде лучше
+                                        }
+                                      } else {
+                                        if (!snackbar) {
+                                          setsnackbar(
+                                            <Snackbar
+                                              before={Icon("bug")}
+                                              style={{ zIndex: "1" }}
+                                              onClose={() => {
+                                                //он баганный
+                                              }}
+                                              duration={2000}
+                                            >
+                                              {
+                                                "Преподаватель еще не подключен к сферуму"
+                                              }
+                                            </Snackbar>
+                                          );
+
+                                          setTimeout(() => {
+                                            setsnackbar(null);
+                                          }, 2150); // так по правде лучше
+                                        }
+                                      }
+                                    }}
+                                    style={{
+                                      marginTop: "1rem",
+                                      opacity:
+                                        idteachersferum != 0 ? "1" : "0.35",
+                                    }}
+                                  >
+                                    Написать преподавателю
+                                  </Button>
+                                )}
+                              </div>
                             </Banner>
                           );
                         }

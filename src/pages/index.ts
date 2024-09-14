@@ -5,5 +5,6 @@ import Schedule from "./schedule";
 import Teacher from "./teacher";
 import Wait from "./wait";
 import PixelBattle from "./pixelbattle";
+import Prefects from "./prefects";
 
-export { Call, Main, Group, Schedule, Teacher, Wait, PixelBattle };
+export { Call, Main, Group, Schedule, Teacher, Wait, PixelBattle, Prefects };

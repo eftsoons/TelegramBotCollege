@@ -1,17 +1,20 @@
-import { initBackButton } from "@telegram-apps/sdk";
+import { initBackButton, initUtils } from "@telegram-apps/sdk";
 import {
   Accordion,
   Cell,
   Placeholder,
   Section,
   Text,
+  Button,
+  Snackbar,
+  IconButton,
 } from "@telegram-apps/telegram-ui";
 import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionContent/AccordionContent";
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-import { GetInfoTeacher } from "../utils";
+import { GetInfoTeacher, GetSferum } from "../utils";
 
 import { Icon } from "../components";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
@@ -21,17 +24,23 @@ import lang from "../lang";
 function Teacher({
   setCurrentTab2,
   activegroup,
+  snackbar,
+  setsnackbar,
 }: {
   setCurrentTab2: Function;
   activegroup: string;
+  snackbar: null | Element;
+  setsnackbar: Function;
 }) {
   const [opengroup, setopengroup] = useState(false);
   const [opensubjects, setopensubjects] = useState(false);
   const [openeducation, setopeneducation] = useState(false);
 
   const [backButton] = initBackButton();
+  const utils = initUtils();
 
   const info = GetInfoTeacher(activegroup);
+  const idinfosferum = GetSferum(activegroup);
 
   const lp = useLaunchParams();
 
@@ -59,6 +68,71 @@ function Teacher({
               description={`${lang.academidegree}: ${info.degree}`}
               subhead={info.rank}
               subtitle={`${lang.category}: ${info.category}`}
+              after={
+                <Button
+                  size="s"
+                  onClick={() => {
+                    if (idinfosferum != 0) {
+                      if (!snackbar) {
+                        setsnackbar(
+                          <Snackbar
+                            after={
+                              <IconButton
+                                onClick={() =>
+                                  utils.openLink(
+                                    `https://web.vk.me/convo/${idinfosferum}`
+                                  )
+                                }
+                              >
+                                Согласен
+                              </IconButton>
+                            }
+                            style={{ zIndex: "1" }}
+                            onClose={() => {
+                              //он баганный
+                            }}
+                            duration={5000}
+                            description={
+                              "Для доступа вам необходимо иметь сферум и подключиться к нашему колледжу"
+                            }
+                          >
+                            {"Важно!"}
+                          </Snackbar>
+                        );
+
+                        setTimeout(() => {
+                          setsnackbar(null);
+                        }, 5150); // так по правде лучше
+                      }
+                    } else {
+                      if (!snackbar) {
+                        setsnackbar(
+                          <Snackbar
+                            before={Icon("bug")}
+                            style={{ zIndex: "1" }}
+                            onClose={() => {
+                              //он баганный
+                            }}
+                            duration={2000}
+                          >
+                            {"Преподаватель еще не подключен к сферуму"}
+                          </Snackbar>
+                        );
+
+                        setTimeout(() => {
+                          setsnackbar(null);
+                        }, 2150); // так по правде лучше
+                      }
+                    }
+                  }}
+                  style={{
+                    marginTop: "1rem",
+                    opacity: idinfosferum != 0 ? "1" : "0.35",
+                  }}
+                >
+                  Написать
+                </Button>
+              }
             >
               {info.fullname}
             </Cell>

@@ -11,4 +11,5 @@ export default {
   minus: "e995",
   cross: "e937",
   bug: "e920",
+  prefects: "e91d",
 };
