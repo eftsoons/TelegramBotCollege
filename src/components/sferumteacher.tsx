@@ -20,7 +20,7 @@ export default ({
   return (
     <Button
       size="s"
-      onClick={() => {
+      onClick={(e) => {
         if (idteachersferum != 0) {
           if (!snackbar) {
             setsnackbar(
@@ -85,6 +85,7 @@ export default ({
             }, 2150); // так по правде лучше
           }
         }
+        e.stopPropagation();
       }}
       style={{
         marginTop: margin ? "1rem" : "0",
