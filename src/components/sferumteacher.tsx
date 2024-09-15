@@ -1,5 +1,5 @@
 import { initUtils } from "@telegram-apps/sdk";
-import { Button, IconButton, Snackbar } from "@telegram-apps/telegram-ui";
+import { Button, Snackbar } from "@telegram-apps/telegram-ui";
 import { Icon } from ".";
 
 export default ({
@@ -26,16 +26,13 @@ export default ({
             setsnackbar(
               <Snackbar
                 after={
-                  <IconButton
-                    onClick={() =>
-                      utils.openLink(
-                        `https://web.vk.me/convo/${idteachersferum}`,
-                        { tryBrowser: true }
-                      )
-                    }
+                  <Button
+                    Component="a"
+                    href={`https://web.vk.me/convo/${idteachersferum}`}
+                    target="_blank"
                   >
                     Согласен
-                  </IconButton>
+                  </Button>
                 }
                 style={{ zIndex: "1" }}
                 onClose={() => {
