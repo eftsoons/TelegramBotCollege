@@ -1,4 +1,4 @@
-import { initUtils } from "@telegram-apps/sdk";
+import { initUtils, postEvent } from "@telegram-apps/sdk";
 import { Button, IconButton, Snackbar } from "@telegram-apps/telegram-ui";
 import { Icon } from ".";
 
@@ -28,10 +28,11 @@ export default ({
                 after={
                   <IconButton
                     onClick={() =>
-                      utils.openLink(
-                        `https://web.vk.me/convo/${idteachersferum}`,
-                        { tryBrowser: true }
-                      )
+                      postEvent("web_app_open_link", {
+                        url: `https://web.vk.me/convo/${idteachersferum}`,
+                        try_browser: true,
+                        try_instant_view: false,
+                      })
                     }
                   >
                     Согласен
