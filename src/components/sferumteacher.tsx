@@ -20,20 +20,19 @@ export default ({
   return (
     <Button
       size="s"
-      onClick={() => {
+      onClick={(e) => {
         if (idteachersferum != 0) {
           if (!snackbar) {
             setsnackbar(
               <Snackbar
                 after={
                   <IconButton
-                    onClick={(e) => {
+                    onClick={() =>
                       utils.openLink(
                         `https://web.vk.me/convo/${idteachersferum}`,
                         { tryBrowser: true }
-                      );
-                      e.stopPropagation();
-                    }}
+                      )
+                    }
                   >
                     Согласен
                   </IconButton>
@@ -86,6 +85,7 @@ export default ({
             }, 2150); // так по правде лучше
           }
         }
+        e.stopPropagation();
       }}
       style={{
         marginTop: margin ? "1rem" : "0",
