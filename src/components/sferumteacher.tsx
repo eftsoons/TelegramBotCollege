@@ -27,12 +27,13 @@ export default ({
               <Snackbar
                 after={
                   <IconButton
-                    onClick={() =>
+                    onClick={(e) => {
                       utils.openLink(
                         `https://web.vk.me/convo/${idteachersferum}`,
                         { tryBrowser: true }
-                      )
-                    }
+                      );
+                      e.stopPropagation();
+                    }}
                   >
                     Согласен
                   </IconButton>
