@@ -63,7 +63,7 @@ function Teacher({
               {info.fullname}
             </Cell>
             <Cell
-              subhead={lang.profession}
+              subhead={lang.workexperience}
               subtitle={`${lang.pedagogical}: ${info.experiencecollege} ${lang.years}`}
               description={`${lang.profession}: ${info.experiencework} ${lang.years}`}
             >
