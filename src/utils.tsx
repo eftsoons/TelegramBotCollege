@@ -318,6 +318,16 @@ export function GetInfoGroup(
       });
     }
 
+    info.map((data) => {
+      data.sort((a: object | string) => {
+        if (typeof a == "object") {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+    });
+
     return info;
   } catch {}
 }
