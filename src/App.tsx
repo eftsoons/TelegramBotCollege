@@ -114,7 +114,7 @@ function App() {
       <List>
         {currentTab == "main" ? (
           currentTab2 == "main" ? (
-            infogroup ? (
+            infogroup || infogroup == "" ? (
               <Main setCurrentTab2={setCurrentTab2} infogroup={infogroup} />
             ) : (
               <Wait />
@@ -125,7 +125,7 @@ function App() {
                 setCurrentTab2={setCurrentTab2}
                 activegroup={activegroup}
               />
-            ) : JsonData && infogroup ? (
+            ) : JsonData && (infogroup || infogroup == "") ? (
               <Group
                 setactivegroup={setactivegroup}
                 currentTab2={currentTab2}
@@ -137,7 +137,7 @@ function App() {
             ) : (
               <Wait />
             )
-          ) : JsonData && infogroup ? (
+          ) : JsonData && (infogroup || infogroup == "") ? (
             <Schedule
               activegroup={activegroup}
               currentTab2={currentTab2}
@@ -150,7 +150,7 @@ function App() {
               setinfogroup={setinfogroup}
             />
           ) : (
-            <Wait />
+            "asd"
           )
         ) : currentTab == "call" ? (
           <Call />
