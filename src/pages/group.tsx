@@ -10,58 +10,43 @@ import { InlineButtonsItem } from "@telegram-apps/telegram-ui/dist/components/Bl
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import { initBackButton, retrieveLaunchParams } from "@telegram-apps/sdk";
-
-import { GetGroup } from "../utils";
+import { initBackButton } from "@telegram-apps/sdk";
 
 import { Icon } from "../components";
-
-import axios from "axios";
 
 import { Wait } from "./index";
 
 import lang from "../lang";
+
+import { GetGroup } from "../utils";
 
 function Group({
   currentTab2,
   setCurrentTab2,
   setactivegroup,
   setactiveindex,
+  JsonDataResponse,
+  infogroup,
 }: {
   currentTab2: string;
   setCurrentTab2: Function;
   setactivegroup: Function;
   setactiveindex: Function;
+  JsonDataResponse: Record<string, string>[];
+  infogroup: string;
 }) {
-  const [JsonData, setJsonData] = useState<{ name: string; key: number }[][]>([
-    [],
-  ]);
-  const [infogroup, setinfogroup] = useState<string>("");
+  const [JsonData, setJsonData] =
+    useState<Array<Array<{ name: string; key: number }>>>();
   const [searchgroup, setsearchgroup] = useState("");
 
   const [backButton] = initBackButton();
-  const launchParams = retrieveLaunchParams();
 
   useLayoutEffect(() => {
-    async function fetchData() {
-      const JsonData = await axios.post(import.meta.env.VITE_API_URL, {
-        initData: launchParams.initDataRaw,
-      });
+    const search = localStorage.getItem("Search");
 
-      const group = await axios.post(`${import.meta.env.VITE_API_URL}/group`, {
-        initData: launchParams.initDataRaw,
-      });
+    setsearchgroup(search ? search : "");
 
-      setinfogroup(group.data);
-
-      setJsonData(GetGroup(currentTab2, JsonData.data));
-
-      const search = localStorage.getItem("Search");
-
-      setsearchgroup(search ? search : "");
-    }
-
-    fetchData();
+    setJsonData(GetGroup(currentTab2, JsonDataResponse));
   }, []);
 
   useEffect(() => {
@@ -74,7 +59,7 @@ function Group({
     });
   }, []);
 
-  return JsonData[0].length ? (
+  return JsonData ? (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}

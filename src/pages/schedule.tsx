@@ -7,9 +7,7 @@ import {
   Accordion,
   Badge,
   Banner,
-  Button,
   Cell,
-  IconButton,
   Multiselectable,
   Snackbar,
 } from "@telegram-apps/telegram-ui";
@@ -32,8 +30,6 @@ import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
 
-import { Wait } from "./index";
-
 function Schedule({
   activegroup,
   currentTab2,
@@ -41,6 +37,9 @@ function Schedule({
   activeindex,
   snackbar,
   setsnackbar,
+  JsonData,
+  infogroup,
+  setinfogroup,
 }: {
   activegroup: string;
   currentTab2: string;
@@ -48,6 +47,9 @@ function Schedule({
   activeindex: string;
   snackbar: null | Element;
   setsnackbar: Function;
+  JsonData: Record<string, string>[];
+  infogroup: string;
+  setinfogroup: Function;
 }) {
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
@@ -59,7 +61,6 @@ function Schedule({
   const [info, setinfo] = useState<
     Array<Array<[string, string, string, string]>>
   >([[]]);
-  const [infogroup, setinfogroup] = useState<string>("");
   const [timekaliningrad, settimekaliningrad] = useState<Date>(
     ConvertTimeZone(new Date(), "Europe/Kaliningrad")
   );
@@ -105,39 +106,20 @@ function Schedule({
   ];
 
   useLayoutEffect(() => {
-    async function fetchData() {
-      const JsonData = await axios.post(import.meta.env.VITE_API_URL, {
-        initData: launchParams.initDataRaw,
-      });
+    const info = GetInfoGroup(currentTab2, activegroup, activeindex, JsonData);
 
-      const group = await axios.post(`${import.meta.env.VITE_API_URL}/group`, {
-        initData: launchParams.initDataRaw,
-      });
-
-      setinfogroup(group.data);
-
-      const info = GetInfoGroup(
-        currentTab2,
-        activegroup,
-        activeindex,
-        JsonData.data
-      );
-
-      if (info) {
-        setinfo(info);
-      } else {
-        setCurrentTab2(currentTab2.split("next")[0]);
-        localStorage.setItem("Menu", currentTab2.split("next")[0]);
-      }
-
-      const expand = localStorage.getItem("Expand");
-
-      setexpand(
-        expand ? JSON.parse(expand) : [false, false, false, false, false, false]
-      );
+    if (info) {
+      setinfo(info);
+    } else {
+      setCurrentTab2(currentTab2.split("next")[0]);
+      localStorage.setItem("Menu", currentTab2.split("next")[0]);
     }
 
-    fetchData();
+    const expand = localStorage.getItem("Expand");
+
+    setexpand(
+      expand ? JSON.parse(expand) : [false, false, false, false, false, false]
+    );
   }, []);
 
   useEffect(() => {
@@ -175,7 +157,7 @@ function Schedule({
     </IconButton>
   </div>*/
 
-  return info.length != 1 ? (
+  return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
@@ -459,8 +441,6 @@ function Schedule({
         )}
       </motion.div>
     </AnimatePresence>
-  ) : (
-    <Wait />
   );
 }
 

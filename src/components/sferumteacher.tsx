@@ -1,4 +1,4 @@
-import { initUtils, postEvent } from "@telegram-apps/sdk";
+import { initUtils } from "@telegram-apps/sdk";
 import { Button, IconButton, Snackbar } from "@telegram-apps/telegram-ui";
 import { Icon } from ".";
 
@@ -20,7 +20,7 @@ export default ({
   return (
     <Button
       size="s"
-      onClick={(e) => {
+      onClick={() => {
         if (idteachersferum != 0) {
           if (!snackbar) {
             setsnackbar(
@@ -28,11 +28,10 @@ export default ({
                 after={
                   <IconButton
                     onClick={() =>
-                      postEvent("web_app_open_link", {
-                        url: `https://web.vk.me/convo/${idteachersferum}`,
-                        try_browser: true,
-                        try_instant_view: false,
-                      })
+                      utils.openLink(
+                        `https://web.vk.me/convo/${idteachersferum}`,
+                        { tryBrowser: true }
+                      )
                     }
                   >
                     Согласен
@@ -86,7 +85,6 @@ export default ({
             }, 2150); // так по правде лучше
           }
         }
-        e.stopPropagation();
       }}
       style={{
         marginTop: margin ? "1rem" : "0",

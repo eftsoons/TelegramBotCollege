@@ -1,6 +1,4 @@
-import { useState, useLayoutEffect } from "react";
-
-import { retrieveLaunchParams, initUtils } from "@telegram-apps/sdk";
+import { initUtils } from "@telegram-apps/sdk";
 
 import {
   Placeholder,
@@ -13,31 +11,18 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { Icon } from "../components";
 
-import axios from "axios";
-
 import lang from "../lang";
 
-import { Wait } from "./index";
-
-function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
-  const [selectgroup, setselectgroup] = useState<string>();
-
+function Main({
+  setCurrentTab2,
+  infogroup,
+}: {
+  setCurrentTab2: Function;
+  infogroup: string;
+}) {
   const utils = initUtils();
-  const launchParams = retrieveLaunchParams();
 
-  useLayoutEffect(() => {
-    async function fetchData() {
-      const group = await axios.post(`${import.meta.env.VITE_API_URL}/group`, {
-        initData: launchParams.initDataRaw,
-      });
-
-      setselectgroup(group.data);
-    }
-
-    fetchData();
-  }, []);
-
-  return selectgroup || selectgroup == "" ? (
+  return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
@@ -52,9 +37,7 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
       >
         <Placeholder
           header={lang.schedule}
-          description={
-            selectgroup != "" ? `${lang.subscribe}: ${selectgroup}` : ""
-          }
+          description={infogroup != "" ? `${lang.subscribe}: ${infogroup}` : ""}
           style={{ paddingTop: "0" }}
           action={
             <>
@@ -117,8 +100,6 @@ function Main({ setCurrentTab2 }: { setCurrentTab2: Function }) {
         </div>
       </motion.div>
     </AnimatePresence>
-  ) : (
-    <Wait />
   );
 }
 

@@ -1,6 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 
-import { initMiniApp, postEvent, initCloudStorage } from "@telegram-apps/sdk";
+import {
+  initMiniApp,
+  postEvent,
+  initCloudStorage,
+  retrieveLaunchParams,
+} from "@telegram-apps/sdk";
 
 import {
   bindMiniAppCSSVars,
@@ -13,7 +18,15 @@ import {
 
 import { AppRoot, List, Tabbar } from "@telegram-apps/telegram-ui";
 
-import { Main, Call, Group, Schedule, Teacher, PixelBattle } from "./pages";
+import {
+  Main,
+  Call,
+  Group,
+  Schedule,
+  Teacher,
+  PixelBattle,
+  Wait,
+} from "./pages";
 
 import { Icon } from "./components";
 
@@ -22,6 +35,7 @@ import lang from "./lang";
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import Prefects from "./pages/prefects";
+
 axiosRetry(axios, {
   retries: Infinity,
   retryDelay: axiosRetry.exponentialDelay,
@@ -33,11 +47,14 @@ function App() {
   const [activegroup, setactivegroup] = useState("");
   const [activeindex, setactiveindex] = useState("");
   const [snackbar, setsnackbar] = useState(null);
+  const [JsonData, setJsonData] = useState<Record<string, string>[]>();
+  const [infogroup, setinfogroup] = useState<string>();
 
   const [miniApp] = initMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
   const lp = useLaunchParams();
+  const launchParams = retrieveLaunchParams();
 
   useEffect(() => {
     miniApp.ready();
@@ -67,6 +84,24 @@ function App() {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
 
+  useEffect(() => {
+    async function fetchData() {
+      const JsonData = await axios.post(import.meta.env.VITE_API_URL, {
+        initData: launchParams.initDataRaw,
+      });
+
+      setJsonData(JsonData.data);
+
+      const group = await axios.post(`${import.meta.env.VITE_API_URL}/group`, {
+        initData: launchParams.initDataRaw,
+      });
+
+      setinfogroup(group.data);
+    }
+
+    fetchData();
+  }, []);
+
   //const cloudStorage = initCloudStorage();
 
   //cloudStorage.delete("my-key").then(() => console.log("Key was deleted")); для старост
@@ -79,22 +114,30 @@ function App() {
       <List>
         {currentTab == "main" ? (
           currentTab2 == "main" ? (
-            <Main setCurrentTab2={setCurrentTab2} />
+            infogroup ? (
+              <Main setCurrentTab2={setCurrentTab2} infogroup={infogroup} />
+            ) : (
+              <Wait />
+            )
           ) : !currentTab2.includes("next") ? (
             currentTab2 == "teacherinfo" ? (
               <Teacher
                 setCurrentTab2={setCurrentTab2}
                 activegroup={activegroup}
               />
-            ) : (
+            ) : JsonData && infogroup ? (
               <Group
                 setactivegroup={setactivegroup}
                 currentTab2={currentTab2}
                 setCurrentTab2={setCurrentTab2}
                 setactiveindex={setactiveindex}
+                JsonDataResponse={JsonData}
+                infogroup={infogroup}
               />
+            ) : (
+              <Wait />
             )
-          ) : (
+          ) : JsonData && infogroup ? (
             <Schedule
               activegroup={activegroup}
               currentTab2={currentTab2}
@@ -102,7 +145,12 @@ function App() {
               activeindex={activeindex}
               snackbar={snackbar}
               setsnackbar={setsnackbar}
+              JsonData={JsonData}
+              infogroup={infogroup}
+              setinfogroup={setinfogroup}
             />
+          ) : (
+            <Wait />
           )
         ) : currentTab == "call" ? (
           <Call />
