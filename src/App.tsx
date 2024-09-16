@@ -150,7 +150,7 @@ function App() {
               setinfogroup={setinfogroup}
             />
           ) : (
-            "asd"
+            <Wait />
           )
         ) : currentTab == "call" ? (
           <Call />
