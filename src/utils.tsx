@@ -308,7 +308,7 @@ export function GetInfoGroup(
             a: [string, string, string, number, string],
             b: [string, string, string, number, string]
           ) => {
-            if (a.length > 1 && b.length > 1) {
+            if (a.length > 1 && b.length > 1 && Number(a[0]) && Number(b[0])) {
               return Number(a[0]) - Number(b[0]);
             } else {
               return -1;
