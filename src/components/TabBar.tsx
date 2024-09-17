@@ -32,7 +32,11 @@ function TabBar({
           id="main"
           text={lang.mainmenu}
           selected={"/call" != pathname}
-          onClick={() => reactNavigator.push("/")}
+          onClick={() => {
+            if (pathname == "/call") {
+              reactNavigator.go(-1);
+            }
+          }}
         >
           {Icon("mainmenu")}
         </Tabbar.Item>
@@ -40,7 +44,9 @@ function TabBar({
           id="call"
           text={lang.call}
           selected={"/call" == pathname}
-          onClick={() => reactNavigator.push("/call")}
+          onClick={() => {
+            reactNavigator.push("/call");
+          }}
         >
           {Icon("call")}
         </Tabbar.Item>

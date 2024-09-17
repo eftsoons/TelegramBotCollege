@@ -24,9 +24,25 @@ export default ({
   const initData = initInitData();
 
   useEffect(() => {
-    console.log(initData);
     if (initData?.startParam) {
       reactNavigator.push(initData.startParam.replace("-", "/"));
+      //сделать по другому
+    } else {
+      const menu = localStorage.getItem("Menu");
+      const name = localStorage.getItem("Data");
+      const key = localStorage.getItem("DataIndex");
+
+      if (menu == "group" || menu == "teacher" || menu == "office") {
+        reactNavigator.push(`/group/${menu}`);
+      } else if (menu && menu.includes("next")) {
+        reactNavigator.push(
+          `/schedule/${menu.split("next")[0]}/${name}/${key}`
+        );
+      } else if (menu == "teacherinfo") {
+        reactNavigator.push(`/teacherinfo/${name}`);
+      } else {
+        reactNavigator.push("/");
+      }
     }
   }, []);
 

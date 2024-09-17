@@ -144,6 +144,9 @@ function Group({
                             false,
                           ])
                         );
+                        localStorage.setItem("Menu", `${grouptype}next`);
+                        localStorage.setItem("Data", data.name);
+                        localStorage.setItem("DataIndex", String(data.key));
                       }}
                       text={
                         data.name == "ИСП 23-21" || infogroup == data.name
@@ -194,6 +197,9 @@ function Group({
                       "Expand",
                       JSON.stringify([false, false, false, false, false, false])
                     );
+                    localStorage.setItem("Menu", `${grouptype}next`);
+                    localStorage.setItem("Data", datasearch.name);
+                    localStorage.setItem("DataIndex", String(datasearch.key));
                   }}
                   text={
                     datasearch.name == "ИСП 23-21" ||

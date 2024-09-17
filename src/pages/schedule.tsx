@@ -131,6 +131,7 @@ function Schedule({
     backButton.on("click", () => {
       backButton.hide();
       reactNavigator.push(`/group/${grouptype}`);
+      localStorage.setItem("Menu", grouptype);
     });
   }, []);
 
@@ -235,6 +236,7 @@ function Schedule({
           onClick={() => {
             if (grouptype == "teacher") {
               reactNavigator.push(`/teacherinfo/${name}`);
+              localStorage.setItem("Menu", "teacherinfo");
               /*} else if (currentTab2 == "groupnext") {
               if (!snackbar) {
                 setsnackbar(
