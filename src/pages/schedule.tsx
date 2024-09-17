@@ -29,34 +29,37 @@ import { Icon, SferumTeacher } from "../components";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
+import { Navigate, useParams } from "react-router-dom";
 
 function Schedule({
-  activegroup,
-  currentTab2,
-  setCurrentTab2,
-  activeindex,
   snackbar,
   setsnackbar,
   JsonData,
   infogroup,
   setinfogroup,
+  reactNavigator,
 }: {
-  activegroup: string;
-  currentTab2: string;
-  setCurrentTab2: Function;
-  activeindex: string;
   snackbar: null | Element;
   setsnackbar: Function;
   JsonData: Record<string, string>[];
   infogroup: string;
   setinfogroup: Function;
+  reactNavigator: any;
 }) {
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
   const lp = useLaunchParams();
 
-  const infoteacher = GetInfoTeacher(activegroup);
-  const idinfosferum = GetSferum(activegroup);
+  const { nameparams, key, grouptype } = useParams();
+
+  if (!nameparams || !key || !grouptype) {
+    return <Navigate to="/" />;
+  }
+
+  const name = decodeURIComponent(nameparams);
+
+  const infoteacher = GetInfoTeacher(name);
+  const idinfosferum = GetSferum(name);
 
   const [info, setinfo] = useState<
     Array<Array<[string, string, string, string]>>
@@ -106,13 +109,12 @@ function Schedule({
   ];
 
   useLayoutEffect(() => {
-    const info = GetInfoGroup(currentTab2, activegroup, activeindex, JsonData);
+    const info = GetInfoGroup(grouptype, name, key, JsonData);
 
     if (info) {
       setinfo(info);
     } else {
-      setCurrentTab2(currentTab2.split("next")[0]);
-      localStorage.setItem("Menu", currentTab2.split("next")[0]);
+      reactNavigator.push(`/group/${grouptype}`);
     }
 
     const expand = localStorage.getItem("Expand");
@@ -126,8 +128,7 @@ function Schedule({
     backButton.show();
     backButton.on("click", () => {
       backButton.hide();
-      setCurrentTab2(currentTab2.split("next")[0]);
-      localStorage.setItem("Menu", currentTab2.split("next")[0]);
+      reactNavigator.push(`/group/${grouptype}`);
     });
   }, []);
 
@@ -168,15 +169,15 @@ function Schedule({
         <Cell
           Component="label"
           before={
-            currentTab2 == "groupnext" ? (
+            grouptype == "group" ? (
               <Multiselectable
-                defaultChecked={infogroup == activegroup ? true : false}
+                defaultChecked={infogroup == name ? true : false}
                 name="multiselect"
                 value="1"
                 onClick={async () => {
                   await axios.post(`${import.meta.env.VITE_API_URL}/setgroup`, {
                     initData: launchParams.initDataRaw,
-                    setgroup: activegroup,
+                    setgroup: name,
                   });
 
                   const group = await axios.post(
@@ -189,11 +190,11 @@ function Schedule({
                   setinfogroup(group.data);
 
                   if (!snackbar) {
-                    if (infogroup == activegroup) {
+                    if (infogroup == name) {
                       setsnackbar(
                         <Snackbar
                           before={Icon("check")}
-                          style={{ zIndex: "1" }}
+                          style={{ zIndex: "3" }}
                           onClose={() => {
                             //он баганный
                           }}
@@ -207,12 +208,12 @@ function Schedule({
                       setsnackbar(
                         <Snackbar
                           before={Icon("check")}
-                          style={{ zIndex: "1" }}
+                          style={{ zIndex: "3" }}
                           onClose={() => {
                             //он баганный
                           }}
                           duration={2000}
-                          description={`${lang.subscribenotificationon} ${activegroup}`}
+                          description={`${lang.subscribenotificationon} ${name}`}
                         >
                           {lang.subscribenotification}
                         </Snackbar>
@@ -230,9 +231,8 @@ function Schedule({
             )
           }
           onClick={() => {
-            if (currentTab2 == "teachernext") {
-              setCurrentTab2("teacherinfo");
-              localStorage.setItem("Menu", "teacherinfo");
+            if (grouptype == "teacher") {
+              reactNavigator.push(`/teacherinfo/${name}`);
               /*} else if (currentTab2 == "groupnext") {
               if (!snackbar) {
                 setsnackbar(
@@ -251,9 +251,9 @@ function Schedule({
               }*/
             }
           }}
-          description={currentTab2 == "groupnext" ? `${lang.subscribe}` : ""}
+          description={grouptype == "group" ? `${lang.subscribe}` : ""}
           after={
-            currentTab2 == "teachernext" && (
+            grouptype == "teacher" && (
               <SferumTeacher
                 idteachersferum={idinfosferum}
                 snackbar={snackbar}
@@ -263,7 +263,7 @@ function Schedule({
             )
           }
         >
-          {infoteacher ? infoteacher.fullname : activegroup}
+          {infoteacher ? infoteacher.fullname : name}
         </Cell>
         {info.map(
           (data2: Array<[string, string, string, string]>, index: number) => {
@@ -294,7 +294,7 @@ function Schedule({
                   <AccordionContent
                     style={{
                       background: "none",
-                      marginBottom: index == info.length - 1 ? "16vh" : "0",
+                      marginBottom: index == info.length - 1 ? "20vh" : "0",
                     }}
                   >
                     {data2.map(
@@ -314,39 +314,63 @@ function Schedule({
                               }
                               subheader={
                                 data[2] ? (
-                                  currentTab2 == "groupnext" ? (
+                                  grouptype == "group" ? (
                                     data[3] ? (
-                                      <span
-                                        onClick={() => {
-                                          /*setCurrentTab2("teacherinfo");
-                                      localStorage.setItem(
-                                        "Menu",
-                                        "teacherinfo"
-                                      );доделать позже*/
-                                        }}
-                                      >
+                                      <span>
                                         {lang.teacher}:{" "}
-                                        {teacherinfo
-                                          ? teacherinfo.fullname
-                                          : data[2]}
+                                        <ins
+                                          onClick={() => {
+                                            reactNavigator.push(
+                                              `/teacherinfo/${data[2]}`
+                                            );
+                                            localStorage.setItem(
+                                              "Expand",
+                                              JSON.stringify([
+                                                false,
+                                                false,
+                                                false,
+                                                false,
+                                                false,
+                                                false,
+                                              ])
+                                            );
+                                          }}
+                                          className="teachera"
+                                        >
+                                          {teacherinfo
+                                            ? teacherinfo.fullname
+                                            : data[2]}
+                                        </ins>
                                       </span>
                                     ) : (
                                       `${lang.office}: ${data[2]}`
                                     )
-                                  ) : currentTab2 == "officenext" ? (
-                                    <span
-                                      onClick={() => {
-                                        /*setCurrentTab2("teacherinfo");
-                                        localStorage.setItem(
-                                          "Menu",
-                                          "teacherinfo"
-                                        ); доделать позже*/
-                                      }}
-                                    >
+                                  ) : grouptype == "office" ? (
+                                    <span>
                                       {lang.teacher}:{" "}
-                                      {teacherinfo
-                                        ? teacherinfo.fullname
-                                        : data[2]}
+                                      <ins
+                                        onClick={() => {
+                                          reactNavigator.push(
+                                            `/teacherinfo/${data[2]}`
+                                          );
+                                          localStorage.setItem(
+                                            "Expand",
+                                            JSON.stringify([
+                                              false,
+                                              false,
+                                              false,
+                                              false,
+                                              false,
+                                              false,
+                                            ])
+                                          );
+                                        }}
+                                        className="teachera"
+                                      >
+                                        {teacherinfo
+                                          ? teacherinfo.fullname
+                                          : data[2]}
+                                      </ins>
                                     </span>
                                   ) : (
                                     `${lang.office}: ${data[2]}`
@@ -357,7 +381,7 @@ function Schedule({
                               }
                               description={
                                 data[3]
-                                  ? currentTab2 == "groupnext"
+                                  ? grouptype == "group"
                                     ? `${lang.office}: ${data[3]}`
                                     : `${lang.group2}: ${data[3]}`
                                   : ""
@@ -406,7 +430,7 @@ function Schedule({
                                     ""
                                   )}
                                 </div>
-                                {currentTab2 == "groupnext"
+                                {grouptype == "group"
                                   ? data[3] && (
                                       <SferumTeacher
                                         idteachersferum={idteachersferum}
@@ -416,7 +440,7 @@ function Schedule({
                                         margin={true}
                                       />
                                     )
-                                  : currentTab2 == "officenext"
+                                  : grouptype == "office"
                                   ? data[2] && (
                                       <SferumTeacher
                                         idteachersferum={idteachersferum}

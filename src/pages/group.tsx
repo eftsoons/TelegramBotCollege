@@ -19,21 +19,16 @@ import { Wait } from "./index";
 import lang from "../lang";
 
 import { GetGroup } from "../utils";
+import { Navigate, useParams } from "react-router-dom";
 
 function Group({
-  currentTab2,
-  setCurrentTab2,
-  setactivegroup,
-  setactiveindex,
   JsonDataResponse,
   infogroup,
+  reactNavigator,
 }: {
-  currentTab2: string;
-  setCurrentTab2: Function;
-  setactivegroup: Function;
-  setactiveindex: Function;
   JsonDataResponse: Record<string, string>[];
   infogroup: string;
+  reactNavigator: any;
 }) {
   const [JsonData, setJsonData] =
     useState<Array<Array<{ name: string; key: number }>>>();
@@ -41,12 +36,18 @@ function Group({
 
   const [backButton] = initBackButton();
 
+  const { grouptype } = useParams();
+
+  if (!grouptype) {
+    return <Navigate to="/" />;
+  }
+
   useLayoutEffect(() => {
     const search = localStorage.getItem("Search");
 
     setsearchgroup(search ? search : "");
 
-    setJsonData(GetGroup(currentTab2, JsonDataResponse));
+    setJsonData(GetGroup(grouptype, JsonDataResponse));
   }, []);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ function Group({
 
     backButton.on("click", () => {
       backButton.hide();
-      setCurrentTab2("main");
+      reactNavigator.push("/");
       localStorage.setItem("Menu", "main");
     });
   }, []);
@@ -117,7 +118,7 @@ function Group({
                 key={index}
                 style={{
                   width: "100%",
-                  marginBottom: index != alldata.length - 1 ? "2.5vh" : "15vh",
+                  marginBottom: index != alldata.length - 1 ? "2.5vh" : "20vh",
                 }}
                 mode="bezeled"
               >
@@ -126,12 +127,11 @@ function Group({
                     <InlineButtonsItem
                       key={index}
                       onClick={() => {
-                        setCurrentTab2(`${currentTab2}next`);
-                        setactivegroup(data.name);
-                        setactiveindex(data.key);
-                        localStorage.setItem("Menu", `${currentTab2}next`);
-                        localStorage.setItem("Data", data.name);
-                        localStorage.setItem("DataIndex", String(data.key));
+                        reactNavigator.push(
+                          `/schedule/${grouptype}/${data.name}/${String(
+                            data.key
+                          )}`
+                        );
                         localStorage.setItem(
                           "Expand",
                           JSON.stringify([
@@ -181,15 +181,14 @@ function Group({
                   style={{
                     width: "100%",
                     marginBottom:
-                      index != alldata.length - 1 ? "2.5vh" : "15vh",
+                      index != alldata.length - 1 ? "2.5vh" : "20vh",
                   }}
                   onClick={() => {
-                    setCurrentTab2(`${currentTab2}next`);
-                    setactivegroup(datasearch.name);
-                    setactiveindex(datasearch.key);
-                    localStorage.setItem("Menu", `${currentTab2}next`);
-                    localStorage.setItem("Data", datasearch.name);
-                    localStorage.setItem("DataIndex", String(datasearch.key));
+                    reactNavigator.push(
+                      `/schedule/${grouptype}/${datasearch.name}/${String(
+                        datasearch.key
+                      )}`
+                    );
                     localStorage.setItem(
                       "Expand",
                       JSON.stringify([false, false, false, false, false, false])

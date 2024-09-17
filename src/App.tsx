@@ -1,11 +1,15 @@
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useMemo } from "react";
 
 import {
   initMiniApp,
   postEvent,
   initCloudStorage,
   retrieveLaunchParams,
+  initNavigator,
+  BrowserNavigator,
 } from "@telegram-apps/sdk";
+
+import { useIntegration } from "@telegram-apps/react-router-integration";
 
 import {
   bindMiniAppCSSVars,
@@ -15,6 +19,15 @@ import {
   useThemeParams,
   useViewport,
 } from "@telegram-apps/sdk-react";
+
+import {
+  Link,
+  Navigate,
+  Outlet,
+  Route,
+  Router,
+  Routes,
+} from "react-router-dom";
 
 import { AppRoot, List, Tabbar } from "@telegram-apps/telegram-ui";
 
@@ -28,7 +41,9 @@ import {
   Wait,
 } from "./pages";
 
-import { Icon } from "./components";
+import { Icon, TabBar } from "./components";
+
+import Navigation from "./navigation";
 
 import lang from "./lang";
 
@@ -42,10 +57,6 @@ axiosRetry(axios, {
 });
 
 function App() {
-  const [currentTab, setCurrentTab] = useState("main");
-  const [currentTab2, setCurrentTab2] = useState("main");
-  const [activegroup, setactivegroup] = useState("");
-  const [activeindex, setactiveindex] = useState("");
   const [snackbar, setsnackbar] = useState(null);
   const [JsonData, setJsonData] = useState<Record<string, string>[]>();
   const [infogroup, setinfogroup] = useState<string>();
@@ -58,14 +69,6 @@ function App() {
 
   useEffect(() => {
     miniApp.ready();
-
-    const currentTab2 = localStorage.getItem("Menu");
-    const activegroup = localStorage.getItem("Data");
-    const activeindex = localStorage.getItem("DataIndex");
-
-    setCurrentTab2(currentTab2 ? currentTab2 : "main");
-    setactivegroup(activegroup ? activegroup : "");
-    setactiveindex(activeindex ? activeindex : "");
 
     postEvent("web_app_expand");
 
@@ -106,12 +109,24 @@ function App() {
 
   //cloudStorage.delete("my-key").then(() => console.log("Key was deleted")); для старост
 
+  //reactNavigator.push("main");
+  //console.log(location);
+  //reactNavigator.push("/");
+
   return (
     <AppRoot
       appearance={miniApp.isDark ? "dark" : "light"}
       platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
     >
-      <List>
+      <Navigation
+        JsonData={JsonData}
+        infogroup={infogroup}
+        setinfogroup={setinfogroup}
+        snackbar={snackbar}
+        setsnackbar={setsnackbar}
+      />
+      {snackbar}
+      {/*<List>
         {currentTab == "main" ? (
           currentTab2 == "main" ? (
             infogroup || infogroup == "" ? (
@@ -183,8 +198,8 @@ function App() {
             onClick={() => setCurrentTab("call")}
           >
             {Icon("call")}
-          </Tabbar.Item>
-          {/*<Tabbar.Item
+          </Tabbar.Item>*/}
+      {/*<Tabbar.Item
             id="prefects"
             text={"Для старост"}
             selected={"prefects" === currentTab}
@@ -200,10 +215,10 @@ function App() {
           >
             {Icon("bomb")}
           </Tabbar.Item>*/}
-        </Tabbar>
+      {/*</Tabbar>
 
         {snackbar}
-      </List>
+      </List>*/}
     </AppRoot>
   );
 }

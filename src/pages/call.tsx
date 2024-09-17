@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect, useEffect } from "react";
 
-import { Cell, Section, Accordion } from "@telegram-apps/telegram-ui";
+import { Cell, Section, Accordion, List } from "@telegram-apps/telegram-ui";
 import { ConvertTimeZone, getlessoncall } from "../utils";
 
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
@@ -13,7 +13,9 @@ import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
 
-function Call() {
+import type { FC } from "react";
+
+const Call: FC = () => {
   const [expand, setexpand] = useState([false, false]);
   const [timekaliningrad, settimekaliningrad] = useState<Date>(
     ConvertTimeZone(new Date(), "Europe/Kaliningrad")
@@ -81,54 +83,56 @@ function Call() {
   };
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {Object.entries(lessoncall).map((data, index) => (
-          <Accordion
-            expanded={expand[index]}
-            key={index}
-            onChange={() => {
-              const expandclone = [...expand];
-              expandclone[index] = !expandclone[index];
+    <List>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {Object.entries(lessoncall).map((data, index) => (
+            <Accordion
+              expanded={expand[index]}
+              key={index}
+              onChange={() => {
+                const expandclone = [...expand];
+                expandclone[index] = !expandclone[index];
 
-              localStorage.setItem("ExpandCall", JSON.stringify(expandclone));
-              setexpand(expandclone);
-            }}
-          >
-            <AccordionSummary
-              style={{ margin: "0" }}
-              interactiveAnimation="opacity"
-              hovered={expand[index]}
+                localStorage.setItem("ExpandCall", JSON.stringify(expandclone));
+                setexpand(expandclone);
+              }}
             >
-              {data[0]}
-            </AccordionSummary>
-            {(lp.platform != "ios" || expand[index]) && (
-              <AccordionContent
-                style={{ marginBottom: index == 2 ? "16vh" : "0" }}
+              <AccordionSummary
+                style={{ margin: "0" }}
+                interactiveAnimation="opacity"
+                hovered={expand[index]}
               >
-                <Section>
-                  {Object.entries(data[1]).map((data, index) => {
-                    const time = getlessoncall(data[1], timekaliningrad);
+                {data[0]}
+              </AccordionSummary>
+              {(lp.platform != "ios" || expand[index]) && (
+                <AccordionContent
+                  style={{ marginBottom: index == 2 ? "20vh" : "0" }}
+                >
+                  <Section>
+                    {Object.entries(data[1]).map((data, index) => {
+                      const time = getlessoncall(data[1], timekaliningrad);
 
-                    return (
-                      <Cell key={index} after={time} description={data[1]}>
-                        {data[0]}
-                      </Cell>
-                    );
-                  })}
-                </Section>
-              </AccordionContent>
-            )}
-          </Accordion>
-        ))}
-      </motion.div>
-    </AnimatePresence>
+                      return (
+                        <Cell key={index} after={time} description={data[1]}>
+                          {data[0]}
+                        </Cell>
+                      );
+                    })}
+                  </Section>
+                </AccordionContent>
+              )}
+            </Accordion>
+          ))}
+        </motion.div>
+      </AnimatePresence>
+    </List>
   );
-}
+};
 
 export default Call;

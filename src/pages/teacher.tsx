@@ -1,4 +1,4 @@
-import { initBackButton, initUtils } from "@telegram-apps/sdk";
+import { initBackButton } from "@telegram-apps/sdk";
 import {
   Accordion,
   Cell,
@@ -17,21 +17,22 @@ import { Icon } from "../components";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
+import { Navigate, useParams } from "react-router-dom";
 
-function Teacher({
-  setCurrentTab2,
-  activegroup,
-}: {
-  setCurrentTab2: Function;
-  activegroup: string;
-}) {
+function Teacher({ reactNavigator }: { reactNavigator: any }) {
   const [opengroup, setopengroup] = useState(false);
   const [opensubjects, setopensubjects] = useState(false);
   const [openeducation, setopeneducation] = useState(false);
 
   const [backButton] = initBackButton();
 
-  const info = GetInfoTeacher(activegroup);
+  const { nameteacher } = useParams();
+
+  if (!nameteacher) {
+    return <Navigate to="/" />;
+  }
+
+  const info = GetInfoTeacher(nameteacher);
 
   const lp = useLaunchParams();
 
@@ -40,8 +41,7 @@ function Teacher({
 
     backButton.on("click", () => {
       backButton.hide();
-      setCurrentTab2("teachernext");
-      localStorage.setItem("Menu", "teachernext");
+      reactNavigator.push(`/schedule/teacher/${nameteacher}/0`);
     });
   }, []);
 
@@ -143,7 +143,7 @@ function Teacher({
               <AccordionContent
                 style={{
                   background: "none",
-                  marginBottom: "16vh",
+                  marginBottom: "20vh",
                 }}
               >
                 <Section style={{ height: "100%" }}>
