@@ -24,9 +24,8 @@ export default ({
   const initData = initInitData();
 
   useEffect(() => {
-    console.log(initData);
     if (initData?.startParam) {
-      reactNavigator.push(initData.startParam);
+      reactNavigator.push(initData.startParam.replace("-", "/"));
     }
   }, []);
 
