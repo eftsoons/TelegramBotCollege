@@ -14,11 +14,13 @@ import { Icon } from "../components";
 
 import lang from "../lang";
 
+import type { Navigator } from "react-router-dom";
+
 function Main({
   reactNavigator,
   infogroup,
 }: {
-  reactNavigator: any;
+  reactNavigator: Navigator;
   infogroup: string;
 }) {
   const utils = initUtils();

@@ -31,6 +31,8 @@ import { useLaunchParams } from "@telegram-apps/sdk-react";
 import lang from "../lang";
 import { Navigate, useParams } from "react-router-dom";
 
+import type { Navigator } from "react-router-dom";
+
 function Schedule({
   snackbar,
   setsnackbar,
@@ -44,7 +46,7 @@ function Schedule({
   JsonData: Record<string, string>[];
   infogroup: string;
   setinfogroup: Function;
-  reactNavigator: any;
+  reactNavigator: Navigator;
 }) {
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
@@ -334,6 +336,7 @@ function Schedule({
                                                 false,
                                               ])
                                             );
+                                            localStorage.setItem("Search", "");
                                           }}
                                           className="teachera"
                                         >
@@ -364,6 +367,7 @@ function Schedule({
                                               false,
                                             ])
                                           );
+                                          localStorage.setItem("Search", "");
                                         }}
                                         className="teachera"
                                       >

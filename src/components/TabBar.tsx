@@ -6,12 +6,14 @@ import lang from "../lang";
 
 import { Icon } from ".";
 
+import type { Navigator } from "react-router-dom";
+
 function TabBar({
   pathname,
   reactNavigator,
 }: {
   pathname: string;
-  reactNavigator: any;
+  reactNavigator: Navigator;
 }) {
   const lp = useLaunchParams();
 

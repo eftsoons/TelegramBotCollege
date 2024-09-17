@@ -18,8 +18,9 @@ import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
 import { Navigate, useParams } from "react-router-dom";
+import type { Navigator } from "react-router-dom";
 
-function Teacher({ reactNavigator }: { reactNavigator: any }) {
+function Teacher({ reactNavigator }: { reactNavigator: Navigator }) {
   const [opengroup, setopengroup] = useState(false);
   const [opensubjects, setopensubjects] = useState(false);
   const [openeducation, setopeneducation] = useState(false);

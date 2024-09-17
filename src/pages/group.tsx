@@ -20,6 +20,7 @@ import lang from "../lang";
 
 import { GetGroup } from "../utils";
 import { Navigate, useParams } from "react-router-dom";
+import type { Navigator } from "react-router-dom";
 
 function Group({
   JsonDataResponse,
@@ -28,7 +29,7 @@ function Group({
 }: {
   JsonDataResponse: Record<string, string>[];
   infogroup: string;
-  reactNavigator: any;
+  reactNavigator: Navigator;
 }) {
   const [JsonData, setJsonData] =
     useState<Array<Array<{ name: string; key: number }>>>();
