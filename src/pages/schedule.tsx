@@ -128,7 +128,7 @@ function Schedule({
     backButton.show();
     backButton.on("click", () => {
       backButton.hide();
-      reactNavigator.go(-1);
+      reactNavigator.push(`/group/${grouptype}`);
     });
   }, []);
 
