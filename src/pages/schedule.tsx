@@ -430,7 +430,7 @@ function Schedule({
                                     ""
                                   )}
                                 </div>
-                                {grouptype == "group"
+                                {/*grouptype == "group"
                                   ? data[3] && (
                                       <SferumTeacher
                                         idteachersferum={idteachersferum}
@@ -450,7 +450,7 @@ function Schedule({
                                         margin={true}
                                       />
                                     )
-                                  : ""}
+                                  : ""*/}
                               </div>
                             </Banner>
                           );

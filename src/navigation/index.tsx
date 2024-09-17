@@ -1,7 +1,7 @@
 import { Navigate, Route, Router, Routes } from "react-router-dom";
 import { TabBar } from "../components";
-import { useMemo } from "react";
-import { initNavigator } from "@telegram-apps/sdk";
+import { useEffect, useMemo } from "react";
+import { initInitData, initNavigator } from "@telegram-apps/sdk";
 import { useIntegration } from "@telegram-apps/react-router-integration";
 import { Call, Group, Main, Schedule, Teacher, Wait } from "../pages";
 
@@ -21,9 +21,18 @@ export default ({
   const navigator = useMemo(() => initNavigator("College39bot"), []);
   const [location, reactNavigator] = useIntegration(navigator);
 
+  const initData = initInitData();
+
+  useEffect(() => {
+    console.log(initData);
+    if (initData?.startParam) {
+      reactNavigator.push(initData.startParam);
+    }
+  }, []);
+
   return (
     <Router location={location} navigator={reactNavigator}>
-      <Routes>
+      <Routes location={location}>
         <Route
           path="/"
           element={

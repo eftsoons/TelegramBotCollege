@@ -37,7 +37,7 @@ export default ({
                     Согласен
                   </IconButton>
                 }
-                style={{ zIndex: "1" }}
+                style={{ zIndex: "3" }}
                 onClose={() => {
                   //он баганный
                 }}
@@ -70,7 +70,7 @@ export default ({
             setsnackbar(
               <Snackbar
                 before={Icon("bug")}
-                style={{ zIndex: "1" }}
+                style={{ zIndex: "3" }}
                 onClose={() => {
                   //он баганный
                 }}

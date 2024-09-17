@@ -1,15 +1,10 @@
-import { useState, useEffect, useLayoutEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
 import {
   initMiniApp,
   postEvent,
-  initCloudStorage,
   retrieveLaunchParams,
-  initNavigator,
-  BrowserNavigator,
 } from "@telegram-apps/sdk";
-
-import { useIntegration } from "@telegram-apps/react-router-integration";
 
 import {
   bindMiniAppCSSVars,
@@ -20,36 +15,12 @@ import {
   useViewport,
 } from "@telegram-apps/sdk-react";
 
-import {
-  Link,
-  Navigate,
-  Outlet,
-  Route,
-  Router,
-  Routes,
-} from "react-router-dom";
-
-import { AppRoot, List, Tabbar } from "@telegram-apps/telegram-ui";
-
-import {
-  Main,
-  Call,
-  Group,
-  Schedule,
-  Teacher,
-  PixelBattle,
-  Wait,
-} from "./pages";
-
-import { Icon, TabBar } from "./components";
+import { AppRoot } from "@telegram-apps/telegram-ui";
 
 import Navigation from "./navigation";
 
-import lang from "./lang";
-
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import Prefects from "./pages/prefects";
 
 axiosRetry(axios, {
   retries: Infinity,
@@ -105,14 +76,6 @@ function App() {
     fetchData();
   }, []);
 
-  //const cloudStorage = initCloudStorage();
-
-  //cloudStorage.delete("my-key").then(() => console.log("Key was deleted")); для старост
-
-  //reactNavigator.push("main");
-  //console.log(location);
-  //reactNavigator.push("/");
-
   return (
     <AppRoot
       appearance={miniApp.isDark ? "dark" : "light"}
@@ -126,99 +89,6 @@ function App() {
         setsnackbar={setsnackbar}
       />
       {snackbar}
-      {/*<List>
-        {currentTab == "main" ? (
-          currentTab2 == "main" ? (
-            infogroup || infogroup == "" ? (
-              <Main setCurrentTab2={setCurrentTab2} infogroup={infogroup} />
-            ) : (
-              <Wait />
-            )
-          ) : !currentTab2.includes("next") ? (
-            currentTab2 == "teacherinfo" ? (
-              <Teacher
-                setCurrentTab2={setCurrentTab2}
-                activegroup={activegroup}
-              />
-            ) : JsonData && (infogroup || infogroup == "") ? (
-              <Group
-                setactivegroup={setactivegroup}
-                currentTab2={currentTab2}
-                setCurrentTab2={setCurrentTab2}
-                setactiveindex={setactiveindex}
-                JsonDataResponse={JsonData}
-                infogroup={infogroup}
-              />
-            ) : (
-              <Wait />
-            )
-          ) : JsonData && (infogroup || infogroup == "") ? (
-            <Schedule
-              activegroup={activegroup}
-              currentTab2={currentTab2}
-              setCurrentTab2={setCurrentTab2}
-              activeindex={activeindex}
-              snackbar={snackbar}
-              setsnackbar={setsnackbar}
-              JsonData={JsonData}
-              infogroup={infogroup}
-              setinfogroup={setinfogroup}
-            />
-          ) : (
-            <Wait />
-          )
-        ) : currentTab == "call" ? (
-          <Call />
-        ) : currentTab == "pixelbattle" ? (
-          <PixelBattle />
-        ) : (
-          <Prefects />
-        )}
-
-        <Tabbar
-          style={{
-            zIndex: "1",
-            paddingBottom: ["macos", "ios"].includes(lp.platform)
-              ? "1.5rem"
-              : "0",
-          }}
-        >
-          <Tabbar.Item
-            id="main"
-            text={lang.mainmenu}
-            selected={"main" === currentTab}
-            onClick={() => setCurrentTab("main")}
-          >
-            {Icon("mainmenu")}
-          </Tabbar.Item>
-          <Tabbar.Item
-            id="call"
-            text={lang.call}
-            selected={"call" === currentTab}
-            onClick={() => setCurrentTab("call")}
-          >
-            {Icon("call")}
-          </Tabbar.Item>*/}
-      {/*<Tabbar.Item
-            id="prefects"
-            text={"Для старост"}
-            selected={"prefects" === currentTab}
-            onClick={() => setCurrentTab("prefects")}
-          >
-            {Icon("prefects")}
-          </Tabbar.Item>
-          <Tabbar.Item
-            id="pixel"
-            text={"Pixel Battle"}
-            selected={"pixel" === currentTab}
-            onClick={() => setCurrentTab("pixel")}
-          >
-            {Icon("bomb")}
-          </Tabbar.Item>*/}
-      {/*</Tabbar>
-
-        {snackbar}
-      </List>*/}
     </AppRoot>
   );
 }
