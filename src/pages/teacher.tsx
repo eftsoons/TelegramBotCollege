@@ -43,6 +43,9 @@ function Teacher({ reactNavigator }: { reactNavigator: Navigator }) {
     backButton.on("click", () => {
       backButton.hide();
       reactNavigator.push(`/schedule/teacher/${nameteacher}/0`);
+      localStorage.setItem("Menu", `teachernext`);
+      localStorage.setItem("Data", nameteacher);
+      localStorage.setItem("DataIndex", "0");
     });
   }, []);
 
