@@ -55,7 +55,7 @@ function Group({
 
     backButton.on("click", () => {
       backButton.hide();
-      reactNavigator.go("/");
+      reactNavigator.push("/");
       localStorage.setItem("Menu", "main");
     });
   }, []);
