@@ -308,7 +308,6 @@ function Schedule({
                       ) => {
                         if (index2 > 0) {
                           const teacherinfo = GetInfoTeacher(data[2]);
-                          const idteachersferum = GetSferum(data[2]);
 
                           return (
                             <Banner
@@ -339,6 +338,14 @@ function Schedule({
                                               ])
                                             );
                                             localStorage.setItem("Search", "");
+                                            localStorage.setItem(
+                                              "Menu",
+                                              "teacherinfo"
+                                            );
+                                            localStorage.setItem(
+                                              "Data",
+                                              data[2]
+                                            );
                                           }}
                                           className="teachera"
                                         >
@@ -370,6 +377,11 @@ function Schedule({
                                             ])
                                           );
                                           localStorage.setItem("Search", "");
+                                          localStorage.setItem(
+                                            "Menu",
+                                            "teacherinfo"
+                                          );
+                                          localStorage.setItem("Data", data[2]);
                                         }}
                                         className="teachera"
                                       >
