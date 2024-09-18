@@ -329,17 +329,6 @@ function Schedule({
                                             reactNavigator.push(
                                               `/teacherinfo/${data[2]}`
                                             );
-                                            localStorage.setItem(
-                                              "Expand",
-                                              JSON.stringify([
-                                                false,
-                                                false,
-                                                false,
-                                                false,
-                                                false,
-                                                false,
-                                              ])
-                                            );
                                             localStorage.setItem("Search", "");
                                             localStorage.setItem(
                                               "Menu",
@@ -371,17 +360,6 @@ function Schedule({
                                         onClick={() => {
                                           reactNavigator.push(
                                             `/teacherinfo/${data[2]}`
-                                          );
-                                          localStorage.setItem(
-                                            "Expand",
-                                            JSON.stringify([
-                                              false,
-                                              false,
-                                              false,
-                                              false,
-                                              false,
-                                              false,
-                                            ])
                                           );
                                           localStorage.setItem("Search", "");
                                           localStorage.setItem(

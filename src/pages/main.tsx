@@ -88,15 +88,17 @@ function Main({
           </Placeholder>
           <div className="author">
             <Caption className="authortext" weight={"1"}>
-              Авторы:{" "}
+              Авторы:
+            </Caption>
+            <Caption className="authortext" weight={"1"}>
               <ins
                 onClick={() =>
                   utils.openTelegramLink("https://t.me/shishkin666")
                 }
               >
                 Александр Федорович
-              </ins>
-              ,{" "}
+              </ins>{" "}
+              и{" "}
               <ins
                 onClick={() =>
                   utils.openTelegramLink("https://t.me/tommyilinykh")

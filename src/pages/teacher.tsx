@@ -56,9 +56,13 @@ function Teacher({
       reactNavigator.push(
         backpath ? backpath : `/schedule/teacher/${nameteacher}/0`
       );
-      localStorage.setItem("Menu", `teachernext`);
-      localStorage.setItem("Data", nameteacher);
-      localStorage.setItem("DataIndex", "0");
+      localStorage.setItem(
+        "Menu",
+        backpath ? `${backpath.split("/")[2]}next` : ""
+      );
+      localStorage.setItem("Data", backpath ? backpath.split("/")[3] : "");
+      localStorage.setItem("DataIndex", backpath ? backpath.split("/")[4] : "");
+      localStorage.removeItem("MenuExit");
     });
   }, []);
 
@@ -194,7 +198,10 @@ function Teacher({
               />
             }
           >
-            <Text weight={"1"}>{lang.notinformation}</Text>
+            {/*{lang.notinformation}*/}
+            <Text weight={"1"} style={{ textAlign: "center" }}>
+              Информация о преподавателе отсутствует на офицальном сайте
+            </Text>
           </Placeholder>
         )}
       </motion.div>

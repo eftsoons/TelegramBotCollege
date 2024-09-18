@@ -38,8 +38,8 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   margin-bottom: 20vh;
-  width: 100%;
 
   .authortext {
     color: #939393;
