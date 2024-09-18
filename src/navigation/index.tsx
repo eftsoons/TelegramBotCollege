@@ -101,7 +101,13 @@ export default ({
           />
           <Route
             path={"/teacherinfo/:nameteacher"}
-            element={<Teacher reactNavigator={reactNavigator} />}
+            element={
+              <Teacher
+                snackbar={snackbar}
+                setsnackbar={setsnackbar}
+                reactNavigator={reactNavigator}
+              />
+            }
           />
           <Route path={"/call"} Component={Call} />
           <Route path="*" element={<Navigate to="/" />} />

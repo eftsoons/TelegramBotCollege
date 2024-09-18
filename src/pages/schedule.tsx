@@ -20,12 +20,11 @@ import {
   getlessoncall,
   ConvertTimeZone,
   GetInfoTeacher,
-  GetSferum,
 } from "../utils";
 
 import axios from "axios";
 
-import { Icon, SferumTeacher } from "../components";
+import { Icon } from "../components";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
@@ -61,7 +60,6 @@ function Schedule({
   const name = decodeURIComponent(nameparams);
 
   const infoteacher = GetInfoTeacher(name);
-  const idinfosferum = GetSferum(name);
 
   const [info, setinfo] = useState<
     Array<Array<[string, string, string, string]>>
@@ -237,6 +235,11 @@ function Schedule({
             if (grouptype == "teacher") {
               reactNavigator.push(`/teacherinfo/${name}`);
               localStorage.setItem("Menu", "teacherinfo");
+              localStorage.setItem(
+                "MenuExit",
+                `/schedule/${grouptype}/${name}/${key}`
+              );
+              //localStorage.setItem("MenuExit", `/schedule/group/${}`);
               /*} else if (currentTab2 == "groupnext") {
               if (!snackbar) {
                 setsnackbar(
@@ -256,7 +259,7 @@ function Schedule({
             }
           }}
           description={grouptype == "group" ? `${lang.subscribe}` : ""}
-          after={
+          /*after={
             grouptype == "teacher" && (
               <SferumTeacher
                 idteachersferum={idinfosferum}
@@ -265,7 +268,7 @@ function Schedule({
                 text="Написать"
               />
             )
-          }
+          }*/
         >
           {infoteacher ? infoteacher.fullname : name}
         </Cell>
@@ -346,6 +349,10 @@ function Schedule({
                                               "Data",
                                               data[2]
                                             );
+                                            localStorage.setItem(
+                                              "MenuExit",
+                                              `/schedule/${grouptype}/${name}/${key}`
+                                            );
                                           }}
                                           className="teachera"
                                         >
@@ -382,6 +389,10 @@ function Schedule({
                                             "teacherinfo"
                                           );
                                           localStorage.setItem("Data", data[2]);
+                                          localStorage.setItem(
+                                            "MenuExit",
+                                            `/schedule/${grouptype}/${name}/${key}`
+                                          );
                                         }}
                                         className="teachera"
                                       >

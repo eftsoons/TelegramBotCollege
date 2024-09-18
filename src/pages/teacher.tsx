@@ -11,16 +11,24 @@ import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blo
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-import { GetInfoTeacher } from "../utils";
+import { GetInfoTeacher, GetSferum } from "../utils";
 
-import { Icon } from "../components";
+import { Icon, SferumTeacher } from "../components";
 import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 import lang from "../lang";
 import { Navigate, useParams } from "react-router-dom";
 import type { Navigator } from "react-router-dom";
 
-function Teacher({ reactNavigator }: { reactNavigator: Navigator }) {
+function Teacher({
+  snackbar,
+  setsnackbar,
+  reactNavigator,
+}: {
+  snackbar: null | Element;
+  setsnackbar: Function;
+  reactNavigator: Navigator;
+}) {
   const [opengroup, setopengroup] = useState(false);
   const [opensubjects, setopensubjects] = useState(false);
   const [openeducation, setopeneducation] = useState(false);
@@ -34,6 +42,7 @@ function Teacher({ reactNavigator }: { reactNavigator: Navigator }) {
   }
 
   const info = GetInfoTeacher(nameteacher);
+  const idinfosferum = GetSferum(nameteacher);
 
   const lp = useLaunchParams();
 
@@ -42,7 +51,11 @@ function Teacher({ reactNavigator }: { reactNavigator: Navigator }) {
 
     backButton.on("click", () => {
       backButton.hide();
-      reactNavigator.push(`/schedule/teacher/${nameteacher}/0`);
+      const backpath = localStorage.getItem("MenuExit");
+
+      reactNavigator.push(
+        backpath ? backpath : `/schedule/teacher/${nameteacher}/0`
+      );
       localStorage.setItem("Menu", `teachernext`);
       localStorage.setItem("Data", nameteacher);
       localStorage.setItem("DataIndex", "0");
@@ -63,6 +76,14 @@ function Teacher({ reactNavigator }: { reactNavigator: Navigator }) {
               description={`${lang.academidegree}: ${info.degree}`}
               subhead={info.rank}
               subtitle={`${lang.category}: ${info.category}`}
+              after={
+                <SferumTeacher
+                  idteachersferum={idinfosferum}
+                  snackbar={snackbar}
+                  setsnackbar={setsnackbar}
+                  text="Написать"
+                />
+              }
             >
               {info.fullname}
             </Cell>
@@ -164,6 +185,14 @@ function Teacher({ reactNavigator }: { reactNavigator: Navigator }) {
           <Placeholder
             header={Icon("notinfo")}
             style={{ paddingTop: "0", height: "80vh" }}
+            description={
+              <SferumTeacher
+                idteachersferum={idinfosferum}
+                snackbar={snackbar}
+                setsnackbar={setsnackbar}
+                text="Написать преподавателю"
+              />
+            }
           >
             <Text weight={"1"}>{lang.notinformation}</Text>
           </Placeholder>
