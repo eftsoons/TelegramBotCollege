@@ -12,4 +12,5 @@ export default {
   cross: "e937",
   bug: "e920",
   prefects: "e91d",
+  info: "e970",
 };

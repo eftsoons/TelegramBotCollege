@@ -8,6 +8,7 @@ import {
   Badge,
   Banner,
   Cell,
+  IconButton,
   Multiselectable,
   Snackbar,
 } from "@telegram-apps/telegram-ui";
@@ -20,6 +21,7 @@ import {
   getlessoncall,
   ConvertTimeZone,
   GetInfoTeacher,
+  GetSferum,
 } from "../utils";
 
 import axios from "axios";
@@ -31,6 +33,8 @@ import lang from "../lang";
 import { Navigate, useParams } from "react-router-dom";
 
 import type { Navigator } from "react-router-dom";
+
+import { Sferum } from "../svg";
 
 function Schedule({
   snackbar,
@@ -60,6 +64,7 @@ function Schedule({
   const name = decodeURIComponent(nameparams);
 
   const infoteacher = GetInfoTeacher(name);
+  const idteachersferum = GetSferum(name);
 
   const [info, setinfo] = useState<
     Array<Array<[string, string, string, string]>>
@@ -169,6 +174,46 @@ function Schedule({
       >
         <Cell
           Component="label"
+          /*titleBadge={
+            grouptype == "teacher" ? (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+              >
+                <Badge type="dot" mode={infoteacher ? "primary" : "critical"} />
+                <Badge
+                  type="dot"
+                  mode={idteachersferum ? "primary" : "critical"}
+                />
+              </div>
+            ) : undefined
+          }*/
+          after={
+            grouptype == "teacher" ? (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+              >
+                {/*<Badge type="dot" mode={infoteacher ? "primary" : "critical"} />
+                <Badge
+                  type="dot"
+                  mode={idteachersferum ? "primary" : "critical"}
+                />*/}
+                <IconButton disabled={!infoteacher}>
+                  {Icon("info", "1.75")}
+                </IconButton>
+                <IconButton disabled={!idteachersferum}>
+                  <Sferum />
+                </IconButton>
+              </div>
+            ) : undefined
+          }
           before={
             grouptype == "group" ? (
               <Multiselectable
