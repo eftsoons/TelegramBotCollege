@@ -79,20 +79,25 @@ function Teacher({
         {info ? (
           <>
             <Cell
-              description={`${lang.academidegree}: ${info.degree}`}
+              description={
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {lang.academidegree}: {info.degree}
+                  <div style={{ marginTop: "1rem" }}>
+                    <SferumTeacher
+                      idteachersferum={idinfosferum}
+                      snackbar={snackbar}
+                      setsnackbar={setsnackbar}
+                      text="Написать преподавателю"
+                    />
+                  </div>
+                </div>
+              }
               subhead={info.rank}
               subtitle={`${lang.category}: ${info.category}`}
-              after={
-                <SferumTeacher
-                  idteachersferum={idinfosferum}
-                  snackbar={snackbar}
-                  setsnackbar={setsnackbar}
-                  text="Написать"
-                />
-              }
             >
               {info.fullname}
             </Cell>
+
             <Cell
               subhead={lang.workexperience}
               subtitle={`${lang.pedagogical}: ${info.experiencecollege} ${lang.years}`}
