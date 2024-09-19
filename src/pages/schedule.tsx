@@ -214,6 +214,7 @@ function Schedule({
               </div>
             ) : undefined
           }
+          multiline={true}
           before={
             grouptype == "group" ? (
               <Multiselectable
