@@ -25,7 +25,8 @@ export default ({
 
   useEffect(() => {
     if (initData?.startParam) {
-      reactNavigator.push(initData.startParam.replace("-", "/"));
+      console.log(initData);
+      //reactNavigator.push(initData.startParam.replace("-", "/"));
       //сделать по другому
     } else {
       const menu = localStorage.getItem("Menu");
