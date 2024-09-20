@@ -27,7 +27,10 @@ export default ({
     if (initData?.startParam) {
       const path = decodeURIComponent(atob(initData.startParam));
       reactNavigator.push(path);
-      //сделать по другому
+      localStorage.setItem(
+        "Expand",
+        JSON.stringify([false, false, false, false, false, false])
+      );
     } else {
       const menu = localStorage.getItem("Menu");
       const name = localStorage.getItem("Data");
