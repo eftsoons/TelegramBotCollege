@@ -55,7 +55,7 @@ function Teacher({
       if (backpath) {
         reactNavigator.push(backpath);
 
-        //localStorage.setItem("MenuExit", `/group/${backpath.split("/")[2]}`);
+        localStorage.setItem("MenuExit", `/group/${backpath.split("/")[2]}`);
         localStorage.setItem("Menu", `${backpath.split("/")[2]}next`);
         localStorage.setItem("Data", backpath.split("/")[3]);
       }

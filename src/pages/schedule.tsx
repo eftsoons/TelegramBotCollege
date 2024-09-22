@@ -142,14 +142,8 @@ function Schedule({
       const backpath = localStorage.getItem("MenuExit");
 
       if (backpath) {
-        if (backpath != `/schedule/teacher/${name}`) {
-          // гавнокод, скоро исправлю
-          reactNavigator.push(backpath);
-          localStorage.setItem("Menu", backpath.split("/")[1]);
-        } else {
-          reactNavigator.push("/favourites");
-          localStorage.setItem("Menu", "favourites");
-        }
+        reactNavigator.push(backpath);
+        localStorage.setItem("Menu", backpath.split("/")[1]);
       }
     });
   }, []);
