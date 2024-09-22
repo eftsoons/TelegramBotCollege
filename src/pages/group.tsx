@@ -5,7 +5,6 @@ import {
   Caption,
   Input,
   IconButton,
-  List,
 } from "@telegram-apps/telegram-ui";
 import { InlineButtonsItem } from "@telegram-apps/telegram-ui/dist/components/Blocks/InlineButtons/components/InlineButtonsItem/InlineButtonsItem";
 
@@ -14,6 +13,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { initBackButton } from "@telegram-apps/sdk";
 
 import { Icon } from "../components";
+
+import { Wait } from "./index";
 
 import lang from "../lang";
 
@@ -52,6 +53,7 @@ function Group({
 
   useEffect(() => {
     const handleBackButton = () => {
+      console.log(123);
       backButton.hide();
       reactNavigator.push("/");
       localStorage.setItem("Menu", "main");
@@ -71,7 +73,7 @@ function Group({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        style={{ padding: "10px", height: "1050px" }}
+        style={{ padding: "10px" }}
       >
         <Input
           id="input-group"
@@ -117,7 +119,7 @@ function Group({
                 key={index}
                 style={{
                   width: "100%",
-                  marginBottom: index != alldata.length - 1 ? "2.5vh" : "0",
+                  marginBottom: index != alldata.length - 1 ? "2.5vh" : "20vh",
                 }}
                 mode="bezeled"
               >
