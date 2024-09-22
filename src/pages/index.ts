@@ -5,8 +5,8 @@ import Schedule from "./schedule";
 import Teacher from "./teacher";
 import Wait from "./wait";
 import PixelBattle from "./pixelbattle";
-import Prefects from "./prefects";
 import Headman from "./headman";
+import Favourites from "./favourites";
 
 export {
   Call,
@@ -16,6 +16,6 @@ export {
   Teacher,
   Wait,
   PixelBattle,
-  Prefects,
   Headman,
+  Favourites,
 };

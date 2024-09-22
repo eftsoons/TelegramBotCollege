@@ -50,20 +50,14 @@ function Teacher({
     backButton.show();
 
     backButton.on("click", () => {
-      backButton.hide();
       const backpath = localStorage.getItem("MenuExit");
 
       if (backpath) {
         reactNavigator.push(backpath);
 
+        //localStorage.setItem("MenuExit", `/group/${backpath.split("/")[2]}`);
         localStorage.setItem("Menu", `${backpath.split("/")[2]}next`);
         localStorage.setItem("Data", backpath.split("/")[3]);
-        localStorage.setItem("DataIndex", backpath.split("/")[4]);
-      } else {
-        reactNavigator.push(`/schedule/teacher/${nameteacher}/0`);
-        localStorage.setItem("Menu", "teachernext");
-        localStorage.setItem("Data", nameteacher);
-        localStorage.setItem("DataIndex", "0");
       }
     });
   }, []);

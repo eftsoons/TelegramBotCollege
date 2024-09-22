@@ -3,7 +3,16 @@ import { TabBar } from "../components";
 import { useEffect, useMemo } from "react";
 import { initInitData, initNavigator } from "@telegram-apps/sdk";
 import { useIntegration } from "@telegram-apps/react-router-integration";
-import { Call, Group, Main, Schedule, Teacher, Wait, Headman } from "../pages";
+import {
+  Call,
+  Group,
+  Main,
+  Schedule,
+  Teacher,
+  Wait,
+  Headman,
+  Favourites,
+} from "../pages";
 
 export default ({
   JsonData,
@@ -11,12 +20,14 @@ export default ({
   setinfogroup,
   snackbar,
   setsnackbar,
+  favourites,
 }: {
   JsonData: Record<string, string>[] | undefined;
   infogroup: string | undefined;
   setinfogroup: Function;
   snackbar: null | Element;
   setsnackbar: Function;
+  favourites: Array<{ name: string; type: string }> | undefined;
 }) => {
   const navigator = useMemo(() => initNavigator("College39bot"), []);
   const [location, reactNavigator] = useIntegration(navigator);
@@ -34,16 +45,15 @@ export default ({
     } else {
       const menu = localStorage.getItem("Menu");
       const name = localStorage.getItem("Data");
-      const key = localStorage.getItem("DataIndex");
 
       if (menu == "group" || menu == "teacher" || menu == "office") {
         reactNavigator.push(`/group/${menu}`);
       } else if (menu && menu.includes("next")) {
-        reactNavigator.push(
-          `/schedule/${menu.split("next")[0]}/${name}/${key}`
-        );
+        reactNavigator.push(`/schedule/${menu.split("next")[0]}/${name}`);
       } else if (menu == "teacherinfo") {
         reactNavigator.push(`/teacherinfo/${name}`);
+      } else if (menu == "favourites") {
+        reactNavigator.push(`/favourites`);
       } else {
         reactNavigator.push("/");
       }
@@ -65,8 +75,14 @@ export default ({
           <Route
             index
             element={
-              infogroup || infogroup == "" ? (
-                <Main reactNavigator={reactNavigator} infogroup={infogroup} />
+              (infogroup || infogroup == "") && favourites ? (
+                <Main
+                  reactNavigator={reactNavigator}
+                  infogroup={infogroup}
+                  snackbar={snackbar}
+                  setsnackbar={setsnackbar}
+                  favourites={favourites}
+                />
               ) : (
                 <Wait />
               )
@@ -75,11 +91,12 @@ export default ({
           <Route
             path={"/group/:grouptype"}
             element={
-              JsonData && (infogroup || infogroup == "") ? (
+              JsonData && (infogroup || infogroup == "") && favourites ? (
                 <Group
                   JsonDataResponse={JsonData}
                   infogroup={infogroup}
                   reactNavigator={reactNavigator}
+                  favourites={favourites}
                 />
               ) : (
                 <Wait />
@@ -87,9 +104,9 @@ export default ({
             }
           />
           <Route
-            path={"/schedule/:grouptype/:nameparams/:key"}
+            path={"/schedule/:grouptype/:nameparams"}
             element={
-              JsonData && (infogroup || infogroup == "") ? (
+              JsonData && (infogroup || infogroup == "") && favourites ? (
                 <Schedule
                   snackbar={snackbar}
                   JsonData={JsonData}
@@ -97,6 +114,7 @@ export default ({
                   reactNavigator={reactNavigator}
                   setinfogroup={setinfogroup}
                   setsnackbar={setsnackbar}
+                  favourites={favourites}
                 />
               ) : (
                 <Wait />
@@ -111,6 +129,19 @@ export default ({
                 setsnackbar={setsnackbar}
                 reactNavigator={reactNavigator}
               />
+            }
+          />
+          <Route
+            path={"/favourites"}
+            element={
+              favourites ? (
+                <Favourites
+                  favourites={favourites}
+                  reactNavigator={reactNavigator}
+                />
+              ) : (
+                <Wait />
+              )
             }
           />
           <Route path={"/call"} Component={Call} />

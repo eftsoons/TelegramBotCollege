@@ -13,6 +13,7 @@ import {
   useLaunchParams,
   useThemeParams,
   useViewport,
+  initCloudStorage,
 } from "@telegram-apps/sdk-react";
 
 import { AppRoot } from "@telegram-apps/telegram-ui";
@@ -31,12 +32,20 @@ function App() {
   const [snackbar, setsnackbar] = useState(null);
   const [JsonData, setJsonData] = useState<Record<string, string>[]>();
   const [infogroup, setinfogroup] = useState<string>();
+  const [favourites, setfavourites] = useState<
+    | Array<{
+        name: string;
+        type: string;
+      }>
+    | undefined
+  >();
 
   const [miniApp] = initMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
   const lp = useLaunchParams();
   const launchParams = retrieveLaunchParams();
+  const cloudStorage = initCloudStorage();
 
   useEffect(() => {
     miniApp.ready();
@@ -71,6 +80,10 @@ function App() {
       });
 
       setinfogroup(group.data);
+
+      const favourites = await cloudStorage.get("favourites");
+
+      setfavourites(favourites ? JSON.parse(favourites) : []);
     }
 
     fetchData();
@@ -87,6 +100,7 @@ function App() {
         setinfogroup={setinfogroup}
         snackbar={snackbar}
         setsnackbar={setsnackbar}
+        favourites={favourites}
       />
       {snackbar}
     </AppRoot>

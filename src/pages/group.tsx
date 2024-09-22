@@ -26,13 +26,14 @@ function Group({
   JsonDataResponse,
   infogroup,
   reactNavigator,
+  favourites,
 }: {
   JsonDataResponse: Record<string, string>[];
   infogroup: string;
   reactNavigator: Navigator;
+  favourites: Array<{ name: string; type: string }>;
 }) {
-  const [JsonData, setJsonData] =
-    useState<Array<Array<{ name: string; key: number }>>>();
+  const [JsonData, setJsonData] = useState<Array<Array<string>>>();
   const [searchgroup, setsearchgroup] = useState("");
 
   const [backButton] = initBackButton();
@@ -71,6 +72,7 @@ function Group({
         style={{ padding: "10px" }}
       >
         <Input
+          id="input-group"
           header={lang.search}
           onChange={(e) => {
             setsearchgroup(e.target.value);
@@ -94,22 +96,16 @@ function Group({
         />
         {JsonData.filter((data) =>
           data.some((data) =>
-            data.name
-              .toLocaleUpperCase()
-              .includes(searchgroup.toLocaleUpperCase())
+            data.toLocaleUpperCase().includes(searchgroup.toLocaleUpperCase())
           )
-        ).map((data: Array<{ name: string; key: number }>, index) => {
+        ).map((data: Array<string>, index) => {
           const datasearch = data.filter((data) =>
-            data.name
-              .toLocaleUpperCase()
-              .includes(searchgroup.toLocaleUpperCase())
+            data.toLocaleUpperCase().includes(searchgroup.toLocaleUpperCase())
           );
 
           const alldata = JsonData.filter((data) =>
             data.some((data) =>
-              data.name
-                .toLocaleUpperCase()
-                .includes(searchgroup.toLocaleUpperCase())
+              data.toLocaleUpperCase().includes(searchgroup.toLocaleUpperCase())
             )
           );
 
@@ -124,15 +120,15 @@ function Group({
                 mode="bezeled"
               >
                 {datasearch.map((data, index) => {
+                  const yesfavourites = favourites.some(
+                    (data2) => data2.name == data
+                  );
+
                   return (
                     <InlineButtonsItem
                       key={index}
                       onClick={() => {
-                        reactNavigator.push(
-                          `/schedule/${grouptype}/${data.name}/${String(
-                            data.key
-                          )}`
-                        );
+                        reactNavigator.push(`/schedule/${grouptype}/${data}`);
                         localStorage.setItem(
                           "Expand",
                           JSON.stringify([
@@ -145,25 +141,41 @@ function Group({
                           ])
                         );
                         localStorage.setItem("Menu", `${grouptype}next`);
-                        localStorage.setItem("Data", data.name);
-                        localStorage.setItem("DataIndex", String(data.key));
+                        localStorage.setItem("Data", data);
+                        localStorage.setItem("MenuExit", `/group/${grouptype}`);
                       }}
                       text={
-                        data.name == "ИСП 23-21" || infogroup == data.name
-                          ? data.name
+                        data == "ИСП 23-21" ||
+                        infogroup == data ||
+                        yesfavourites
+                          ? data
                           : ""
                       }
                     >
-                      {data.name == "ИСП 23-21" ? (
-                        infogroup == data.name ? (
-                          Icon("check", "1")
-                        ) : (
-                          "🏆"
-                        )
-                      ) : infogroup == data.name ? (
-                        Icon("check", "1")
+                      {data == "ИСП 23-21" ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.25rem",
+                          }}
+                        >
+                          🏆 {infogroup == data && Icon("check", "1")}{" "}
+                          {yesfavourites && Icon("favourites", "1")}
+                        </div>
+                      ) : infogroup == data || yesfavourites ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.25rem",
+                          }}
+                        >
+                          {infogroup == data && Icon("check", "1")}{" "}
+                          {yesfavourites && Icon("favourites", "1")}
+                        </div>
                       ) : (
-                        <Caption weight={"2"}>{data.name}</Caption>
+                        <Caption weight={"2"}>{data}</Caption>
                       )}
                     </InlineButtonsItem>
                   );
@@ -172,9 +184,11 @@ function Group({
             );
           } else {
             const datasearch = data.find((data) =>
-              data.name
-                .toLocaleUpperCase()
-                .includes(searchgroup.toLocaleUpperCase())
+              data.toLocaleUpperCase().includes(searchgroup.toLocaleUpperCase())
+            );
+
+            const yesfavourites = favourites.some(
+              (data2) => data2.name == datasearch
             );
 
             return (
@@ -188,36 +202,47 @@ function Group({
                       index != alldata.length - 1 ? "2.5vh" : "20vh",
                   }}
                   onClick={() => {
-                    reactNavigator.push(
-                      `/schedule/${grouptype}/${datasearch.name}/${String(
-                        datasearch.key
-                      )}`
-                    );
+                    reactNavigator.push(`/schedule/${grouptype}/${datasearch}`);
                     localStorage.setItem(
                       "Expand",
                       JSON.stringify([false, false, false, false, false, false])
                     );
                     localStorage.setItem("Menu", `${grouptype}next`);
-                    localStorage.setItem("Data", datasearch.name);
-                    localStorage.setItem("DataIndex", String(datasearch.key));
+                    localStorage.setItem("Data", datasearch);
+                    localStorage.setItem("MenuExit", `/group/${grouptype}`);
                   }}
                   text={
-                    datasearch.name == "ИСП 23-21" ||
-                    infogroup == datasearch.name
-                      ? datasearch.name
+                    datasearch == "ИСП 23-21" ||
+                    infogroup == datasearch ||
+                    yesfavourites
+                      ? datasearch
                       : ""
                   }
                 >
-                  {datasearch.name == "ИСП 23-21" ? (
-                    infogroup == datasearch.name ? (
-                      Icon("check", "1")
-                    ) : (
-                      "🏆"
-                    )
-                  ) : infogroup == datasearch.name ? (
-                    Icon("check", "1")
+                  {datasearch == "ИСП 23-21" ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.25rem",
+                      }}
+                    >
+                      🏆 {infogroup == datasearch && Icon("check", "1")}{" "}
+                      {yesfavourites && Icon("favourites", "1")}
+                    </div>
+                  ) : infogroup == datasearch || yesfavourites ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.25rem",
+                      }}
+                    >
+                      {infogroup == datasearch && Icon("check", "1")}{" "}
+                      {yesfavourites && Icon("favourites", "1")}
+                    </div>
                   ) : (
-                    <Caption weight={"2"}>{datasearch.name}</Caption>
+                    <Caption weight={"2"}>{datasearch}</Caption>
                   )}
                 </InlineButtonsItem>
               )

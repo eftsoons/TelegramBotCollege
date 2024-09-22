@@ -24,13 +24,13 @@ export default () => {
           y2="6.48529"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#0000C9" />
-          <stop offset="0.1277" stop-color="#2006C9" />
-          <stop offset="0.3216" stop-color="#4A0EC8" />
-          <stop offset="0.5106" stop-color="#6B14C8" />
-          <stop offset="0.6905" stop-color="#8318C7" />
-          <stop offset="0.8578" stop-color="#911BC7" />
-          <stop offset="1" stop-color="#961CC7" />
+          <stop stopColor="#0000C9" />
+          <stop offset="0.1277" stopColor="#2006C9" />
+          <stop offset="0.3216" stopColor="#4A0EC8" />
+          <stop offset="0.5106" stopColor="#6B14C8" />
+          <stop offset="0.6905" stopColor="#8318C7" />
+          <stop offset="0.8578" stopColor="#911BC7" />
+          <stop offset="1" stopColor="#961CC7" />
         </linearGradient>
         <radialGradient
           id="paint1_radial"
@@ -40,10 +40,10 @@ export default () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(17.0973 17.3343) rotate(-128.972) scale(10.6569 15.7183)"
         >
-          <stop stop-color="#0B25CE" />
-          <stop offset="0.4859" stop-color="#2C93DB" />
-          <stop offset="0.8379" stop-color="#42DCE4" />
-          <stop offset="1" stop-color="#4BF9E8" />
+          <stop stopColor="#0B25CE" />
+          <stop offset="0.4859" stopColor="#2C93DB" />
+          <stop offset="0.8379" stopColor="#42DCE4" />
+          <stop offset="1" stopColor="#4BF9E8" />
         </radialGradient>
       </defs>
     </svg>

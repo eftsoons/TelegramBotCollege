@@ -51,41 +51,39 @@ export function GetGroup(
   namegroup: string,
   JsonData: Record<string, string>[]
 ) {
-  const info = [] as Array<Array<{ name: string; key: number }>>;
+  const info = [] as Array<Array<string>>;
   if (namegroup == "group") {
-    Object.entries(JsonData[0]).forEach(([key, data], index) => {
+    Object.entries(JsonData[0]).forEach(([key, data]) => {
       if (data == "Дата") {
         if (info[info.length - 1]) {
           if (info[info.length - 1].length % 3 == 0) {
-            info.push([{ name: key, key: index }]);
+            info.push([key]);
           } else {
-            info[info.length - 1].push({ name: key, key: index });
+            info[info.length - 1].push(key);
           }
         } else {
-          info.push([{ name: key, key: index }]);
+          info.push([key]);
         }
       }
     });
   } else if (namegroup == "teacher") {
-    const allteacher = [] as Array<{ name: string; key: number }>;
+    const allteacher = [] as Array<string>;
 
     JsonData.map((data2: Record<string, string>) => {
-      Object.entries(data2).forEach(
-        ([key, data]: [string, string], index: number) => {
-          if (key.includes("field")) {
-            if (
-              data.match(/[А-Я]\.[А-Я]\./) &&
-              !allteacher.find((data2) => data2.name === data)
-            ) {
-              allteacher.push({ name: data, key: index });
-            }
+      Object.entries(data2).forEach(([key, data]: [string, string]) => {
+        if (key.includes("field")) {
+          if (
+            data.match(/[А-Я]\.[А-Я]\./) &&
+            !allteacher.find((data2) => data2 === data)
+          ) {
+            allteacher.push(data);
           }
         }
-      );
+      });
     });
 
     allteacher
-      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => a.localeCompare(b))
       .map((data) => {
         if (info[info.length - 1]) {
           if (info[info.length - 1].length % 3 == 0) {
@@ -98,42 +96,33 @@ export function GetGroup(
         }
       });
   } else if (namegroup == "office") {
-    const office = [] as Array<{ name: string; key: number }>;
+    const office = [] as Array<string>;
 
     JsonData.map((data2: Record<string, string>) => {
-      Object.entries(data2).forEach(([key, data]: [string, string], index) => {
+      Object.entries(data2).forEach(([key, data]: [string, string]) => {
         if (key.includes("field")) {
           if (
             data.match(/.+ \([А-Я][а-я]\)/) &&
-            !office.find(
-              (data2: { name: string; key: number }) => data2.name === data
-            )
+            !office.find((data2) => data2 === data)
           ) {
-            office.push({ name: data, key: index });
+            office.push(data);
           }
         }
       });
     });
 
     office
-      .sort(
-        (
-          a: { name: string; key: number },
-          b: { name: string; key: number }
-        ) => {
-          const amatch = a.name.match(/\(([А-Я])[а-я]\)/);
-          const bmatch = b.name.match(/\(([А-Я])[а-я]\)/);
+      .sort((a, b) => {
+        const amatch = a.match(/\(([А-Я])[а-я]\)/);
+        const bmatch = b.match(/\(([А-Я])[а-я]\)/);
 
-          if (amatch && bmatch) {
-            return (
-              amatch[1].localeCompare(bmatch[1]) || a.name.localeCompare(b.name)
-            );
-          } else {
-            return -1;
-          }
+        if (amatch && bmatch) {
+          return amatch[1].localeCompare(bmatch[1]) || a.localeCompare(b);
+        } else {
+          return -1;
         }
-      )
-      .map((data: { name: string; key: number }) => {
+      })
+      .map((data) => {
         if (info[info.length - 1]) {
           if (info[info.length - 1].length % 3 == 0) {
             info.push([data]);
@@ -152,11 +141,15 @@ export function GetGroup(
 export function GetInfoGroup(
   namegroup: string,
   activegroup: string,
-  activeindex: string,
   JsonData: Record<string, string>[]
 ) {
   const info = [] as Array<any>; // сорян за any
   const info2 = [] as Array<Array<string>>;
+
+  const activeindex = Object.entries(JsonData[0]).findIndex(
+    ([key]) => key == activegroup
+  );
+
   try {
     if (namegroup.includes("group")) {
       JsonData.map((data3: Record<string, string>, index: number) => {

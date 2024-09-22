@@ -5,6 +5,7 @@ import {
   InlineButtons,
   Caption,
   List,
+  Snackbar,
 } from "@telegram-apps/telegram-ui";
 import { InlineButtonsItem } from "@telegram-apps/telegram-ui/dist/components/Blocks/InlineButtons/components/InlineButtonsItem/InlineButtonsItem";
 
@@ -19,9 +20,15 @@ import type { Navigator } from "react-router-dom";
 function Main({
   reactNavigator,
   infogroup,
+  snackbar,
+  setsnackbar,
+  favourites,
 }: {
   reactNavigator: Navigator;
   infogroup: string;
+  snackbar: Element | null;
+  setsnackbar: Function;
+  favourites: Array<{ name: string; type: string }>;
 }) {
   const utils = initUtils();
 
@@ -80,6 +87,39 @@ function Main({
                   text={lang.offices}
                 >
                   {Icon("office")}
+                </InlineButtonsItem>
+                <InlineButtonsItem
+                  onClick={() => {
+                    if (favourites.length > 0) {
+                      reactNavigator.push("/favourites");
+                      localStorage.setItem("Menu", "favourites");
+                      localStorage.setItem("Search", "");
+                    } else {
+                      if (!snackbar) {
+                        setsnackbar(
+                          <Snackbar
+                            before={Icon("bug")}
+                            style={{ zIndex: "3" }}
+                            onClose={() => {
+                              //он баганный
+                            }}
+                            duration={2000}
+                          >
+                            Избранное пусто
+                          </Snackbar>
+                        );
+
+                        setTimeout(() => {
+                          setsnackbar(null);
+                        }, 2150);
+                      }
+                    }
+                  }}
+                  style={{ width: "100%" }}
+                  mode="bezeled"
+                  text="Избранное"
+                >
+                  {Icon("favourites")}
                 </InlineButtonsItem>
                 {/*<InlineButtonsItem
                   onClick={() => {

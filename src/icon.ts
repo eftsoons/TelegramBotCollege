@@ -14,4 +14,5 @@ export default {
   prefects: "e91d",
   info: "e970",
   bot: "e91e",
+  favourites: "e9e5",
 };

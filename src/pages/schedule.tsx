@@ -2,7 +2,11 @@ import { useEffect, useLayoutEffect, useState } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import { initBackButton, retrieveLaunchParams } from "@telegram-apps/sdk";
+import {
+  initBackButton,
+  retrieveLaunchParams,
+  initCloudStorage,
+} from "@telegram-apps/sdk";
 import {
   Accordion,
   Badge,
@@ -43,6 +47,7 @@ function Schedule({
   infogroup,
   setinfogroup,
   reactNavigator,
+  favourites,
 }: {
   snackbar: null | Element;
   setsnackbar: Function;
@@ -50,14 +55,16 @@ function Schedule({
   infogroup: string;
   setinfogroup: Function;
   reactNavigator: Navigator;
+  favourites: Array<{ name: string; type: string }>;
 }) {
   const [backButton] = initBackButton();
   const launchParams = retrieveLaunchParams();
   const lp = useLaunchParams();
+  const cloudStorage = initCloudStorage();
 
-  const { nameparams, key, grouptype } = useParams();
+  const { nameparams, grouptype } = useParams();
 
-  if (!nameparams || !key || !grouptype) {
+  if (!nameparams || !grouptype) {
     return <Navigate to="/" />;
   }
 
@@ -114,7 +121,7 @@ function Schedule({
   ];
 
   useLayoutEffect(() => {
-    const info = GetInfoGroup(grouptype, name, key, JsonData);
+    const info = GetInfoGroup(grouptype, name, JsonData);
 
     if (info) {
       setinfo(info);
@@ -132,9 +139,18 @@ function Schedule({
   useEffect(() => {
     backButton.show();
     backButton.on("click", () => {
-      backButton.hide();
-      reactNavigator.push(`/group/${grouptype}`);
-      localStorage.setItem("Menu", grouptype);
+      const backpath = localStorage.getItem("MenuExit");
+
+      if (backpath) {
+        if (backpath != `/schedule/teacher/${name}`) {
+          // гавнокод, скоро исправлю
+          reactNavigator.push(backpath);
+          localStorage.setItem("Menu", backpath.split("/")[1]);
+        } else {
+          reactNavigator.push("/favourites");
+          localStorage.setItem("Menu", "favourites");
+        }
+      }
     });
   }, []);
 
@@ -211,8 +227,137 @@ function Schedule({
                 <IconButton disabled={!idteachersferum}>
                   <Sferum />
                 </IconButton>
+                <IconButton
+                  style={{
+                    opacity: favourites.find((data) => data.name == name)
+                      ? 1
+                      : 0.3,
+                  }}
+                  onClick={(e) => {
+                    const index = favourites.findIndex(
+                      (data) => data.name == name
+                    );
+
+                    if (index != -1) {
+                      favourites.splice(index, 1);
+                      cloudStorage.set(
+                        "favourites",
+                        JSON.stringify(favourites)
+                      );
+
+                      if (!snackbar) {
+                        setsnackbar(
+                          <Snackbar
+                            before={Icon("favourites")}
+                            style={{ zIndex: "3" }}
+                            onClose={() => {
+                              //он баганный
+                            }}
+                            duration={2000}
+                            description={`Убрали ${name}`}
+                          >
+                            Вы успешно изменили избранные
+                          </Snackbar>
+                        );
+                      }
+                    } else {
+                      favourites.push({ name: name, type: grouptype });
+                      cloudStorage.set(
+                        "favourites",
+                        JSON.stringify(favourites)
+                      );
+
+                      if (!snackbar) {
+                        setsnackbar(
+                          <Snackbar
+                            before={Icon("favourites")}
+                            style={{ zIndex: "3" }}
+                            onClose={() => {
+                              //он баганный
+                            }}
+                            duration={2000}
+                            description={`Добавили ${name}`}
+                          >
+                            Вы успешно изменили избранные
+                          </Snackbar>
+                        );
+                      }
+                    }
+
+                    if (!snackbar) {
+                      setTimeout(() => {
+                        setsnackbar(null);
+                      }, 2150);
+                    }
+                    e.stopPropagation();
+                  }}
+                >
+                  {Icon("favourites", "1.75")}
+                </IconButton>
               </div>
-            ) : undefined
+            ) : (
+              <IconButton
+                style={{
+                  opacity: favourites.find((data) => data.name == name)
+                    ? 1
+                    : 0.3,
+                }}
+                onClick={(e) => {
+                  const index = favourites.findIndex(
+                    (data) => data.name == name
+                  );
+
+                  if (index != -1) {
+                    favourites.splice(index, 1);
+                    cloudStorage.set("favourites", JSON.stringify(favourites));
+
+                    if (!snackbar) {
+                      setsnackbar(
+                        <Snackbar
+                          before={Icon("favourites")}
+                          style={{ zIndex: "3" }}
+                          onClose={() => {
+                            //он баганный
+                          }}
+                          duration={2000}
+                          description={`Убрали ${name}`}
+                        >
+                          Вы успешно изменили избранные
+                        </Snackbar>
+                      );
+                    }
+                  } else {
+                    favourites.push({ name: name, type: grouptype });
+                    cloudStorage.set("favourites", JSON.stringify(favourites));
+
+                    if (!snackbar) {
+                      setsnackbar(
+                        <Snackbar
+                          before={Icon("favourites")}
+                          style={{ zIndex: "3" }}
+                          onClose={() => {
+                            //он баганный
+                          }}
+                          duration={2000}
+                          description={`Добавили ${name}`}
+                        >
+                          Вы успешно изменили избранные
+                        </Snackbar>
+                      );
+                    }
+                  }
+
+                  if (!snackbar) {
+                    setTimeout(() => {
+                      setsnackbar(null);
+                    }, 2150);
+                  }
+                  e.stopPropagation();
+                }}
+              >
+                {Icon("favourites", "1.75")}
+              </IconButton>
+            )
           }
           multiline={true}
           before={
@@ -283,7 +428,7 @@ function Schedule({
               localStorage.setItem("Menu", "teacherinfo");
               localStorage.setItem(
                 "MenuExit",
-                `/schedule/${grouptype}/${name}/${key}`
+                `/schedule/${grouptype}/${name}`
               );
               //localStorage.setItem("MenuExit", `/schedule/group/${}`);
               /*} else if (currentTab2 == "groupnext") {
@@ -386,7 +531,7 @@ function Schedule({
                                             );
                                             localStorage.setItem(
                                               "MenuExit",
-                                              `/schedule/${grouptype}/${name}/${key}`
+                                              `/schedule/${grouptype}/${name}`
                                             );
                                           }}
                                           className="teachera"
@@ -415,7 +560,7 @@ function Schedule({
                                           localStorage.setItem("Data", data[2]);
                                           localStorage.setItem(
                                             "MenuExit",
-                                            `/schedule/${grouptype}/${name}/${key}`
+                                            `/schedule/${grouptype}/${name}`
                                           );
                                         }}
                                         className="teachera"
