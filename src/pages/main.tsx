@@ -1,4 +1,4 @@
-import { initUtils } from "@telegram-apps/sdk";
+import { initBackButton, initUtils } from "@telegram-apps/sdk";
 
 import {
   Placeholder,

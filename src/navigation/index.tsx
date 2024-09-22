@@ -1,7 +1,11 @@
 import { Navigate, Route, Router, Routes } from "react-router-dom";
 import { TabBar } from "../components";
 import { useEffect, useMemo } from "react";
-import { initInitData, initNavigator } from "@telegram-apps/sdk";
+import {
+  initBackButton,
+  initInitData,
+  initNavigator,
+} from "@telegram-apps/sdk";
 import { useIntegration } from "@telegram-apps/react-router-integration";
 import {
   Call,

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { InlineButtons, List, Placeholder } from "@telegram-apps/telegram-ui";
+import { InlineButtons, List } from "@telegram-apps/telegram-ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { initBackButton } from "@telegram-apps/sdk";
 

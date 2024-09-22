@@ -138,12 +138,20 @@ function Schedule({
 
   useEffect(() => {
     backButton.show();
+
     backButton.on("click", () => {
       const backpath = localStorage.getItem("MenuExit");
 
       if (backpath) {
         reactNavigator.push(backpath);
-        localStorage.setItem("Menu", backpath.split("/")[1]);
+
+        if (backpath.split("/")[2]) {
+          localStorage.setItem("Menu", `${backpath.split("/")[2]}`);
+
+          localStorage.setItem("MenuExit", `/group/${backpath.split("/")[2]}`);
+        } else {
+          localStorage.setItem("Menu", "favourites");
+        }
       }
     });
   }, []);
