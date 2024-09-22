@@ -3,7 +3,7 @@ import { TabBar } from "../components";
 import { useEffect, useMemo } from "react";
 import { initInitData, initNavigator } from "@telegram-apps/sdk";
 import { useIntegration } from "@telegram-apps/react-router-integration";
-import { Call, Group, Main, Schedule, Teacher, Wait } from "../pages";
+import { Call, Group, Main, Schedule, Teacher, Wait, Headman } from "../pages";
 
 export default ({
   JsonData,
@@ -114,6 +114,7 @@ export default ({
             }
           />
           <Route path={"/call"} Component={Call} />
+          <Route path={"/headman"} Component={Headman} />
           <Route path="*" element={<Navigate to="/" />} />
         </Route>
       </Routes>

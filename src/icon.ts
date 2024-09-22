@@ -13,4 +13,5 @@ export default {
   bug: "e920",
   prefects: "e91d",
   info: "e970",
+  bot: "e91e",
 };

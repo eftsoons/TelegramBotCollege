@@ -1,6 +1,7 @@
 import { initUtils } from "@telegram-apps/sdk";
 import { Button, IconButton, Snackbar } from "@telegram-apps/telegram-ui";
 import { Icon } from ".";
+import lang from "../lang";
 
 export default ({
   idteachersferum,
@@ -34,7 +35,7 @@ export default ({
                       )
                     }
                   >
-                    Согласен
+                    {lang.agree}
                   </IconButton>
                 }
                 style={{ zIndex: "3" }}
@@ -44,20 +45,14 @@ export default ({
                 duration={5000}
                 description={
                   <>
-                    <span>
-                      Для доступа вам необходимо иметь сферум и подключиться к
-                      нашему колледжу.
-                    </span>
+                    <span>{lang.access}</span>
                     <br />
                     <br />
-                    <span>
-                      Совет от нас - пишите преподавателям только в рабочее
-                      время.
-                    </span>
+                    <span>{lang.advice}</span>
                   </>
                 }
               >
-                {"Важно!"}
+                {lang.important}!
               </Snackbar>
             );
 
@@ -76,7 +71,7 @@ export default ({
                 }}
                 duration={2000}
               >
-                {"Преподаватель еще не подключен к сферуму"}
+                {lang.nowriteteacher}
               </Snackbar>
             );
 

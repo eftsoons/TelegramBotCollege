@@ -74,6 +74,30 @@ const lang = {
     en: "Enter a name",
     de: "Geben Sie einen Namen ein",
   },
+  authors: { ru: "Авторы", en: "Authors", de: "Autoren" },
+  and: { ru: "и", en: "and", de: "und" },
+  important: { ru: "Важно", en: "Important", de: "Wichtig" },
+  access: {
+    ru: "Для доступа вам необходимо иметь сферум и подключиться к нашему колледжу.",
+    en: "To access, you need to have sferum and connect to our college.",
+    de: "Sie müssen sferum haben und sich mit unserem College verbinden, um darauf zugreifen zu können.",
+  },
+  advice: {
+    ru: "Совет от нас - пишите преподавателям только в рабочее время.",
+    en: "Our advice is to write to teachers only during working hours.",
+    de: "Tipp von uns - schreiben Sie den Lehrern nur während der Arbeitszeit.",
+  },
+  agree: { ru: "Согласен", en: "Agree", de: "Einverstanden" },
+  writeteacher: {
+    ru: "Написать преподавателю",
+    en: "Write to the teacher",
+    de: "An den Lehrer schreiben",
+  },
+  nowriteteacher: {
+    ru: "Преподаватель еще не подключен к сферуму",
+    en: "The teacher is not connected to the sferum",
+    de: "Der Lehrer ist noch nicht mit sferum verbunden",
+  },
 };
 
 export default {
@@ -110,4 +134,12 @@ export default {
   years: lang.years[langcode],
   search: lang.search[langcode],
   entername: lang.entername[langcode],
+  authors: lang.authors[langcode],
+  and: lang.and[langcode],
+  important: lang.important[langcode],
+  access: lang.access[langcode],
+  advice: lang.advice[langcode],
+  agree: lang.agree[langcode],
+  writeteacher: lang.writeteacher[langcode],
+  nowriteteacher: lang.nowriteteacher[langcode],
 };

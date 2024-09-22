@@ -87,7 +87,7 @@ function Teacher({
                       idteachersferum={idinfosferum}
                       snackbar={snackbar}
                       setsnackbar={setsnackbar}
-                      text="Написать преподавателю"
+                      text={lang.writeteacher}
                     />
                   </div>
                 </div>

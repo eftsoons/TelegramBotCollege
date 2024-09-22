@@ -50,6 +50,16 @@ function TabBar({
         >
           {Icon("call")}
         </Tabbar.Item>
+        {/*<Tabbar.Item
+          id="headman"
+          text="Помощник"
+          selected={"/headman" == pathname}
+          onClick={() => {
+            reactNavigator.push("/headman");
+          }}
+        >
+          {Icon("bot")}
+        </Tabbar.Item>*/}
       </Tabbar>
       <Outlet />
     </List>

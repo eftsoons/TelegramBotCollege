@@ -81,6 +81,18 @@ function Main({
                 >
                   {Icon("office")}
                 </InlineButtonsItem>
+                {/*<InlineButtonsItem
+                  onClick={() => {
+                    reactNavigator.push("group/office");
+                    localStorage.setItem("Menu", "office");
+                    localStorage.setItem("Search", "");
+                  }}
+                  style={{ width: "100%" }}
+                  mode="bezeled"
+                  text="Для старост"
+                >
+                  {Icon("office")}
+                </InlineButtonsItem>*/}
               </>
             }
           >
@@ -88,7 +100,7 @@ function Main({
           </Placeholder>
           <div className="author">
             <Caption className="authortext" weight={"1"}>
-              Авторы:
+              {lang.authors}:
             </Caption>
             <Caption className="authortext" weight={"1"}>
               <ins
@@ -98,7 +110,7 @@ function Main({
               >
                 Александр Федорович
               </ins>{" "}
-              и{" "}
+              {lang.and}{" "}
               <ins
                 onClick={() =>
                   utils.openTelegramLink("https://t.me/tommyilinykh")
