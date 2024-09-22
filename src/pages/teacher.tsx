@@ -49,9 +49,7 @@ function Teacher({
   useEffect(() => {
     backButton.show();
 
-    console.log(backButton);
-
-    backButton.on("click", () => {
+    const handleBackButton = () => {
       const backpath = localStorage.getItem("MenuExit");
 
       if (backpath) {
@@ -62,8 +60,12 @@ function Teacher({
 
         localStorage.setItem("MenuExit", `/group/${backpath.split("/")[2]}`);
       }
-    });
-  }, []);
+    };
+
+    backButton.on("click", handleBackButton);
+
+    return () => backButton.off("click", handleBackButton);
+  }, [backButton]);
 
   return (
     <AnimatePresence>

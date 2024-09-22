@@ -17,14 +17,18 @@ export default ({
   const [backButton] = initBackButton();
 
   useEffect(() => {
-    backButton.show();
-
-    backButton.on("click", () => {
+    const handleBackButton = () => {
       backButton.hide();
       reactNavigator.push("/");
       localStorage.setItem("Menu", "main");
-    });
-  }, []);
+    };
+
+    backButton.show();
+
+    backButton.on("click", handleBackButton);
+
+    return () => backButton.off("click", handleBackButton);
+  }, [backButton]);
 
   return (
     <List>

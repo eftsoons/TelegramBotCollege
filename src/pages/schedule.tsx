@@ -139,7 +139,7 @@ function Schedule({
   useEffect(() => {
     backButton.show();
 
-    backButton.on("click", () => {
+    const handleBackButton = () => {
       const backpath = localStorage.getItem("MenuExit");
 
       if (backpath) {
@@ -153,8 +153,12 @@ function Schedule({
           localStorage.setItem("Menu", "favourites");
         }
       }
-    });
-  }, []);
+    };
+
+    backButton.on("click", handleBackButton);
+
+    return () => backButton.off("click", handleBackButton);
+  }, [backButton]);
 
   const today = timekaliningrad.getDay();
 
