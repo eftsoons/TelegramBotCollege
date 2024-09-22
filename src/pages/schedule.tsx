@@ -239,14 +239,14 @@ function Schedule({
                       ? 1
                       : 0.3,
                   }}
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     const index = favourites.findIndex(
                       (data) => data.name == name
                     );
 
                     if (index != -1) {
                       favourites.splice(index, 1);
-                      cloudStorage.set(
+                      await cloudStorage.set(
                         "favourites",
                         JSON.stringify(favourites)
                       );
@@ -268,7 +268,7 @@ function Schedule({
                       }
                     } else {
                       favourites.push({ name: name, type: grouptype });
-                      cloudStorage.set(
+                      await cloudStorage.set(
                         "favourites",
                         JSON.stringify(favourites)
                       );
@@ -308,14 +308,17 @@ function Schedule({
                     ? 1
                     : 0.3,
                 }}
-                onClick={(e) => {
+                onClick={async (e) => {
                   const index = favourites.findIndex(
                     (data) => data.name == name
                   );
 
                   if (index != -1) {
                     favourites.splice(index, 1);
-                    cloudStorage.set("favourites", JSON.stringify(favourites));
+                    await cloudStorage.set(
+                      "favourites",
+                      JSON.stringify(favourites)
+                    );
 
                     if (!snackbar) {
                       setsnackbar(
@@ -334,7 +337,10 @@ function Schedule({
                     }
                   } else {
                     favourites.push({ name: name, type: grouptype });
-                    cloudStorage.set("favourites", JSON.stringify(favourites));
+                    await cloudStorage.set(
+                      "favourites",
+                      JSON.stringify(favourites)
+                    );
 
                     if (!snackbar) {
                       setsnackbar(
