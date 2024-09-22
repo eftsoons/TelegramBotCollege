@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { InlineButtons, List } from "@telegram-apps/telegram-ui";
+import { Caption, InlineButtons, List } from "@telegram-apps/telegram-ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { initBackButton } from "@telegram-apps/sdk";
 
@@ -55,7 +55,6 @@ export default ({
                   >
                     <InlineButtonsItem
                       key={index}
-                      text={favourites[index].name}
                       onClick={() => {
                         reactNavigator.push(
                           `/schedule/${favourites[index].type}/${favourites[index].name}`
@@ -67,11 +66,12 @@ export default ({
                         localStorage.setItem("Data", favourites[index].name);
                         localStorage.setItem("MenuExit", `/favourites`);
                       }}
-                    />
+                    >
+                      <Caption weight={"2"}>{favourites[index].name}</Caption>
+                    </InlineButtonsItem>
                     {favourites[index + 1] && (
                       <InlineButtonsItem
                         key={index + 1}
-                        text={favourites[index + 1].name}
                         onClick={() => {
                           reactNavigator.push(
                             `/schedule/${favourites[index + 1].type}/${
@@ -88,12 +88,15 @@ export default ({
                           );
                           localStorage.setItem("MenuExit", `/favourites`);
                         }}
-                      />
+                      >
+                        <Caption weight={"2"}>
+                          {favourites[index + 1].name}
+                        </Caption>
+                      </InlineButtonsItem>
                     )}
                     {favourites[index + 2] && (
                       <InlineButtonsItem
                         key={index + 2}
-                        text={favourites[index + 2].name}
                         onClick={() => {
                           reactNavigator.push(
                             `/schedule/${favourites[index + 2].type}/${
@@ -110,7 +113,11 @@ export default ({
                           );
                           localStorage.setItem("MenuExit", `/favourites`);
                         }}
-                      />
+                      >
+                        <Caption weight={"2"}>
+                          {favourites[index + 2].name}
+                        </Caption>
+                      </InlineButtonsItem>
                     )}
                   </InlineButtons>
                 )
