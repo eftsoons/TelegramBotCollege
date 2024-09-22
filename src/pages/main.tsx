@@ -33,7 +33,7 @@ function Main({
   const utils = initUtils();
 
   return (
-    <List>
+    <List style={{ height: "650px" }}>
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}

@@ -5,6 +5,7 @@ import {
   Caption,
   Input,
   IconButton,
+  List,
 } from "@telegram-apps/telegram-ui";
 import { InlineButtonsItem } from "@telegram-apps/telegram-ui/dist/components/Blocks/InlineButtons/components/InlineButtonsItem/InlineButtonsItem";
 
@@ -13,8 +14,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { initBackButton } from "@telegram-apps/sdk";
 
 import { Icon } from "../components";
-
-import { Wait } from "./index";
 
 import lang from "../lang";
 
@@ -33,7 +32,6 @@ function Group({
   reactNavigator: Navigator;
   favourites: Array<{ name: string; type: string }>;
 }) {
-  const [JsonData, setJsonData] = useState<Array<Array<string>>>();
   const [searchgroup, setsearchgroup] = useState("");
 
   const [backButton] = initBackButton();
@@ -44,12 +42,12 @@ function Group({
     return <Navigate to="/" />;
   }
 
+  const JsonData = GetGroup(grouptype, JsonDataResponse);
+
   useLayoutEffect(() => {
     const search = localStorage.getItem("Search");
 
     setsearchgroup(search ? search : "");
-
-    setJsonData(GetGroup(grouptype, JsonDataResponse));
   }, []);
 
   useEffect(() => {
@@ -66,14 +64,14 @@ function Group({
     return () => backButton.off("click", handleBackButton);
   }, [backButton]);
 
-  return JsonData ? (
+  return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        style={{ padding: "10px" }}
+        style={{ padding: "10px", height: "1050px" }}
       >
         <Input
           id="input-group"
@@ -119,7 +117,7 @@ function Group({
                 key={index}
                 style={{
                   width: "100%",
-                  marginBottom: index != alldata.length - 1 ? "2.5vh" : "20vh",
+                  marginBottom: index != alldata.length - 1 ? "2.5vh" : "0",
                 }}
                 mode="bezeled"
               >
@@ -255,8 +253,6 @@ function Group({
         })}
       </motion.div>
     </AnimatePresence>
-  ) : (
-    <Wait />
   );
 }
 
