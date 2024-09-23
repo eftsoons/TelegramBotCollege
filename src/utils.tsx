@@ -47,6 +47,24 @@ export const getlessoncall = (
   }
 };
 
+export function GetHeight({
+  tabl,
+  expand,
+}: {
+  tabl: Record<string, Record<string, string>>;
+  expand: Array<boolean>;
+}) {
+  let height = 0;
+
+  Object.entries(tabl).map((data, index) => {
+    if (expand[index]) {
+      height += Object.entries(data[1]).length * 81;
+    }
+  });
+
+  return height;
+}
+
 export function GetGroup(
   namegroup: string,
   JsonData: Record<string, string>[]

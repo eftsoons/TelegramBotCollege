@@ -26,6 +26,7 @@ import {
   ConvertTimeZone,
   GetInfoTeacher,
   GetSferum,
+  GetHeight,
 } from "../utils";
 
 import axios from "axios";
@@ -497,6 +498,7 @@ function Schedule({
                   hint={today - 1 == index ? "🌄" : "📅"}
                   hovered={expand[index]}
                   disabled={data2.length > 1 ? false : true}
+                  //before={data2[0]} сделать красивый вариант
                 >
                   {GetDay(index)}
                 </AccordionSummary>

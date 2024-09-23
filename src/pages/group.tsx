@@ -14,8 +14,6 @@ import { initBackButton } from "@telegram-apps/sdk";
 
 import { Icon } from "../components";
 
-import { Wait } from "./index";
-
 import lang from "../lang";
 
 import { GetGroup } from "../utils";
@@ -53,7 +51,6 @@ function Group({
 
   useEffect(() => {
     const handleBackButton = () => {
-      console.log(123);
       backButton.hide();
       reactNavigator.push("/");
       localStorage.setItem("Menu", "main");
@@ -73,7 +70,18 @@ function Group({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        style={{ padding: "10px" }}
+        style={{
+          padding: "10px",
+          height: `${
+            JsonData.filter((data) =>
+              data.some((data) =>
+                data
+                  .toLocaleUpperCase()
+                  .includes(searchgroup.toLocaleUpperCase())
+              )
+            ).length * 78
+          }px`,
+        }}
       >
         <Input
           id="input-group"
@@ -107,19 +115,14 @@ function Group({
             data.toLocaleUpperCase().includes(searchgroup.toLocaleUpperCase())
           );
 
-          const alldata = JsonData.filter((data) =>
-            data.some((data) =>
-              data.toLocaleUpperCase().includes(searchgroup.toLocaleUpperCase())
-            )
-          );
-
           if (datasearch.length > 1) {
             return (
               <InlineButtons
                 key={index}
                 style={{
                   width: "100%",
-                  marginBottom: index != alldata.length - 1 ? "2.5vh" : "20vh",
+                  //marginBottom: index != alldata.length - 1 ? "2.5vh" : "20vh",
+                  marginBottom: "10px",
                 }}
                 mode="bezeled"
               >
@@ -202,8 +205,8 @@ function Group({
                   mode="bezeled"
                   style={{
                     width: "100%",
-                    marginBottom:
-                      index != alldata.length - 1 ? "2.5vh" : "20vh",
+                    //marginBottom: index != alldata.length - 1 ? "2.5vh" : "20vh",
+                    marginBottom: "10px",
                   }}
                   onClick={() => {
                     reactNavigator.push(`/schedule/${grouptype}/${datasearch}`);

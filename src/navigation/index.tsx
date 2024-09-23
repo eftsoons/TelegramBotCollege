@@ -41,6 +41,7 @@ export default ({
   useEffect(() => {
     if (initData?.startParam) {
       const path = decodeURIComponent(atob(initData.startParam));
+
       reactNavigator.push(path);
       localStorage.setItem(
         "Expand",

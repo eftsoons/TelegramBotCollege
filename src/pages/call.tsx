@@ -1,7 +1,7 @@
 import { useState, useLayoutEffect, useEffect } from "react";
 
 import { Cell, Section, Accordion, List } from "@telegram-apps/telegram-ui";
-import { ConvertTimeZone, getlessoncall } from "../utils";
+import { ConvertTimeZone, GetHeight, getlessoncall } from "../utils";
 
 import { AccordionSummary } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionSummary/AccordionSummary";
 import { AccordionContent } from "@telegram-apps/telegram-ui/dist/components/Blocks/Accordion/components/AccordionContent/AccordionContent";
@@ -16,7 +16,7 @@ import lang from "../lang";
 import type { FC } from "react";
 
 const Call: FC = () => {
-  const [expand, setexpand] = useState([false, false]);
+  const [expand, setexpand] = useState([false, false, false]);
   const [timekaliningrad, settimekaliningrad] = useState<Date>(
     ConvertTimeZone(new Date(), "Europe/Kaliningrad")
   );
@@ -80,7 +80,7 @@ const Call: FC = () => {
       "5 пара": "14:10-15:30",
       "6 пара": "15:35-16:55",
     },
-  };
+  } as { [key: string]: { [key: string]: string } };
 
   return (
     <List>
@@ -90,6 +90,11 @@ const Call: FC = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
+          style={{
+            height: `${
+              GetHeight({ tabl: lessoncall, expand: expand }) + 250
+            }px`,
+          }}
         >
           {Object.entries(lessoncall).map((data, index) => (
             <Accordion
@@ -111,9 +116,7 @@ const Call: FC = () => {
                 {data[0]}
               </AccordionSummary>
               {(lp.platform != "ios" || expand[index]) && (
-                <AccordionContent
-                  style={{ marginBottom: index == 2 ? "20vh" : "0" }}
-                >
+                <AccordionContent>
                   <Section>
                     {Object.entries(data[1]).map((data, index) => {
                       const time = getlessoncall(data[1], timekaliningrad);
