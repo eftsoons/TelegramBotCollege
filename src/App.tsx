@@ -39,6 +39,42 @@ function App() {
       }>
     | undefined
   >();
+  const [listgroup, setlistgroup] = useState<
+    | Array<{
+        name: string;
+        user: Array<{ username: string; name: string; status: string }>;
+      }>
+    | undefined
+  >([
+    {
+      name: "ИСП 23-21",
+      user: [
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+        { username: "@shishkin666", name: "Федорович А.А.", status: "asd" },
+      ],
+    },
+    { name: "ИСП 23-22", user: [] },
+    { name: "ИСП 23-23", user: [] },
+    { name: "ИСП 23-24", user: [] },
+  ]);
 
   const [miniApp] = initMiniApp();
   const themeParams = useThemeParams();
@@ -101,6 +137,7 @@ function App() {
         snackbar={snackbar}
         setsnackbar={setsnackbar}
         favourites={favourites}
+        listgroup={listgroup}
       />
       {snackbar}
     </AppRoot>

@@ -7,6 +7,7 @@ import Wait from "./wait";
 import PixelBattle from "./pixelbattle";
 import Headman from "./headman";
 import Favourites from "./favourites";
+import HeadManGroup from "./headmangroup";
 
 export {
   Call,
@@ -18,4 +19,5 @@ export {
   PixelBattle,
   Headman,
   Favourites,
+  HeadManGroup,
 };

@@ -1,11 +1,7 @@
 import { Navigate, Route, Router, Routes } from "react-router-dom";
 import { TabBar } from "../components";
 import { useEffect, useMemo } from "react";
-import {
-  initBackButton,
-  initInitData,
-  initNavigator,
-} from "@telegram-apps/sdk";
+import { initInitData, initNavigator } from "@telegram-apps/sdk";
 import { useIntegration } from "@telegram-apps/react-router-integration";
 import {
   Call,
@@ -16,6 +12,7 @@ import {
   Wait,
   Headman,
   Favourites,
+  HeadManGroup,
 } from "../pages";
 
 export default ({
@@ -25,6 +22,7 @@ export default ({
   snackbar,
   setsnackbar,
   favourites,
+  listgroup,
 }: {
   JsonData: Record<string, string>[] | undefined;
   infogroup: string | undefined;
@@ -32,6 +30,12 @@ export default ({
   snackbar: null | Element;
   setsnackbar: Function;
   favourites: Array<{ name: string; type: string }> | undefined;
+  listgroup:
+    | Array<{
+        name: string;
+        user: Array<{ username: string; name: string; status: string }>;
+      }>
+    | undefined;
 }) => {
   const navigator = useMemo(() => initNavigator("College39bot"), []);
   const [location, reactNavigator] = useIntegration(navigator);
@@ -41,7 +45,7 @@ export default ({
   useEffect(() => {
     if (initData?.startParam) {
       const path = decodeURIComponent(atob(initData.startParam));
-
+      console.log(path);
       reactNavigator.push(path);
       localStorage.setItem(
         "Expand",
@@ -150,7 +154,32 @@ export default ({
             }
           />
           <Route path={"/call"} Component={Call} />
-          <Route path={"/headman"} Component={Headman} />
+          <Route
+            path={"/headman"}
+            element={
+              listgroup ? (
+                <Headman
+                  listgroup={listgroup}
+                  reactNavigator={reactNavigator}
+                />
+              ) : (
+                <Wait />
+              )
+            }
+          />
+          <Route
+            path={"/headman/group/:group"}
+            element={
+              listgroup ? (
+                <HeadManGroup
+                  listgroup={listgroup}
+                  reactNavigator={reactNavigator}
+                />
+              ) : (
+                <Wait />
+              )
+            }
+          />
           <Route path="*" element={<Navigate to="/" />} />
         </Route>
       </Routes>

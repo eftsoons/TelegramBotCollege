@@ -72,7 +72,7 @@ function Group({
         transition={{ duration: 0.5 }}
         style={{
           padding: "10px",
-          height: `${
+          /*height: `${
             JsonData.filter((data) =>
               data.some((data) =>
                 data
@@ -80,7 +80,7 @@ function Group({
                   .includes(searchgroup.toLocaleUpperCase())
               )
             ).length * 78
-          }px`,
+          }px`,*/
         }}
       >
         <Input
@@ -115,14 +115,20 @@ function Group({
             data.toLocaleUpperCase().includes(searchgroup.toLocaleUpperCase())
           );
 
+          const alldata = JsonData.filter((data) =>
+            data.some((data) =>
+              data.toLocaleUpperCase().includes(searchgroup.toLocaleUpperCase())
+            )
+          );
+
           if (datasearch.length > 1) {
             return (
               <InlineButtons
                 key={index}
                 style={{
                   width: "100%",
-                  //marginBottom: index != alldata.length - 1 ? "2.5vh" : "20vh",
-                  marginBottom: "10px",
+                  marginBottom: index != alldata.length - 1 ? "2.5vh" : "20vh",
+                  //marginBottom: "10px",
                 }}
                 mode="bezeled"
               >
@@ -205,8 +211,9 @@ function Group({
                   mode="bezeled"
                   style={{
                     width: "100%",
-                    //marginBottom: index != alldata.length - 1 ? "2.5vh" : "20vh",
-                    marginBottom: "10px",
+                    marginBottom:
+                      index != alldata.length - 1 ? "2.5vh" : "20vh",
+                    //marginBottom: "10px",
                   }}
                   onClick={() => {
                     reactNavigator.push(`/schedule/${grouptype}/${datasearch}`);

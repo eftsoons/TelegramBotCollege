@@ -49,7 +49,15 @@ export default ({
                     key={index}
                     style={{
                       marginBottom:
-                        index != favourites.length - 1 ? "2.5vh" : "20vh",
+                        index !=
+                        favourites.length -
+                          (favourites[index + 2]
+                            ? 3
+                            : favourites[index + 1]
+                            ? 2
+                            : 1)
+                          ? "2.5vh"
+                          : "20vh",
                     }}
                     mode="bezeled"
                   >

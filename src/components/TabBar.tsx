@@ -34,6 +34,7 @@ function TabBar({
           selected={"/call" != pathname}
           onClick={() => {
             if (pathname == "/call") {
+              //reactNavigator.push("/");
               reactNavigator.go(-1);
             }
           }}

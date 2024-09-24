@@ -241,6 +241,7 @@ function Schedule({
                       : 0.3,
                   }}
                   onClick={async (e) => {
+                    e.stopPropagation();
                     const index = favourites.findIndex(
                       (data) => data.name == name
                     );
@@ -296,7 +297,6 @@ function Schedule({
                         setsnackbar(null);
                       }, 2150);
                     }
-                    e.stopPropagation();
                   }}
                 >
                   {Icon("favourites", "1.75")}
