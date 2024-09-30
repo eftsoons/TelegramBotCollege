@@ -59,6 +59,16 @@ function Teacher({
         localStorage.setItem("Data", backpath.split("/")[3]);
 
         localStorage.setItem("MenuExit", `/group/${backpath.split("/")[2]}`);
+      } else {
+        const data = localStorage.getItem("Data");
+
+        if (data) {
+          reactNavigator.push(`/schedule/teacher/${data}`);
+          localStorage.setItem("Menu", `${data}next`);
+        } else {
+          localStorage.setItem("Menu", "teacher");
+          reactNavigator.push(`/group/teacher`);
+        }
       }
     };
 

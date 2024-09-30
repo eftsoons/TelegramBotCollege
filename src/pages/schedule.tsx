@@ -143,7 +143,7 @@ function Schedule({
     const handleBackButton = () => {
       const backpath = localStorage.getItem("MenuExit");
 
-      if (backpath) {
+      if (backpath !== null) {
         reactNavigator.push(backpath);
 
         if (backpath.split("/")[2]) {
@@ -153,6 +153,9 @@ function Schedule({
         } else {
           localStorage.setItem("Menu", "favourites");
         }
+      } else {
+        reactNavigator.push("/favourites");
+        localStorage.setItem("Menu", "favourites");
       }
     };
 
