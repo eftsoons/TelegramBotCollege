@@ -101,7 +101,7 @@ function Schedule({
       "18:40-19:50",
       "20:00-21:10",
     ],
-    [
+    /*[
       "08:30-09:50",
       "10:00-11:20",
       "11:40-13:00",
@@ -110,6 +110,16 @@ function Schedule({
       "16:20-17:40",
       "18:00-19:20",
       "19:30-20:50",
+    ],*/
+    [
+      "08:30-09:10",
+      "09:15-09:55",
+      "10:00-10:40",
+      "10:45-11:25",
+      "11:40-12:20",
+      "12:25-13:05",
+      "13:10-13:50",
+      "13:55-14:35",
     ],
     [
       "08:30-09:50",
@@ -143,7 +153,7 @@ function Schedule({
     const handleBackButton = () => {
       const backpath = localStorage.getItem("MenuExit");
 
-      if (backpath !== null) {
+      if (backpath) {
         reactNavigator.push(backpath);
 
         if (backpath.split("/")[2]) {
