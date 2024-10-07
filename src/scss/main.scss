@@ -46,3 +46,10 @@ img {
 .teachera {
   cursor: pointer;
 }
+
+.add {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  width: 100%;
+}

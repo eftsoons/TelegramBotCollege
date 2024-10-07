@@ -22,6 +22,7 @@ import Navigation from "./navigation";
 
 import axios from "axios";
 import axiosRetry from "axios-retry";
+//import { TadsWidget } from "react-tads-widget";
 
 axiosRetry(axios, {
   retries: Infinity,
@@ -140,6 +141,9 @@ function App() {
         listgroup={listgroup}
       />
       {snackbar}
+      {/*<div className="add">
+        <TadsWidget id={"123"} />
+      </div>*/}
     </AppRoot>
   );
 }
