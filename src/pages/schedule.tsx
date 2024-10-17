@@ -75,7 +75,7 @@ function Schedule({
   const idteachersferum = GetSferum(name);
 
   const [info, setinfo] = useState<
-    Array<Array<[string, string, string, string]>>
+    Array<string | Array<[string, string, string, string]>>
   >([[]]);
   const [timekaliningrad, settimekaliningrad] = useState<Date>(
     ConvertTimeZone(new Date(), "Europe/Kaliningrad")
@@ -207,6 +207,7 @@ function Schedule({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
+        style={{ marginBottom: "20vh" }}
       >
         <Cell
           Component="label"
@@ -490,7 +491,10 @@ function Schedule({
           {infoteacher ? infoteacher.fullname : name}
         </Cell>
         {info.map(
-          (data2: Array<[string, string, string, string]>, index: number) => {
+          (
+            data2: string | Array<[string, string, string, string]>,
+            index: number
+          ) => {
             return (
               <Accordion
                 expanded={expand[index]}
@@ -508,21 +512,26 @@ function Schedule({
                 <AccordionSummary
                   style={{ margin: "0" }}
                   interactiveAnimation="opacity"
-                  hint={today - 1 == index ? "🌄" : "📅"}
+                  hint={today - 1 == index ? "🌄" : "❌"}
                   hovered={expand[index]}
                   disabled={data2.length > 1 ? false : true}
                   //before={data2[0]} сделать красивый вариант
                 >
-                  {GetDay(index)}
+                  {GetDay(index)} [
+                  {data2[0] &&
+                    `${(data2[0] as string).split(".")[0]}.${
+                      (data2[0] as string).split(".")[1]
+                    }`}
+                  ]{/*жесткий гавнокод, надо все переписывать заново*/}
                 </AccordionSummary>
                 {(lp.platform != "ios" || expand[index]) && (
                   <AccordionContent
                     style={{
                       background: "none",
-                      marginBottom: index == info.length - 1 ? "20vh" : "0",
+                      //marginBottom: index == info.length - 1 ? "20vh" : "0",
                     }}
                   >
-                    {data2.map(
+                    {(data2 as Array<[string, string, string, string]>).map(
                       (
                         data: [string, string, string, string],
                         index2: number

@@ -167,7 +167,7 @@ export function GetInfoGroup(
   activegroup: string,
   JsonData: Record<string, string>[]
 ) {
-  const info = [] as Array<any>; // сорян за any
+  const info = [] as Array<any>;
   const info2 = [] as Array<Array<string>>;
 
   const activeindex = Object.entries(JsonData[0]).findIndex(
